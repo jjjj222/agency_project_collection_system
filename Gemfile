@@ -39,7 +39,7 @@ gem 'rack-cas'
 # gem 'capistrano-rails', group: :development
 
 group :test do
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
 end
 
