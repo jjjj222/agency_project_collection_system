@@ -5,3 +5,10 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+example_projects = [
+  { name: "Test Project", description: "A completed test project", status: "completed"}
+]
+
+example_projects.each do |proj|
+  Projects.create!(proj)
+end
