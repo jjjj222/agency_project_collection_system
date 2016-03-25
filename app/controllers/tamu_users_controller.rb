@@ -1,0 +1,2 @@
+class TamuUsersController < ApplicationController
+end
