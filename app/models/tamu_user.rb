@@ -4,6 +4,6 @@ class TamuUser < ActiveRecord::Base
   end
   
   def is_professor?
-    false
+    not is_student?
   end
 end
