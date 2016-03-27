@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160325194239) do
+ActiveRecord::Schema.define(version: 20160325222311) do
+
+  create_table "agencies", force: :cascade do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "phone_number"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
 
   create_table "projects", force: :cascade do |t|
     t.string   "name"
@@ -20,6 +28,14 @@ ActiveRecord::Schema.define(version: 20160325194239) do
     t.text     "tags"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "agency_id"
+  end
+
+  add_index "projects", ["agency_id"], name: "index_projects_on_agency_id"
+
+  create_table "projects_tamu_users", id: false, force: :cascade do |t|
+    t.integer "project_id",   null: false
+    t.integer "tamu_user_id", null: false
   end
 
   create_table "tamu_users", force: :cascade do |t|
