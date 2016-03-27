@@ -21,14 +21,18 @@ class ProjectsController < ApplicationController
     end
    
     def create
-        @project = Project.create!(new_project_params)
-        #if @project.save
-        #    flash[:notice] = "#{@project.name} was successfully created."
-        redirect_to projects_path
-        #else
-        #    flash[:notice] = "Failed"
-        #    render new_project_path
-        #end
+        if new_project_params[:tags]
+           new_project_params[:tags] = new_project_params[:tags].split(",")
+        end
+        @project = Project.new(new_project_params)
+        
+        if @project.save
+            flash[:notice] = "#{@project.name} was successfully created."
+            redirect_to projects_path
+        else
+            flash[:notice] = "Failed"
+            render new_project_path
+        end
         
     end
    
