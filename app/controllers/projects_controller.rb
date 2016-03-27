@@ -33,7 +33,7 @@ class ProjectsController < ApplicationController
             redirect_to projects_path
         else
             flash[:notice] = "Failed"
-            render new_project_path
+            render action: "new"
         end
         
     end
@@ -50,7 +50,8 @@ class ProjectsController < ApplicationController
             flash[:notice] = "#{@project.name} was successfully updated."
             redirect_to project_path
         else
-            render edit_project_path
+            flash[:notice] = "Failed"
+            render action: "edit"
         end
     end
    
