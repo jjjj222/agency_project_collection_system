@@ -1,0 +1,19 @@
+-# edit.html.haml using partial
+
+%h1 Edit Existing Project
+
+= form_tag project_path(@project), :method => :put do
+
+  = label :project, :name, 'Name'
+  = text_field :project, 'name'
+
+  = label :projects, :description, 'Description'
+  = text_field :project, 'description'
+
+  = label :projects, :tags, 'Tags'
+  = text_field :project, 'tags'
+
+  = label :projects, :status, 'Status'
+  = text_field :project, 'status'
+
+  = submit_tag 'Save Changes'
