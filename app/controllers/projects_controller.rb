@@ -1,9 +1,11 @@
 class ProjectsController < ApplicationController    
     def project_params
+        params[:project][:tags] = params[:project][:tags].split(/(\s|,)+/)
         params.require(:project).permit(:name, :description, :status, :tags)
     end
 
     def new_project_params
+        params[:project][:tags] = params[:project][:tags].split(/(\s|,)+/)
         params.require(:project).permit(:name, :description, :status, :tags)
     end
     
@@ -21,9 +23,9 @@ class ProjectsController < ApplicationController
     end
    
     def create
-        if new_project_params[:tags]
-           new_project_params[:tags] = new_project_params[:tags].split(",")
-        end
+        # if new_project_params[:tags]
+        #    new_project_params[:tags] = new_project_params[:tags].split(/(\s|,)+/)
+        # end
         @project = Project.new(new_project_params)
         
         if @project.save
@@ -37,6 +39,7 @@ class ProjectsController < ApplicationController
     end
    
     def edit
+        # params[:id][:tags] = params[:id][:tags].split(/(\s|,)+/)
         @project = Project.find(params[:id])
     end
    
@@ -51,7 +54,7 @@ class ProjectsController < ApplicationController
         end
     end
    
-    def delete
+    def destroy
         @project = Project.find(params[:id]).destroy
         flash[:notice] = "Project '#{@project.name}' deleted."
         redirect_to projects_path
