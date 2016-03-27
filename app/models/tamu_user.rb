@@ -1,10 +1,20 @@
 class TamuUser < ActiveRecord::Base
+  
+  def self.all_roles
+    ["student","professor"]
+  end
+  
   def is_student?
-    false
+    role == "student"
   end
   
   def is_professor?
-    not is_student?
+    role == "professor"
   end
-  has_and_belongs_to_many :project
+  
+  has_and_belongs_to_many :projects
+  
+  validates :name, presence: true
+  validates :email, email_format: { message: "doesn't look like an email address" }, presence: true
+  validates :role, :inclusion => { :in => TamuUser.all_roles }, presence: true
 end

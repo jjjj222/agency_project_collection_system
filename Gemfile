@@ -29,6 +29,9 @@ gem 'haml'
 # CAS gem used in other project
 gem 'rack-cas'
 
+# Gem for validating email
+gem 'validates_email_format_of'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
