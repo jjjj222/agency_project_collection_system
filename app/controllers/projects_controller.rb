@@ -1,6 +1,10 @@
 class ProjectsController < ApplicationController    
     def project_params
-        params.require(:projects).permit(:name, :description, :status, :tags)
+        params.require(:project).permit(:name, :description, :status, :tags)
+    end
+
+    def new_project_params
+        params.require(:project).permit(:name, :description, :status, :tags)
     end
     
     def index
@@ -8,7 +12,8 @@ class ProjectsController < ApplicationController
     end
    
     def show
-        @project = Project.find(params[:id])
+      id = params[:id] # retrieve movie ID from URI route
+      @project = Project.find(params[:id])
     end
    
     def new
@@ -16,14 +21,14 @@ class ProjectsController < ApplicationController
     end
    
     def create
-        @project = Project.new(project_params)
-        
-        if @project.save
-            flash[:notice] = "#{@project.title} was successfully created."
-            redirect_to projects_path
-        else
-            render new_project_path
-        end
+        @project = Project.create!(new_project_params)
+        #if @project.save
+        #    flash[:notice] = "#{@project.name} was successfully created."
+        redirect_to projects_path
+        #else
+        #    flash[:notice] = "Failed"
+        #    render new_project_path
+        #end
         
     end
    
@@ -35,7 +40,7 @@ class ProjectsController < ApplicationController
         @project = Project.find(params[:id])
         
         if @project.update_attributes(project_params)
-            flash[:notice] = "#{@project.title} was successfully updated."
+            flash[:notice] = "#{@project.name} was successfully updated."
             redirect_to project_path
         else
             render edit_movie_path
@@ -44,7 +49,7 @@ class ProjectsController < ApplicationController
    
     def delete
         @project = Project.find(params[:id]).destroy
-        flash[:notice] = "Project '#{@project.title}' deleted."
+        flash[:notice] = "Project '#{@project.name}' deleted."
         redirect_to projects_path
     end
     
