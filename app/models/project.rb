@@ -9,5 +9,5 @@ class Project < ActiveRecord::Base
 
   validates :name, presence: true
   validates :status, :inclusion => { :in => Project.all_statuses }, presence: true
-  # serialize :tags, Array
+  serialize :tags, Array
 end
