@@ -22,3 +22,7 @@ Gemfile.lock
 #Ignore git flow
 gitflow/
 gitflow-installer.sh
+
+
+app/.DS_Store
+.DS_Store

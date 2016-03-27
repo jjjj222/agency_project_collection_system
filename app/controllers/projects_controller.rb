@@ -1,5 +1,4 @@
-class ProjectsController < ApplicationController
-    
+class ProjectsController < ApplicationController    
     def project_params
         params.require(:projects).permit(:name, :description, :status, :tags)
     end
@@ -50,3 +49,4 @@ class ProjectsController < ApplicationController
     end
     
 end
+
