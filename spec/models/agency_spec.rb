@@ -3,19 +3,19 @@ require 'rails_helper'
 RSpec.describe Agency, type: :model do
   
   it 'is invalid without name' do
-      expect(Agency.new(:email => 'test@test.com', :phone_number => '817-555-5555')).to_not be_valid
+      expect(FactoryGirl.build(:agency, :email, :phone_number)).to_not be_valid
   end
   
   it 'is invalid without email' do
-      expect(Agency.new(:name => 'John Smith', :phone_number => '817-555-5555')).to_not be_valid
+      expect(FactoryGirl.build(:agency, :name, :phone_number)).to_not be_valid
   end
   
   it 'is invalid without correctly formatted email' do
-      expect(Agency.new(:name => 'John Smith', :email => 'testEmail', :phone_number => '817-555-5555')).to_not be_valid
+      expect(FactoryGirl.build(:agency, :default, email: "testEmail")).to_not be_valid
   end
   
   it 'is invalid without correctly formatted phone number' do
-      expect(Agency.new(:name => 'John Smith', :email => 'testEmail@gmail.com', :phone_number => '8175555555')).to_not be_valid
+      expect(FactoryGirl.build(:agency, :default, phone_number: "0090950909090909")).to_not be_valid
   end
   
   it "has many projects" do
