@@ -50,7 +50,7 @@ class ProjectsController < ApplicationController
             flash[:notice] = "#{@project.name} was successfully updated."
             redirect_to project_path
         else
-            render edit_movie_path
+            render edit_project_path
         end
     end
    
