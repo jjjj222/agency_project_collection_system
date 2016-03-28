@@ -29,8 +29,7 @@
                         %td= link_to project.name, project_path(project)
                         %td= project.description
                         %td= project.status
-                        %td= project.tags
-                        %td= project.agency
+                        %td= project.tags.join ", "
         #footer
 
 

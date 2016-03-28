@@ -1,12 +1,12 @@
 class ProjectsController < ApplicationController    
-    def project_params
-        params[:project][:tags] = params[:project][:tags].split(/(\s|,)+/)
-        params.require(:project).permit(:name, :description, :status, :tags)
-    end
+    # def project_params
+    #     params[:project][:tags] = params[:project][:tags].split(/(\s|,)+/)
+    #     params.require(:project).permit(:name, :description, :status, :tags)
+    # end
 
-    def new_project_params
-        params[:project][:tags] = params[:project][:tags].split(/(\s|,)+/)
-        params.require(:project).permit(:name, :description, :status, :tags)
+    def project_params
+        params[:project][:tags] = params[:project][:tags].split(/[\s,]+/)
+        params.require(:project).permit(:name, :description, :status, 'tags': [])
     end
     
     def index
@@ -26,7 +26,7 @@ class ProjectsController < ApplicationController
         # if new_project_params[:tags]
         #    new_project_params[:tags] = new_project_params[:tags].split(/(\s|,)+/)
         # end
-        @project = Project.new(new_project_params)
+        @project = Project.new(project_params)
         
         if @project.save
             flash[:notice] = "#{@project.name} was successfully created."
