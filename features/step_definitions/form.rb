@@ -8,5 +8,5 @@ When /^I press "([^"]+)"/i do |item_name|
 end
 
 Then /^the (\w+) should be "([^"]+)"/i do |item_name, data|
-
+  pending
 end
