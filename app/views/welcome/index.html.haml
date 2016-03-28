@@ -9,11 +9,8 @@
    %br
    %button{:type => "button"} Search
    %p
-   %a{:href => "url"} Create Project
+   %a{:href => projects_path} All Projects
    %br
-   %a{:href => "url"} Advanced Search
-   %br
-   %a{:href => "url"} My Page
    %br
  #right
   %table{:border => 1, :width => "70%"}
@@ -21,4 +18,9 @@
     %th{:align=> "left", :width => "50%"} Project Name
     %th{:align=> "left", :width => "20%"} Post Date
     %th{:align=> "left", :width => "30%"} Organization
+   - @projects.each do |project|
+    %tr{:height => "10px"}
+     %td= link_to project.name, project_path(project)
+     %td= project.created_at.to_date
+     %td= project.agency
   #footer

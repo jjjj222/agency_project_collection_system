@@ -22,15 +22,15 @@
                     %th{:align=> "left"} Description
                     %th{:align=> "left"} Status
                     %th{:align=> "left"} Tags
-                    %th{:align=> "left"} Link to project
+                    %th{:align=> "left"} Agency
             
                 - @projects.each do |project|
                     %tr{:height => "10px"}
-                        %td= project.name
+                        %td= link_to project.name, project_path(project)
                         %td= project.description
                         %td= project.status
                         %td= project.tags
-                        %td= link_to "More about #{project.name}", project_path(project)
+                        %td= project.agency
         #footer
 
 
