@@ -3,7 +3,7 @@ Given /^I am logged in as a (TAMU User)$/i do |user_type|
     pending
 end
 
-When /^I go to the (homepage)$/i do |page|
+When /^I go to the (\w+)(?:\s*page|)$/i do |page|
    pending 
 end
 
