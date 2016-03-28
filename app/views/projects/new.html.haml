@@ -1,0 +1,16 @@
+%h1 Create New Projects
+
+= form_tag projects_path do
+
+  = label :project, :name, 'Name'
+  = text_field :project, 'name'
+
+  = label :projects, :description, 'Description'
+  = text_field :project, 'description'
+
+  = label :projects, :tags, 'Tags'
+  = text_field :project, 'tags'
+
+  = hidden_field :project, 'status', value:'open'
+
+  = submit_tag 'Save Changes'

@@ -5,8 +5,9 @@ class Project < ActiveRecord::Base
   end
 
   belongs_to :agency
-  has_and_belongs_to_many :project
+  has_and_belongs_to_many :tamu_user
 
-  validates :status, :inclusion => { :in => Project.all_statuses }
+  validates :name, presence: true
+  validates :status, :inclusion => { :in => Project.all_statuses }, presence: true
   serialize :tags, Array
 end

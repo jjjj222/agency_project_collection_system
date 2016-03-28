@@ -10,5 +10,5 @@ example_projects = [
 ]
 
 example_projects.each do |proj|
-  Projects.create!(proj)
+  Project.create!(proj)
 end
