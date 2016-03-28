@@ -4,7 +4,7 @@ class CreateProjects < ActiveRecord::Migration
       t.string :name
       t.text :description
       t.string :status, :default => 'open'
-      t.text :tags,
+      t.text :tags
 
       t.timestamps null: false
     end
