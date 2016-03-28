@@ -29,7 +29,7 @@
                         %td= project.name
                         %td= project.description
                         %td= project.status
-                        %td= project.tags
+                        %td= project.tags.join(", ")
                         %td= link_to "More about #{project.name}", project_path(project)
         #footer
 

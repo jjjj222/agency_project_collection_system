@@ -4,7 +4,7 @@
 %h3 Description:
 
 %p#description= @project.description
-%p#tags= @project.tags
+%p#tags= @project.tags.join(", ")
 %p#status= @project.status
 
 = link_to 'Edit', edit_project_path(@project)
