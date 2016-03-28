@@ -3,8 +3,8 @@ class CreateProjects < ActiveRecord::Migration
     create_table :projects do |t|
       t.string :name
       t.text :description
-      t.string :status
-      t.text :tags
+      t.string :status, :default => 'open'
+      t.text :tags,
 
       t.timestamps null: false
     end
