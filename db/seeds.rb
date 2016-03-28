@@ -9,6 +9,16 @@ example_projects = [
   { name: "Test Project", description: "A completed test project", status: "completed"}
 ]
 
+example_users = [
+  { name: "John Tamu", email: "john@tamu.edu", role: "student" },
+  { name: "Hank Tamu", email: "hank@tamu.edu", role: "professor" }
+]
+
+
 example_projects.each do |proj|
   Project.create!(proj)
+end
+
+example_users.each do |user|
+  TamuUser.create!(user)
 end

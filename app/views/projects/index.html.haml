@@ -12,8 +12,12 @@
             = link_to "Create Project", new_project_path
             %br
             %a{:href => "url"} Advanced Search
+            %p
+            = link_to "Create Project", new_project_path
             %br
-            %a{:href => "url"} My Page
+            %p
+            = link_to "My page", tamu_user_path(1)
+            %br
             %br
         #right
             %table{:border => 1, :width => "70%"}
