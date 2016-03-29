@@ -3,4 +3,22 @@
 %p#role= @tamu_user.role.capitalize
 %p#email=  @tamu_user.email 
 
-= link_to 'Edit', edit_tamu_user_path(@tamu_user.id)
+%table{:border => 1, :width => "70%"}
+    %tr{:height => "10px"}
+        %th{:align=> "left"} Project Name
+        %th{:align=> "left"} Description
+        %th{:align=> "left"} Status
+        %th{:align=> "left"} Tags
+        %th{:align=> "left"} Agency
+
+- @tamu_user.projects.each do |project|
+    %tr{:height => "10px"}
+        %td= link_to project.name, project_path(project)
+        %td= project.description
+        %td= project.status
+        %td= project.tags.join ", "
+        %td= project.agency #TODO change to name when creation is figured out
+
+// = link_to 'Edit', edit_tamu_user_path(@tamu_user.id)
+
+%img(src="https://dl.dropboxusercontent.com/u/41174619/se_project/my_page.png")

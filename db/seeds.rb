@@ -11,12 +11,13 @@ example_projects = [
 ]
 
 example_users = [
-  { name: "John Tamu", email: "john@tamu.edu", role: "student" },
-  { name: "Hank Tamu", email: "hank@tamu.edu", role: "professor" }
+  { name: "John Tamu", email: "john@tamu.edu", role: "student"},
+  { name: "Hank Tamu", email: "hank@tamu.edu", role: "professor"}
 ]
 
 example_agencies = [
-  { name: "Some nonprofit", email: "noprofit@gmail.com", phone_number: "979-867-5309" }
+  { name: "Some nonprofit", email: "noprofit@gmail.com", phone_number: "979-867-5309" },
+  { name: "Another nonprofit", email: "noprofit2@gmail.com", phone_number: "979-555-5555" }
 ]
 
 example_projects.each do |proj|
