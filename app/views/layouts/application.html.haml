@@ -8,6 +8,12 @@
 
   %body
     %h1.title TAMU Non-Profit Projects Collect System
+    = link_to 'Home', root_path
+    |
+    = link_to 'Login', welcome_login_path
+    |
+    = link_to 'Sign up', welcome_signup_path
+    %hr
     #main
       - if flash[:notice]
         #notice.message= flash[:notice]

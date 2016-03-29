@@ -6,7 +6,8 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 example_projects = [
-  { name: "Test Project", description: "A completed test project", status: "completed", agency_id: 1}
+  { name: "Test Project", description: "A completed test project", status: "completed", agency_id: 1},
+  { name: "Test Project 2", description: "BCD", status: "completed", agency_id: 2}
 ]
 
 example_users = [
