@@ -6,13 +6,13 @@ FactoryGirl.define do
         name  "Test Project";
         description  "This is the test project description";
         status "open";
-        tags []
+        tags [""];
     }
         
     trait(:name) { name "John Smith" }
     trait(:description) {description "This is the test project description"}
     trait(:status) {status  "open"}
-    trait(:tags) {tags []}
+    trait(:tags) {tags [""]}
   end
   
 end
