@@ -1,9 +1,5 @@
 class ProjectsController < ApplicationController    
-    # def project_params
-    #     params[:project][:tags] = params[:project][:tags].split(/(\s|,)+/)
-    #     params.require(:project).permit(:name, :description, :status, :tags)
-    # end
-
+    
     def project_params
         params[:project][:tags] = params[:project][:tags].split(/[\s,]+/)
         params.require(:project).permit(:name, :description, :status, 'tags': [])
@@ -23,9 +19,6 @@ class ProjectsController < ApplicationController
     end
    
     def create
-        # if new_project_params[:tags]
-        #    new_project_params[:tags] = new_project_params[:tags].split(/(\s|,)+/)
-        # end
         @project = Project.new(project_params)
         
         if @project.save
@@ -39,7 +32,6 @@ class ProjectsController < ApplicationController
     end
    
     def edit
-        # params[:id][:tags] = params[:id][:tags].split(/(\s|,)+/)
         @project = Project.find(params[:id])
     end
    

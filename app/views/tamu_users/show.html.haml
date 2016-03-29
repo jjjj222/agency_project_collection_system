@@ -17,7 +17,7 @@
         %td= project.description
         %td= project.status
         %td= project.tags.join ", "
-        %td= project.agency #TODO change to name when creation is figured out
+        %td= project.agency.try(:name) #TODO change to name when creation is figured out
 
 // = link_to 'Edit', edit_tamu_user_path(@tamu_user.id)
 
