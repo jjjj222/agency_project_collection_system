@@ -1,0 +1,6 @@
+%h2 #{@tamu_user.name}
+
+%p#role= @tamu_user.role.capitalize
+%p#email=  @tamu_user.email 
+
+= link_to 'Edit', edit_tamu_user_path(@tamu_user.id)
