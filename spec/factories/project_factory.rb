@@ -8,6 +8,19 @@ FactoryGirl.define do
         status "open";
         tags [""];
     }
+    
+    trait(:invalid) {
+        description  "This is the test project description";
+        status "invlaid";
+        tags [""];
+    }
+    
+    trait(:updated) {
+        name  "Test Project updated";
+        description  "This is the test project description updated";
+        status "completed";
+        tags "updated";
+    }
         
     trait(:name) { name "John Smith" }
     trait(:description) {description "This is the test project description"}
