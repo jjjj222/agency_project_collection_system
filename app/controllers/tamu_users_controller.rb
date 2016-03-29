@@ -1,5 +1,8 @@
 class TamuUsersController < ApplicationController
-    
+    def tamu_user_params
+      params.require(:tamu_user).permit(:name, :email)
+    end
+
     def index
         @tamu_users = TamuUser.all
     end
@@ -35,12 +38,13 @@ class TamuUsersController < ApplicationController
     
     def update
         @tamu_user = TamuUser.find params[:id]
-        # This was in an example model controller from a tutorial
-        # Not sure if this is something we need yet?
-        
-        # if @robot.update_attributes(params[:tamu_user])
-        #     redirect_to :action => 'show', :id => @tamu_user.id
-        # end
+        if @tamu_user.update_attributes(tamu_user_params)
+            flash[:notice] = "# Profile was successfully updated."
+            redirect_to :action => 'show', :id => @tamu_user.id
+        else
+            flash[:notice] = "Failed"
+            render action: "edit", id: @tamu_user.id
+        end
     end
     
 end
