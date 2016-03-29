@@ -9,7 +9,7 @@ FactoryGirl.define do
         tags []
     }
         
-    trait(:name) { name "John Smith" }
+    trait(:name) { name "Test Project" }
     trait(:description) {description "This is the test project description"}
     trait(:status) {status  "open"}
     trait(:tags) {tags []}
