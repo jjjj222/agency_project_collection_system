@@ -13,7 +13,8 @@
     = link_to 'Login', welcome_login_path
     |
     = link_to 'Sign up', welcome_signup_path
-    %hr
+    |
+    = link_to "My page", tamu_user_path(1)
     #main
       - if flash[:notice]
         #notice.message= flash[:notice]

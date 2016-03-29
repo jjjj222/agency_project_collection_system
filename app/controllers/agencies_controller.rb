@@ -1,7 +1,7 @@
 class AgenciesController < ApplicationController
     
     def index
-        #@agencies = Agency.find :all
+        @agencies = Agency.all
     end
     
     def show
