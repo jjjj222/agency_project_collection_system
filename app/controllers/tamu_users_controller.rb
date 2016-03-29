@@ -11,21 +11,15 @@ class TamuUsersController < ApplicationController
         @tamu_user = TamuUser.find params[:id]
     end
     
-    def new
-        @tamu_user = TamuUser.new
-    end
+    # def new
+    #     @tamu_user = TamuUser.new
+    # end
     
-    def create
-        @tamu_user = TamuUser.new params[:tamu_user]
-        # This was in an example model controller from a tutorial
-        # Not sure if this is something we need yet?
-        
-        # if @tamu_user.save
-        #     redirect_to :action => 'show', :id => @tamu_user.id
-        # else
-        #     render :action => 'new'
-        # end
-    end
+    # def create
+    #     @tamu_user = TamuUser.new params[:tamu_user]
+    #     # This was in an example model controller from a tutorial
+    #     # Not sure if this is something we need yet?
+    # end
     
     def destroy
         @tamu_user = TamuUser.find params[:id]
