@@ -1,6 +1,6 @@
 #encoding: utf-8
 Given /^I am logged in as a (TAMU User)$/i do |user_type|
-    pending
+  # TODO
 end
 
 When /^I go to the (\w+)(?:\s*page|)$/i do |page|
