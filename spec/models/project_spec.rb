@@ -7,8 +7,10 @@ RSpec.describe Project, type: :model do
     expect(FactoryGirl.build(:project, :description, :status, :tags)).to_not be_valid
   end
   
-  it 'is invalid without a status' do
-    expect(FactoryGirl.build(:project, :name, :description, :tags)).to_not be_valid
+  it 'will be set to "open" if the status is not specified' do
+    project = FactoryGirl.build(:project, :name, :description, :tags)
+    project.status.should == 'open'
+    #expect(FactoryGirl.build(:project, :name, :description, :tags)).to_not be_valid
   end
 
   it "should fail to validate a bad status" do
