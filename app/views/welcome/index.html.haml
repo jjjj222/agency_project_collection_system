@@ -1,6 +1,40 @@
-!!!
-%head
- %h1 TAMU Non-Profit Projects Collect System
+-#<<<<<<< HEAD
+-#-##content
+-#-##left{:float => "left", :width => "30%"}
+-#-#%p
+-#-#%input{:size => "15", :maxlength => "100", :name => "search_index", :type => "text", :value => ""}/
+-#-#%br
+-#-#%button{:type => "button"} Search
+-#= link_to 'Home', root_path
+-#|
+-#= link_to 'Login', welcome_login_path
+-#|
+-#= link_to 'Sign up', welcome_signup_path
+-#%br
+-#= link_to 'All projects', projects_path
+-#%br
+-#= link_to 'All TAMU users', tamu_users_path
+-#%br
+-#= link_to 'All Agencies', agencies_path
+-#%br
+-#-#%a{:href => "url"} Create Project
+-#-#%br
+-#-#%a{:href => "url"} Advanced Search
+-#-#%br
+-#-#%a{:href => "url"} My Page
+-#-#%br
+-#-##right
+-#-# %table{:border => 1, :width => "70%"}
+-#-#  %tr{:height => "10px"}
+-#-#   %th{:align=> "left", :width => "50%"} Project Name
+-#-#   %th{:align=> "left", :width => "20%"} Post Date
+-#-#   %th{:align=> "left", :width => "30%"} Organization
+-#-# #footer
+-#%img(src="https://dl.dropboxusercontent.com/u/41174619/se_project/homepage.png")
+-#=======
+-#!!!
+-#%head
+-# %h1 TAMU Non-Profit Projects Collect System
 %body
  #content
   #left{:float => "left", :width => "30%"}
@@ -9,11 +43,8 @@
    %br
    %button{:type => "button"} Search
    %p
-   %a{:href => "url"} Create Project
+   %a{:href => projects_path} All Projects
    %br
-   %a{:href => "url"} Advanced Search
-   %br
-   %a{:href => "url"} My Page
    %br
  #right
   %table{:border => 1, :width => "70%"}
@@ -21,4 +52,23 @@
     %th{:align=> "left", :width => "50%"} Project Name
     %th{:align=> "left", :width => "20%"} Post Date
     %th{:align=> "left", :width => "30%"} Organization
+   - @projects.each do |project|
+    %tr{:height => "10px"}
+     %td= link_to project.name, project_path(project)
+     %td= project.created_at.to_date
+     %td= project.agency
   #footer
+%hr
+= link_to 'Home', root_path
+|
+= link_to 'Login', welcome_login_path
+|
+= link_to 'Sign up', welcome_signup_path
+%br
+= link_to 'All projects', projects_path
+%br
+= link_to 'All TAMU users', tamu_users_path
+%br
+= link_to 'All Agencies', agencies_path
+%br
+%img(src="https://dl.dropboxusercontent.com/u/41174619/se_project/homepage.png")

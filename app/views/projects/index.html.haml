@@ -1,6 +1,6 @@
 !!!
-%head
-    %h1 TAMU Non-Profit Projects Collect System
+-#%head
+-#    %h1 TAMU Non-Profit Projects Collect System
 %body
     #content
         #left{:float => "left", :width => "30%"}
@@ -12,8 +12,12 @@
             = link_to "Create Project", new_project_path
             %br
             %a{:href => "url"} Advanced Search
+            %p
+            = link_to "Create Project", new_project_path
             %br
-            %a{:href => "url"} My Page
+            %p
+            = link_to "My page", tamu_user_path(1)
+            %br
             %br
         #right
             %table{:border => 1, :width => "70%"}
@@ -22,15 +26,15 @@
                     %th{:align=> "left"} Description
                     %th{:align=> "left"} Status
                     %th{:align=> "left"} Tags
-                    %th{:align=> "left"} Link to project
+                    %th{:align=> "left"} Agency
             
                 - @projects.each do |project|
                     %tr{:height => "10px"}
-                        %td= project.name
+                        %td= link_to project.name, project_path(project)
                         %td= project.description
                         %td= project.status
-                        %td= project.tags.join(", ")
-                        %td= link_to "More about #{project.name}", project_path(project)
+                        %td= project.tags.join ", "
+                        %td= project.agency #TODO change to name when creation is figured out
         #footer
 
 
