@@ -1,7 +1,16 @@
 Rails.application.routes.draw do
   get 'welcome/index'
+  get 'welcome/login'
+  get 'welcome/signup'
+
+  get 'tamu_users/my_page'
+  #get 'tamu_users/my_page/projects'
+
   resources :projects  # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
+  resources :tamu_users
+
+  resources :agencies
 
   # You can have the root of your site routed with "root"
   root 'welcome#index'

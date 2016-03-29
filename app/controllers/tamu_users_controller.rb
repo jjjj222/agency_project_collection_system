@@ -1,7 +1,7 @@
 class TamuUsersController < ApplicationController
     
     def index
-        @tamuUsers = TamuUser.find :all
+        #@tamuUsers = TamuUser.find :all
     end
     
     def show
