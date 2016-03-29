@@ -1,0 +1,21 @@
+%h2 #{@agency.name}
+
+
+%p#email=  @agency.email 
+%p#phone_number= @agency.phone_number
+
+%table{:border => 1, :width => "70%"}
+    %tr{:height => "10px"}
+        %th{:align=> "left"} Project Name
+        %th{:align=> "left"} Description
+        %th{:align=> "left"} Status
+        %th{:align=> "left"} Tags
+
+    - @agency.projects.each do |project|
+        %tr{:height => "10px"}
+            %td= link_to project.name, project_path(project)
+            %td= project.description
+            %td= project.status
+            %td= project.tags.join ", "
+
+= link_to 'Edit', edit_agency_path(@agency.id)
