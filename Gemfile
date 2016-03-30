@@ -44,6 +44,7 @@ gem 'validates_email_format_of'
 group :test do
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
+  gem 'simplecov'
 end
 
 group :development, :test do
