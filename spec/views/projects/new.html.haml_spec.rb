@@ -30,10 +30,11 @@ describe 'projects/new.html.haml' do
             end
         end
         
-        it 'displays a text field for status' do
+        it 'displays a hidden field for status' do
             rendered.should have_selector('form#new_project_form') do |form|
-              form.should have_selector('textarea',
-                                        :name => 'project[status]')
+              form.should have_selector('hidden_field',
+                                        :name => 'project[status]',
+                                        :value => 'open')
             end
         end
     end
