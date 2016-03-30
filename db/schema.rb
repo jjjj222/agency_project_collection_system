@@ -24,10 +24,10 @@ ActiveRecord::Schema.define(version: 20160327200020) do
   create_table "projects", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.string   "status",      default: "open"
+    t.string   "status"
     t.text     "tags"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.integer  "agency_id"
   end
 
