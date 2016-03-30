@@ -6,7 +6,7 @@ Feature: Update tamu user info
 
 Background: Logged in as a TAMU User on the edit page
   Given I am logged in as a TAMU User
-  When I go to the user edit page
+  When I go to the edit tamu user page for the current user
 
 Scenario:
   When  I fill in the "tamu_user_email" field with "badEmail"

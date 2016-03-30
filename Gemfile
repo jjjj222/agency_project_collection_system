@@ -19,15 +19,15 @@ gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
+gem 'jbuilder', '~> 2.0', require: false
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'sdoc', '~> 0.4.0', group: :doc, require: false
 
 # HAML
 gem 'haml'
 
 # CAS gem used in other project
-gem 'rack-cas'
+gem 'rack-cas', require: false
 
 # Gem for validating email
 gem 'validates_email_format_of'
@@ -44,6 +44,7 @@ gem 'validates_email_format_of'
 group :test do
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
+  gem 'simplecov'
 end
 
 group :development, :test do
