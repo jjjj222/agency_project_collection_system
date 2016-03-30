@@ -2,7 +2,7 @@
 
 %h1 Edit Existing Project
 
-= form_tag project_path(@project), :method => :put do
+= form_tag project_path(@project), id: 'edit_project_form', :method => :put do
 
   = label :project, :name, 'Name'
   = text_field :project, 'name'

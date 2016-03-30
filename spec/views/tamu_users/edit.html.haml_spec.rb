@@ -9,13 +9,18 @@ describe 'tamu_users/edit.html.haml' do
             render
         end
         
-        it 'displays a text area to enter a body' do
+        it 'displays a text field for name' do
             rendered.should have_selector('form#edit_user_form') do |form|
-              form.should have_selector('textarea',
-                                        :name => 'tamu_user[email]')
               form.should have_selector('textarea',
                                         :name => 'tamu_user[name]')
             end
-          end
+        end
+        
+        it 'displays a text field for email' do
+            rendered.should have_selector('form#edit_user_form') do |form|
+              form.should have_selector('textarea',
+                                        :name => 'tamu_user[email]')
+            end
+        end
     end
 end
