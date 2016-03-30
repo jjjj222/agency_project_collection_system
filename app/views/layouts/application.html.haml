@@ -10,11 +10,15 @@
     %h1.title TAMU Non-Profit Projects Collect System
     = link_to 'Home', root_path
     |
-    = link_to 'Login', welcome_login_path
+    -#= link_to 'Login', welcome_login_path
+    = link_to 'Login', login_path
     |
     = link_to 'Sign up', welcome_signup_path
     |
     = link_to "My page", tamu_user_path(1)
+    - if logged_in?
+      |
+      = link_to "Log out", logout_path
     #main
       - if flash[:notice]
         #notice.message= flash[:notice]
@@ -24,3 +28,5 @@
       = yield
 
     = debug(params) if Rails.env.development?
+    -#%br
+    -#= debug(session) if Rails.env.development?
