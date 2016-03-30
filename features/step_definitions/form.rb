@@ -10,10 +10,6 @@ end
 Then /^the (\w+) field should be "([^"]*)"$/i do |item_name, data|
   expect(find_field(item_name.capitalize).value).to eq data
 end
-
-Then /^the (\w+) field should be "([^"]*)"$/i do |item_name, data|
-  expect(find_field(item_name.capitalize).value).to eq data
-end
 Then /^the (\w+) should be "([^"]*)"$/i do |item_name, data|
   find_by_id(item_name).assert_text(:visible, Regexp.new(Regexp.escape(data), "i"))
 end
