@@ -16,9 +16,6 @@
 !/log/.keep
 /tmp
 
-#Ignore Gemfile.lock
-Gemfile.lock
-
 #Ignore git flow
 gitflow/
 gitflow-installer.sh
