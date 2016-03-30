@@ -1,12 +1,21 @@
 %h2 Details about #{@project.name}
 
-%ul#details
 %h3 Description:
-
 %p#description= @project.description
+
+%h3 Tags:
 %p#tags= @project.tags.join(", ")
+
+%h3 Status:
 %p#status= @project.status
+
+%h3 Agency:
+%p#agency= @project.agency.try(:name)
+/%p#agency= link_to @project.agency, agency_path(@project.agency) #TODO change to name and link to agency when each project has an agenc
 
 = link_to 'Edit', edit_project_path(@project)
 = button_to 'Delete', project_path(@project), :method => :delete, :confirm => 'Are you sure?'
 = link_to 'Back to project list', projects_path
+
+%br
+%img(src="https://dl.dropboxusercontent.com/u/41174619/se_project/project_page.png")

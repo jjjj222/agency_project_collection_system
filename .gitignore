@@ -23,3 +23,5 @@ gitflow-installer.sh
 
 app/.DS_Store
 .DS_Store
+
+coverage

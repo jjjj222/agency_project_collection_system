@@ -1,46 +1,48 @@
 class TamuUsersController < ApplicationController
-    
+    def tamu_user_params
+      params.require(:tamu_user).permit(:name, :email)
+    end
+
     def index
-        @tamuUsers = TamuUser.find :all
+        @tamu_users = TamuUser.all
     end
     
     def show
-        @tamuUser = TamuUser.find params[:id]
+        @tamu_user = TamuUser.find params[:id]
     end
     
-    def new
-        @tamuUser = TamuUser.new
-    end
+    # def new
+    #     @tamu_user = TamuUser.new
+    # end
     
-    def create
-        @tamuUser = TamuUser.new params[:tamuUser]
-        # This was in an example model controller from a tutorial
-        # Not sure if this is something we need yet?
-        
-        # if @tamuUser.save
-        #     redirect_to :action => 'show', :id => @tamuUser.id
-        # else
-        #     render :action => 'new'
-        # end
-    end
+    # def create
+    #     @tamu_user = TamuUser.new params[:tamu_user]
+    #     # This was in an example model controller from a tutorial
+    #     # Not sure if this is something we need yet?
+    # end
     
     def destroy
-        @tamuUser = TamuUser.find params[:id]
-        @tamuUser.destroy
+        @tamu_user = TamuUser.find params[:id]
+        @tamu_user.destroy
     end
     
     def edit
-        @tamuUser = TamuUser.find params[:id]
+        @tamu_user = TamuUser.find params[:id]
     end
     
     def update
-        @tamuUser = TamuUser.find params[:id]
-        # This was in an example model controller from a tutorial
-        # Not sure if this is something we need yet?
-        
-        # if @robot.update_attributes(params[:tamuUser])
-        #     redirect_to :action => 'show', :id => @tamuUser.id
-        # end
+        @tamu_user = TamuUser.find params[:id]
+        if @tamu_user.update_attributes(tamu_user_params)
+            flash[:notice] = "# Profile was successfully updated."
+            redirect_to :action => 'edit', id: @tamu_user.id
+        else
+          if @tamu_user.errors.any?
+            flash[:notice] = @tamu_user.errors.full_messages.join("\n")
+          else
+            flash[:notice] = "Failed"
+          end
+            render action: "edit", id: @tamu_user.id
+        end
     end
     
 end

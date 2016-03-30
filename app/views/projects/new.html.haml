@@ -1,6 +1,6 @@
 %h1 Create New Projects
 
-= form_tag projects_path do
+= form_tag projects_path,id: 'new_project_form' do
 
   = label :project, :name, 'Name'
   = text_field :project, 'name'
@@ -14,3 +14,6 @@
   = hidden_field :project, 'status', value:'open'
 
   = submit_tag 'Save Changes'
+
+
+%img(src="https://dl.dropboxusercontent.com/u/41174619/se_project/create_project.png")

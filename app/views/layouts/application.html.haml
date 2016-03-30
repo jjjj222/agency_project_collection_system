@@ -1,0 +1,24 @@
+!!! 5
+%html
+  %head
+    %title TAMU Non-Profit Projects Collect System
+    = stylesheet_link_tag 'application'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+
+  %body
+    %h1.title TAMU Non-Profit Projects Collect System
+    = link_to 'Home', root_path
+    |
+    = link_to 'Login', welcome_login_path
+    |
+    = link_to 'Sign up', welcome_signup_path
+    |
+    = link_to "My page", tamu_user_path(1)
+    #main
+      - if flash[:notice]
+        #notice.message= flash[:notice]
+      - elsif flash[:warning]
+        #warning.message= flash[:warning]
+
+      = yield
