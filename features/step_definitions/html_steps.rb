@@ -23,3 +23,7 @@ Then /^I should see a notice telling me it was sucessful$/ do
   @notice = find_by_id('notice')
   @notice.assert_text(:visible, "successfully")
 end
+
+When(/^I click "([^"]*)"$/) do |link|
+  click_link(link)
+end

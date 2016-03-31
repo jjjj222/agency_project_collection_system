@@ -1,7 +1,6 @@
 module SessionHelpers
   def current_user
-    # TODO
-    1
+    @user ||= TamuUser.create! name: "Test Smith", email: "test@test.org", role: "student"
   end
   def current_project
     @project ||= Project.create!(name: "Test Project", status: "open", description: "some desc", agency_id: current_agency.id)

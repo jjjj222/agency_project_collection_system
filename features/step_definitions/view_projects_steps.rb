@@ -3,10 +3,6 @@ Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
   # TODO
 end
 
-When /^I go to the (\w+)(?:\s*page|)$/i do |page|
-   pending 
-end
-
 Then /^I should see a list of all (projects)$/ do |model|
     pending
 end
