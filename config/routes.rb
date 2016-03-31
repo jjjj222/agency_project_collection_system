@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
   get 'sessions/new'
 
+  get       'login'     => 'sessions#new'
+  post      'login'     => 'sessions#create'
+  get       'logout'    => 'sessions#destroy'
+
+  #resource :mypage
+  get       'mypage'    => 'mypage#index'
+
   # get 'tamu_users/index'
 
   get 'welcome/index'
@@ -15,10 +22,6 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   resources :agencies
-
-  get       'login'     => 'sessions#new'
-  post      'login'     => 'sessions#create'
-  get       'logout'    => 'sessions#destroy'
 
   # You can have the root of your site routed with "root"
   root 'welcome#index'

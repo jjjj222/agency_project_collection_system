@@ -1,11 +1,11 @@
 module SessionsHelper
   def log_in(user, type)
     session[:user_id] = user.id
-    session[:type] = type
+    session[:user_type] = type
   end
 
   def current_user
-    type = session[:type]
+    type = session[:user_type]
     if type == "agency"
       @current_user ||= Agency.find_by(id: session[:user_id])
     else
@@ -19,7 +19,7 @@ module SessionsHelper
 
   def log_out
     session.delete(:user_id)
-    session.delete(:type)
+    session.delete(:user_type)
     @current_user = nil
   end
 end
