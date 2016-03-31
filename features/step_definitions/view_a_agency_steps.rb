@@ -4,8 +4,8 @@ end
 
 
 Given(/^I am on agencies page$/) do
+    current_agency
     visit (agencies_path)
-    save_page
 end
 
 When(/^I click "([^"]*)"$/) do |link|
@@ -13,7 +13,8 @@ When(/^I click "([^"]*)"$/) do |link|
 end
 
 Then(/^I should see "([^"]*)" page$/) do |arg1|
- expect(visit(agencies_path 1))
+ expect(visit(agency_path 1))
+ save_page
 end
 
 
