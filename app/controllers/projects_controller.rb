@@ -42,7 +42,11 @@ class ProjectsController < ApplicationController
             flash[:notice] = "#{@project.name} was successfully updated."
             redirect_to project_path
         else
+          if @project.errors.any?
+            flash[:notice] = @project.errors.full_messages.join("\\n")
+          else
             flash[:notice] = "Failed"
+          end
             render action: "edit"
         end
     end

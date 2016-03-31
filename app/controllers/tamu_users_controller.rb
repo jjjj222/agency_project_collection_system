@@ -24,6 +24,8 @@ class TamuUsersController < ApplicationController
     def destroy
         @tamu_user = TamuUser.find params[:id]
         @tamu_user.destroy
+        flash[:notice] = "TAMU User '#{@tamu_user.name}' deleted."
+        redirect_to tamu_users_path
     end
     
     def edit

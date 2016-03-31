@@ -1,10 +1,6 @@
 #encoding: utf-8
-Given /^I am logged in as a (TAMU User)$/i do |user_type|
+Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
   # TODO
-end
-
-When /^I go to the (\w+)(?:\s*page|)$/i do |page|
-   pending 
 end
 
 Then /^I should see a list of all (projects)$/ do |model|
