@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
   def create
     agency = Agency.find_by(email: params[:session][:email].downcase)
     if (agency)
-      log_in agency, "agency"
+      log_in agency, "Agency"
       redirect_to mypage_path
     else
       flash[:notice] = 'Invalid email/password combination'
