@@ -12,4 +12,4 @@ Scenario:
   And I click "Test nonprofit"
   Then the name should be "Test nonprofit"
   And the email should be "test@testing.org"
-  And the phone_number should be "123-456-7890"
+  And the phone number should be "123-456-7890"

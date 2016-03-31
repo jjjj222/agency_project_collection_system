@@ -17,7 +17,7 @@ Scenario:
   When  I fill in the "tamu_user_email" field with "new@email.com"
   And  I press "submit_user_form"
   Then I should see a notice telling me it was sucessful
-  And the email field should be "new@email.com"
+  And the email should be "new@email.com"
 
 Scenario:
   When  I fill in the "Name" field with ""
@@ -28,5 +28,5 @@ Scenario:
   When  I fill in the "Name" field with "New name"
   And  I press "submit_user_form"
   Then I should see a notice telling me it was sucessful
-  And the name field should be "New name"
+  And the name should be "New name"
 
