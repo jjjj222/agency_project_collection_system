@@ -14,7 +14,6 @@ end
 
 Then(/^I should see "([^"]*)" page$/) do |arg1|
  expect(visit(agency_path 1))
- save_page
 end
 
 
