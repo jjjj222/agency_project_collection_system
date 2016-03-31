@@ -36,7 +36,8 @@ class TamuUsersController < ApplicationController
         @tamu_user = TamuUser.find params[:id]
         if @tamu_user.update_attributes(tamu_user_params)
             flash[:notice] = "# Profile was successfully updated."
-            redirect_to :action => 'edit', id: @tamu_user.id
+            redirect_to tamu_user_path
+            # redirect_to :action => 'edit', id: @tamu_user.id
         else
           if @tamu_user.errors.any?
             flash[:notice] = @tamu_user.errors.full_messages.join("\n")

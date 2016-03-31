@@ -12,7 +12,7 @@ FactoryGirl.define do
       email "new_prof@tamu.edu"
     }
     trait (:invalid) {
-      role "not a role"
+      email "not_an_email"
     }
   end
 
