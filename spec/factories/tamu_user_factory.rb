@@ -6,6 +6,14 @@ FactoryGirl.define do
     trait(:student) {role "student"}
     trait(:professor) {role  "professor"}
     trait(:email) {email "test@tamu.edu"}
+    trait (:updated) { 
+      name "Updated Smith"
+      role "professor"
+      email "new_prof@tamu.edu"
+    }
+    trait (:invalid) {
+      role "not a role"
+    }
   end
 
 end
