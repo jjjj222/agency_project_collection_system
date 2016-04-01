@@ -1,10 +1,10 @@
 %h2 hello! "#{@current_user.name}" (#{@current_user.class.to_s} #{@current_user.id})
 
 %h3 Email:
-%p#email=  @current_user.email 
+%p#email=  @current_user.email
 
 %h3 Phone Number:
-%p#phone_number= @current_user.phone_number
+%p#phone_number= @current_user.respond_to?(:phone_number) ?  @current_user.phone_number : "N/A"
 
 %table{:border => 1, :width => "70%"}
     %tr{:height => "10px"}
