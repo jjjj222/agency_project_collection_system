@@ -1,0 +1,43 @@
+-#<% provide(:title, "Log in") %>
+%h1 Log in
+
+= form_tag login_path, :method => :post do
+
+  = label :session, :email, 'Email'
+  = text_field :session, 'email'
+
+  = select_tag :user_type, options_for_select([['Agency', 'Agency'], ['TAMU user', 'TamuUser']], params[:user_type])
+  -#= label :session, :password, 'Password'
+  -#= text_field :session, 'password'
+
+  = submit_tag 'Log in'
+
+  -#= label :projects, :description, 'Description'
+  -#= text_field :project, 'description'
+
+  -#= label :projects, :tags, 'Tags'
+  -#= text_field :project, 'tags'
+
+  -#= label :projects, :status, 'Status'
+  -#= text_field :project, 'status'
+
+  -#= submit_tag 'Save Changes'
+
+-#<h1>Log in</h1>
+-#
+-#<div class="row">
+-#  <div class="col-md-6 col-md-offset-3">
+-#    <%= form_for(:session, url: login_path) do |f| %>
+-#
+-#      <%= f.label :email %>
+-#      <%= f.email_field :email, class: 'form-control' %>
+-#
+-#      <%= f.label :password %>
+-#      <%= f.password_field :password, class: 'form-control' %>
+-#
+-#      <%= f.submit "Log in", class: "btn btn-primary" %>
+-#    <% end %>
+-#
+-#    <p>New user? <%= link_to "Sign up now!", signup_path %></p>
+-#  </div>
+-#</div>

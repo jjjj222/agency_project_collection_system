@@ -49,7 +49,7 @@ RSpec.describe TamuUsersController, type: :controller do
   
         it "redirects to the updated tamu_user" do
           put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default)
-          response.should redirect_to action: 'edit'
+          response.should redirect_to @tamu_user
         end
         
       end
@@ -70,7 +70,7 @@ RSpec.describe TamuUsersController, type: :controller do
     
         it "re-renders the edit method" do
           put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :invalid)
-          response.should redirect_to action: 'edit'
+          response.should render_template :edit
         end
       end
     end
