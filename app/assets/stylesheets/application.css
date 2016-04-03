@@ -42,9 +42,9 @@ h1 {
 h1.title {
   margin: 0 0 1em;
   padding: 10px;
-  background-color: orange;
+  background-color: #500000;
   color: white;
-  border-bottom: 4px solid gold;
+  border-bottom: 4px solid #500000;
   font-size: 2em;
   font-style: normal;
 }
@@ -75,5 +75,5 @@ form label {
   display: block;
   line-height: 25px;
   font-weight: bold;
-  color: maroon;
+  color: #500000;
 }
