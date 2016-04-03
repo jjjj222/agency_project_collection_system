@@ -33,13 +33,13 @@ div#main {
 }
 a {
   background: transparent;
-  color: maroon;
+  color: #500000;
   text-decoration: underline;
   font-weight: bold;
 }
 
 h1 {
-  color: maroon;
+  color: #500000;
   font-size: 150%;
   font-style: italic;
   display: block;
@@ -55,6 +55,7 @@ h1.title {
   font-size: 2em;
   font-style: normal;
 }
+<<<<<<< HEAD
 
 h2.title {
   color: white;
@@ -81,6 +82,7 @@ table#movies th, table#movies td {
 table#movies th.hilite {
   background-color: yellow;
 }
+
 #notice, #warning {
   background: rosybrown;
   margin: 1em 0;
