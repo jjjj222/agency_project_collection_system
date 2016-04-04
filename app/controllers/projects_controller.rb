@@ -6,7 +6,11 @@ class ProjectsController < ApplicationController
     end
     
     def index
-        @projects = Project.all
+        @projects = Project.where(approved: true)
+    end
+    
+    def unapproved_index
+        @projects = Project.where(approved: false)
     end
    
     def show
