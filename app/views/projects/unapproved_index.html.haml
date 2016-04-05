@@ -27,6 +27,7 @@
                 %th{:align=> "left"} Status
                 %th{:align=> "left"} Tags
                 %th{:align=> "left"} Agency
+                %th{:align=> "left"} Approve Project
         
             - @projects.each do |project|
                 %tr{:height => "10px"}
@@ -35,4 +36,5 @@
                     %td= project.status
                     %td= project.tags.join ", "
                     %td= project.agency.try(:name) #TODO change to name when creation is figured out
+                    %td= button_to 'Approve', approve_project_path(project)
     #footer
