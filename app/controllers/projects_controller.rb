@@ -61,5 +61,26 @@ class ProjectsController < ApplicationController
         redirect_to projects_path
     end
     
+    def approve
+        @project = Project.find(params[:id])
+        @project.approved = true;
+        @project.save
+        
+        if Project.where(approved: false).count > 0
+            flash[:notice] = "Project '#{@project.name}' approved."
+            redirect_to unapproved_projects_index_path
+        else
+            flash[:notice] = "Project '#{@project.name}' approved. All projects have been approved."
+            redirect_to projects_path
+        end
+    end
+    
+    def unapprove
+        @project = Project.find(params[:id])
+        @project.approved = false;
+        @project.save
+        flash[:notice] = "Project '#{@project.name}' unapproved."
+        redirect_to projects_path
+    end
 end
 

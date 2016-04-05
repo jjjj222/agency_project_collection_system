@@ -14,6 +14,11 @@
 /%p#agency= link_to @project.agency, agency_path(@project.agency) #TODO change to name and link to agency when each project has an agenc
 
 = link_to 'Edit', edit_project_path(@project)
+// = button_to( "Approve Project", :action => :approve, :controller => "project")
+- if !@project.approved  
+    = button_to 'Approve Project', approve_project_path(@project)
+- else
+    = button_to 'Unapprove Project', unapprove_project_path(@project)
 = button_to 'Delete', project_path(@project), :method => :delete, :confirm => 'Are you sure?'
 = link_to 'Back to project list', projects_path
 

@@ -4,7 +4,7 @@ RSpec.describe ProjectsController, type: :controller do
     
     describe "GET #index" do
         it "populates an array of projects" do
-            project = FactoryGirl.create(:project, :default)
+            project = FactoryGirl.create(:project, :default, :approved)
             get :index
             assigns(:projects).should eq([project])
         end

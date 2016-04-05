@@ -7,6 +7,7 @@ FactoryGirl.define do
         description  "This is the test project description";
         status "open";
         tags [""];
+        approved false;
     }
     
     trait(:invalid) {
@@ -26,6 +27,8 @@ FactoryGirl.define do
     trait(:description) {description "This is the test project description"}
     trait(:status) {status  "open"}
     trait(:tags) {tags [""]}
+    trait(:approved) {approved true}
+    trait(:unapproved) {approved false}  
   end
   
 end

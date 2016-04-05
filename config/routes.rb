@@ -8,12 +8,17 @@ Rails.application.routes.draw do
   # get 'tamu_users/my_page'
   #get 'tamu_users/my_page/projects'
 
-  match '/unapproved_projects/' => 'projects#unapproved_index', :as => :unapproved_index, via: [:get]
+  match '/unapproved_projects/' => 'projects#unapproved_index', :as => :unapproved_projects_index, via: [:get]
+  match '/projects/:id/approve' => 'projects#approve', :as => :approve_project, via: [:post]
+  match '/projects/:id/unapprove' => 'projects#unapprove', :as => :unapprove_project, via: [:post]
   resources :projects  # The priority is based upon order of creation: first created -> highest priority.
   
   resources :tamu_users
   # See how all your routes lay out with "rake routes".
 
+  match '/unapproved_agencies/' => 'agencies#unapproved_index', :as => :unapproved_agencies_index, via: [:get]
+  match '/agencies/:id/approve' => 'agencies#approve', :as => :approve_agency, via: [:post]
+  match '/agencies/:id/unapprove' => 'agencies#unapprove', :as => :unapprove_agency, via: [:post]
   resources :agencies
 
   # You can have the root of your site routed with "root"
