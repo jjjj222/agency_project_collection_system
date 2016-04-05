@@ -13,6 +13,61 @@
  *= require_tree .
  *= require_self
  */
+ 
+ /*css layout*/
+.header_grid{
+	 display : block;
+	 width : 100%;
+	 overflow : auto;
+	 margin : 30px auto 0 auto;
+	 padding : 0;
+	 min-width: 900px;
+	 max-width: 1600px;
+}
+
+.headerLogo{
+	 float : left;
+	 clear : none;
+	 height : 60px;
+	 width : 200px;
+	 padding : 0;
+}
+.headerContent{
+	 float : right;
+	 clear : none;
+	 height : 60px;
+	 width : 350px;
+	 padding : 0;
+}
+
+.blended_grid{
+	 display : block;
+	 width : 100%;
+	 overflow : auto;
+	 margin : 30px auto 0 auto;
+	 min-width: 900px;
+	 max-width: 1600px;
+}
+
+.pageLeftMenu{
+	 float : left;
+	 clear : none;
+	 /*height : 600px;*/
+	 width : 20%;
+}
+.pageContent{
+	 float : left;
+	 clear : none;
+	 /*height : 600px;*/
+	 width : 80%;
+}
+.pageFooter{
+	 float : left;
+	 clear : none;
+	 /*height : 100px;*/
+	 width : 100%;
+}
+ 
 html, body {
   margin: 0;
   padding: 0;
@@ -58,7 +113,7 @@ h1.title {
 
 h2.title {
   color: white;
-  font-size: 12pt;
+  font-size: 13pt;
   font-family: "Times New Roman", Times, serif;
   padding-bottom: 10px;
 }

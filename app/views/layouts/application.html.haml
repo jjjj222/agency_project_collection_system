@@ -6,9 +6,11 @@
     = csrf_meta_tags
 
   %body
-    #head
-      =image_tag "csen-logo.png"
-      %h2.title TAMU Non-Profit Project Collection Systems
+    #head.header_grid
+      #logo.headerlogo
+        =image_tag "csen-logo.png"
+      #content.headerContent
+        %h2.title TAMU Non-Profit Project Collection Systems
     = link_to 'Home', root_path
     |
     -#= link_to 'Login', welcome_login_path
@@ -23,9 +25,7 @@
     = link_to "My page", mypage_path
     - if logged_in?
       logged in as "#{@current_user.name}" (#{@current_user.class.to_s} #{@current_user.id})
-        
 
-    %h2.title TAMU Non-Profit Projects Collect System
     #main
       - if flash[:notice]
         #notice.message= flash[:notice]
@@ -34,8 +34,10 @@
 
       = yield
 
-      = debug(params) if Rails.env.development?
+      -#= debug(params) if Rails.env.development?
       -#%br
       -#= debug(session) if Rails.env.development?
-    %div{:id=>"side-bar"}
-      = link_to 'Home'
+      
+      -#%div{:id=>"side-bar"}
+      -#= link_to 'Home'
+
