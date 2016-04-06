@@ -1,23 +1,58 @@
 %h2#name= @agency.name
 
-%h3 Email:
-%p#email=  @agency.email 
+.container
+  %h2 Dynamic Tabs
+  %ul.nav.nav-tabs
+    %li.active
+      %a{"data-toggle" => "tab", :href => "#my_projects"} My Projects
+    %li
+      %a{"data-toggle" => "tab", :href => "#my_profile"} My Profiles
+    %li
+      %a{"data-toggle" => "tab", :href => "#more"} More
 
-%h3 Phone Number:
-%p#phone_number= @agency.phone_number
-
-%table{:border => 1, :width => "70%"}
-    %tr{:height => "10px"}
-        %th{:align=> "left"} Project Name
-        %th{:align=> "left"} Description
-        %th{:align=> "left"} Status
-        %th{:align=> "left"} Tags
-
-    - @agency.projects.each do |project|
+  .tab-content
+    #my_projects.tab-pane.fade.in.active
+      %table{:border => 1, :width => "70%"}
         %tr{:height => "10px"}
+          %th{:align=> "left"} Project Name
+          %th{:align=> "left"} Description
+          %th{:align=> "left"} Status
+          %th{:align=> "left"} Tags
+
+        - @agency.projects.each do |project|
+          %tr{:height => "10px"}
             %td= link_to project.name, project_path(project)
             %td= project.description
             %td= project.status
             %td= project.tags.join ", "
+    
+    #my_profile.tab-pane.fade
+      %h3 My Profile
+      %h3 Email:
+      %p#email=  @agency.email 
+      %h3 Phone Number:
+      %p#phone_number= @agency.phone_number
+      = link_to 'Edit', edit_agency_path(@agency.id)
+    
+    #more.tab-pane.fade
+      %h3 More
+      %p Something more
 
-= link_to 'Edit', edit_agency_path(@agency.id)
+-# javascript somehow doesn't work
+:javascript
+  // Select all tabs
+  $('.nav-tabs a').click(function(){
+      $(this).tab('show');
+  })
+  
+  // Select tab by name
+  $('.nav-tabs a[href="#my_projects"]').tab('show')
+  
+  // Select first tab
+  $('.nav-tabs a:first').tab('show') 
+  
+  // Select last tab
+  $('.nav-tabs a:last').tab('show') 
+  
+  // Select fourth tab (zero-based)
+  $('.nav-tabs li:eq(2) a').tab('show')
