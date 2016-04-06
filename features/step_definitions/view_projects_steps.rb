@@ -1,6 +1,6 @@
 #encoding: utf-8
 Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
-  # TODO
+#   pending
 end
 
 Then /^I should see a list of all (projects)$/ do |model|

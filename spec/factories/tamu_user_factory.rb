@@ -1,7 +1,7 @@
 FactoryGirl.define do
   
   factory :tamu_user do
-    trait(:default) { name  "John Smith"; role  "student"; email "test@tamu.edu"; admin false}
+    trait(:default) { name  "John Smith"; role  "student"; email "test@tamu.edu"; admin true}
     trait(:name) { name "John Smith" }
     trait(:student) {role "student"}
     trait(:professor) {role  "professor"}

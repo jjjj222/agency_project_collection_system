@@ -4,7 +4,11 @@ RSpec.describe Project, type: :model do
   
   # Test data validations
   it 'is invalid without a name' do
-    expect(FactoryGirl.build(:project, :description, :status, :tags)).to_not be_valid
+    expect(FactoryGirl.build(:project, :description, :status, :tags, :unapproved)).to_not be_valid
+  end
+  
+  it 'is invalid without an approved classification' do
+    expect(FactoryGirl.build(:project, :name, :description, :status, :tags)).to_not be_valid
   end
   
   # it 'will be set to "open" if the status is not specified' do
