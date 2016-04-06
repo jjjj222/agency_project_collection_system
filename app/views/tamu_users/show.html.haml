@@ -1,28 +1,29 @@
-%h2#name= @tamu_user.name
+.secondary-main
+    %h2#name= @tamu_user.name
 
-%h3 Role:
-%p#role= @tamu_user.role.capitalize
+    %h3 Role:
+    %p#role= @tamu_user.role.capitalize
 
-%h3 Email:
-%p#email=  @tamu_user.email
+    %h3 Email:
+    %p#email=  @tamu_user.email
 
-%table{:border => 1, :width => "70%"}
-    %tr{:height => "10px"}
-        %th{:align=> "left"} Project Name
-        %th{:align=> "left"} Description
-        %th{:align=> "left"} Status
-        %th{:align=> "left"} Tags
-        %th{:align=> "left"} Agency
+    %table{:border => 1, :width => "70%", :class=>"view_tables"}
+        %tr{:height => "10px"}
+            %th{:align=> "left"} Project Name
+            %th{:align=> "left"} Description
+            %th{:align=> "left"} Status
+            %th{:align=> "left"} Tags
+            %th{:align=> "left"} Agency
 
-- @tamu_user.projects.each do |project|
-    %tr{:height => "10px"}
-        %td= link_to project.name, project_path(project)
-        %td= project.description
-        %td= project.status
-        %td= project.tags.join ", "
-        %td= project.agency.try(:name) #TODO change to name when creation is figured out
+    - @tamu_user.projects.each do |project|
+        %tr{:height => "10px"}
+            %td= link_to project.name, project_path(project)
+            %td= project.description
+            %td= project.status
+            %td= project.tags.join ", "
+            %td= project.agency.try(:name) #TODO change to name when creation is figured out
 
-= link_to 'Edit', edit_tamu_user_path(@tamu_user.id)
+    = link_to 'Edit', edit_tamu_user_path(@tamu_user.id)
 
-%br
-%img(src="https://dl.dropboxusercontent.com/u/41174619/se_project/my_page.png")
+    %br
+    %img(src="https://dl.dropboxusercontent.com/u/41174619/se_project/my_page.png")

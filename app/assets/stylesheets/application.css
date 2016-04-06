@@ -19,7 +19,7 @@
 	 display : block;
 	 width : 100%;
 	 overflow : auto;
-	 margin : 30px auto 0 auto;
+	 margin : 10px auto 0 auto;
 	 padding : 0;
 	 min-width: 600px;
 	 max-width: 1600px;
@@ -118,24 +118,6 @@ h2.title {
   padding-bottom: 10px;
 }
 
-table#movies {
-  margin: 10px;
-  border-collapse: collapse;
-  width: 100%;
-  border-bottom: 2px solid black;
-}
-table#movies th {
-  border: 2px solid white;
-  font-weight: bold;
-  background-color: wheat;
-}
-table#movies th, table#movies td {
-  padding: 4px;
-  text-align: left;
-}
-table#movies th.hilite {
-  background-color: yellow;
-}
 
 #notice, #warning {
   background: rosybrown;
@@ -147,4 +129,62 @@ form label {
   line-height: 25px;
   font-weight: bold;
   color: #500000;
+}
+
+
+/*css for table*/
+table {
+    border:none;
+    border-collapse: collapse;
+        border-spacing: 0;
+  margin:0px;padding:5px;
+  color:#ffffff;
+}
+
+th{
+  vertical-align:middle;
+  background-color:#500000;
+  border:1px solid #000000;
+  text-align:left;
+  padding:5px;
+  font-weight:bold;
+  font-style:normal;
+  font-size:16px;
+  color:#ffffff;
+}
+
+tr:hover td{
+  background-color:#c8c8c7;
+}  
+
+td{
+  vertical-align:middle;
+  background-color:#ffffff;
+  border:1px solid #000000;
+  border-width:1px 1px 1px 1px;
+  text-align:left;
+  padding:5px;
+  font-size:12px;
+  font-weight:normal;
+  color:#000000;
+}
+
+
+#side-bar{
+  padding-left:10px;
+  float: left;
+  width: 200px;
+  background: gray;
+  min-height: 100%;
+}
+
+.secondary-main{
+  margin-top: 20px;
+  margin-left: 80px;
+}
+
+#header-link,#header-link a{
+  padding-left:5px;
+  color:white;
+  background-color:#500000;
 }

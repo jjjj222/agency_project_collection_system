@@ -11,34 +11,39 @@
         =image_tag "csen-logo.png"
       #content.headerContent
         %h2.title TAMU Non-Profit Project Collection Systems
-    = link_to 'Home', root_path
-    |
-    -#= link_to 'Login', welcome_login_path
-    - if logged_in?
-      = link_to "Log out", logout_path
-    - else
-      = link_to 'Login', login_path
-    |
-    = link_to 'Sign up', welcome_signup_path
-    |
-    -#= link_to "My page", tamu_user_path(1)
-    = link_to "My page", mypage_path
-    - if logged_in?
-      logged in as "#{@current_user.name}" (#{@current_user.class.to_s} #{@current_user.id})
-    %p
+    #header-link
+      = link_to 'Home', root_path
+      |
+      -#= link_to 'Login', welcome_login_path
+      - if logged_in?
+        = link_to "Log out", logout_path
+      - else
+        = link_to 'Login', login_path
+      |
+      = link_to 'Sign up', welcome_signup_path
+      |
+      -#= link_to "My page", tamu_user_path(1)
+      = link_to "My page",  mypage_path, :id=>"mypage"
+      - if logged_in?
+        logged in as "#{@current_user.name}" (#{@current_user.class.to_s} #{@current_user.id})
+      |
+      = link_to 'All projects', projects_path
+      |
+      = link_to 'All TAMU users', tamu_users_path
+      |
+      = link_to 'All Agencies', agencies_path
+      / |
+      / %button{:class=>"search", :type => "button"} Search
+      / %input{:class=>"search", :size => "15", :maxlength => "100", :name => "search_index", :type => "text", :value => ""}/
 
-    #main.blended_grid
+    #side-bar
       #left.pageLeftMenu
-        %input{:size => "15", :maxlength => "100", :name => "search_index", :type => "text", :value => ""}/
-        %br
-        %button{:type => "button"} Search
-        %p
-        = link_to 'All projects', projects_path
-        %br
-        = link_to 'All TAMU users', tamu_users_path
-        %br
-        = link_to 'All Agencies', agencies_path
-        %br
+      <br>
+      = link_to "My Profile", tamu_users_path
+      <br>
+      <br>
+      = link_to "My Project", projects_path
+    %div{:id=>"main.blended_grid"}
       #right.pageContent
         - if flash[:notice]
           #notice.message= flash[:notice]
