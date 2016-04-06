@@ -54,12 +54,16 @@
 	 clear : none;
 	 /*height : 600px;*/
 	 width : 20%;
+	 min-width: 100px;
+	 max-width: 200px;
 }
 .pageContent{
 	 float : left;
 	 clear : none;
 	 /*height : 600px;*/
 	 width : 80%;
+	 min-width: 400px;
+	 max-width: 800px;
 }
 .pageFooter{
 	 float : left;
