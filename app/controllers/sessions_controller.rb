@@ -27,7 +27,8 @@ class SessionsController < ApplicationController
       user_type = "Agency"
       auth_hash = request.env['omniauth.auth']
       user = user_type.constantize.find_by(uid: auth_hash['uid'], provider: auth_hash['provider']) if user_type
-      user = Agency.create_with_omniauth(auth_hash)
+      #byebug
+      user = Agency.create_with_omniauth(auth_hash) if user == nil
       if (user)
         #user = find_or_create_by()
         #user = Agency.from_omniauth(auth_hash)
