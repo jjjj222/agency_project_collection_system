@@ -16,9 +16,9 @@ example_users = [
 ]
 
 example_agencies = [
-  { name: "Some nonprofit", email: "noprofit@gmail.com", phone_number: "979-867-5309" },
-  { name: "Another nonprofit", email: "noprofit2@gmail.com", phone_number: "979-555-5555" },
-  { name: "Test agency", email: "test@test.com", phone_number: "979-555-5555" }
+  { name: "Some nonprofit", email: "noprofit@gmail.com", phone_number: "979-867-5309", provider: "fale", uid: "0" },
+  { name: "Another nonprofit", email: "noprofit2@gmail.com", phone_number: "979-555-5555", provider: "fake", uid: "1" },
+  { name: "Test agency", email: "test@test.com", phone_number: "979-555-5555", provider: "test", uid: "0" }
 ]
 
 example_projects.each do |proj|

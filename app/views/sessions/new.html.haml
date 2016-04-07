@@ -1,6 +1,8 @@
 -#<% provide(:title, "Log in") %>
 %h1 Log in
 
+= link_to 'Google', '/auth/google_oauth2'
+
 = form_tag login_path, :method => :post do
 
   = label :session, :email, 'Email'
@@ -11,6 +13,8 @@
   -#= text_field :session, 'password'
 
   = submit_tag 'Log in'
+
+
 
   -#= label :projects, :description, 'Description'
   -#= text_field :project, 'description'
