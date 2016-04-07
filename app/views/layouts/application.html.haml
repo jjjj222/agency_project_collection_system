@@ -38,11 +38,12 @@
 
     #side-bar
       #left.pageLeftMenu
-      <br>
-      = link_to "My Profile", tamu_users_path
-      <br>
-      <br>
-      = link_to "My Project", projects_path
+        %ul.sidebar
+          %li.sidebar
+            = link_to "My Profile", tamu_users_path
+          %li.sidebar
+            = link_to "My Project", projects_path
+      
     %div{:id=>"main.blended_grid"}
       #right.pageContent
         - if flash[:notice]
