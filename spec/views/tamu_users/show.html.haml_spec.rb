@@ -9,6 +9,7 @@ describe 'tamu_users/show.html.haml' do
     rendered.should include('John Smith')
     rendered.should include('test@tamu.edu')
     rendered.should include('Student')
+    rendered.should include("<p id='admin'>true</p>")
   end
   
   it 'displays a users projects correctly' do
