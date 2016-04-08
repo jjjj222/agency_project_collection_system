@@ -21,7 +21,7 @@
 	 overflow : auto;
 	 margin : 10px auto 0 auto;
 	 padding : 0;
-	 min-width: 600px;
+	 min-width: 800px;
 	 max-width: 1600px;
 }
 
@@ -45,30 +45,27 @@
 	 width : 100%;
 	 overflow : auto;
 	 margin : 30px auto 0 auto;
-	 min-width: 600px;
+	 min-width: 800px;
 	 max-width: 1600px;
 }
 
 .pageLeftMenu{
 	 float : left;
 	 clear : none;
-	 /*height : 600px;*/
 	 width : 20%;
-	 min-width: 100px;
-	 max-width: 200px;
+	 min-width: 160px;
+	 max-width: 320px;
 }
 .pageContent{
-	 float : left;
+	 float : right;
 	 clear : none;
-	 /*height : 600px;*/
 	 width : 80%;
-	 min-width: 400px;
-	 max-width: 800px;
+	 min-width: 640px;
+	 max-width: 1280px;
 }
 .pageFooter{
 	 float : left;
 	 clear : none;
-	 /*height : 100px;*/
 	 width : 100%;
 }
  
@@ -203,7 +200,7 @@ ul.sidebar {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 12%;
+    width: 150px;
     position: fixed;
     overflow: auto;
 }

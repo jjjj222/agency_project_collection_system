@@ -36,15 +36,14 @@
       / %button{:class=>"search", :type => "button"} Search
       / %input{:class=>"search", :size => "15", :maxlength => "100", :name => "search_index", :type => "text", :value => ""}/
 
-    #side-bar
+    -#side-bar
+    #main.blended_grid
       #left.pageLeftMenu
         %ul.sidebar
           %li.sidebar
             = link_to "My Profile", tamu_users_path
           %li.sidebar
             = link_to "My Project", projects_path
-      
-    %div{:id=>"main.blended_grid"}
       #right.pageContent
         - if flash[:notice]
           #notice.message= flash[:notice]
