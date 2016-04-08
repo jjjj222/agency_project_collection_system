@@ -2,7 +2,7 @@ Feature: Unapproving an approved project
 
   As an admin,
   I want to unapprove a project,
-  so that other tamu users cannot see the project
+  so that other tamu users can't see the project
 
   Background:
     Given I am logged in as an admin
