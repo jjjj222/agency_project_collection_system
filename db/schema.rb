@@ -11,14 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160327200020) do
+ActiveRecord::Schema.define(version: 20160403195551) do
 
   create_table "agencies", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
     t.string   "phone_number"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.boolean  "approved",     default: false
   end
 
   create_table "projects", force: :cascade do |t|
@@ -29,6 +30,7 @@ ActiveRecord::Schema.define(version: 20160327200020) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.integer  "agency_id"
+    t.boolean  "approved",    default: false
   end
 
   add_index "projects", ["agency_id"], name: "index_projects_on_agency_id"
@@ -41,9 +43,10 @@ ActiveRecord::Schema.define(version: 20160327200020) do
   create_table "tamu_users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.string   "role"
+    t.boolean  "admin",      default: false
   end
 
 end

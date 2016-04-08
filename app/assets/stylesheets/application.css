@@ -175,15 +175,19 @@ td{
 
 
 #side-bar{
-  padding-left:10px;
+  padding-left:20px;
   float: left;
   width: 200px;
   background: gray;
   min-height: 100%;
 }
 
+.side-bar-text{
+  padding-left: 20px;
+}
+
 .secondary-main{
-  margin-top: 20px;
+  margin-top: 10px;
   margin-left: 80px;
 }
 

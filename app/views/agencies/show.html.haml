@@ -27,15 +27,11 @@
             %td= project.description
             %td= project.status
             %td= project.tags.join ", "
-    
-    #my_profile.tab-pane.fade
-      %h3 My Profile
-      %h3 Email:
-      %p#email=  @agency.email 
-      %h3 Phone Number:
-      %p#phone_number= @agency.phone_number
-      = link_to 'Edit', edit_agency_path(@agency.id)
-    
-    #more.tab-pane.fade
-      %h3 More
-      %p Something more
+
+
+= link_to 'Edit', edit_agency_path(@agency.id)
+- if !@agency.approved  
+    = button_to 'Approve Agency', approve_agency_path(@agency)
+- else
+    = button_to 'Unapprove Agency', unapprove_agency_path(@agency)
+

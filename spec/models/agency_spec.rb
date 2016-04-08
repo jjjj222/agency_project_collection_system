@@ -18,6 +18,10 @@ RSpec.describe Agency, type: :model do
       expect(FactoryGirl.build(:agency, :default, phone_number: "0090950909090909")).to_not be_valid
   end
   
+  it 'is invalid without an approved classification' do
+    expect(FactoryGirl.build(:agency, :name, :email, :phone_number, :nil_approved)).to_not be_valid
+  end
+  
   it "has many projects" do
     relation = Agency.reflect_on_association(:projects)
     relation.macro.should == :has_many
