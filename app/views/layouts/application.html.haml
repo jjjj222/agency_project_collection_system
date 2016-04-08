@@ -37,16 +37,16 @@
       / %input{:class=>"search", :size => "15", :maxlength => "100", :name => "search_index", :type => "text", :value => ""}/
 
 
-      #right.pageContent
-        - if flash[:notice]
-          #notice.message= flash[:notice]
-        - elsif flash[:warning]
-          #warning.message= flash[:warning]
-        = yield
+  
+    - if flash[:notice]
+      #notice.message= flash[:notice]
+    - elsif flash[:warning]
+      #warning.message= flash[:warning]
+    = yield
 
-        -#= debug(params) if Rails.env.development?
-        -#%br
-        -#= debug(session) if Rails.env.development?
-      
-        -#%div{:id=>"side-bar"}
-        -#= link_to 'Home'
+    -#= debug(params) if Rails.env.development?
+    -#%br
+    -#= debug(session) if Rails.env.development?
+  
+    -#%div{:id=>"side-bar"}
+    -#= link_to 'Home'
