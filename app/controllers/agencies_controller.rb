@@ -1,11 +1,36 @@
 class AgenciesController < ApplicationController
     
     def index
-        @agencies = Agency.all
+        @agencies = Agency.where(approved: true)
+    end
+    
+    def unapproved_index
+        @agencies = Agency.where(approved: false)
     end
     
     def show
         @agency = Agency.find params[:id]
+    end
+    
+    def approve
+        @agency = Agency.find(params[:id])
+        @agency.approved = true;
+        @agency.save
+        if Agency.where(approved: false).count > 0
+            flash[:notice] = "Agency '#{@agency.name}' approved."
+            redirect_to unapproved_agencies_index_path
+        else
+            flash[:notice] = "Agency '#{@agency.name}' approved. All agencies have been approved."
+            redirect_to agencies_path
+        end
+    end
+    
+    def unapprove
+        @agency = Agency.find(params[:id])
+        @agency.approved = false;
+        @agency.save
+        flash[:notice] = "Agency '#{@agency.name}' unapproved."
+        redirect_to agencies_path
     end
     
     #def new
@@ -42,5 +67,7 @@ class AgenciesController < ApplicationController
         #     redirect_to :action => 'show', :id => @agency.id
         # end
     #end
+    
+    
     
 end
