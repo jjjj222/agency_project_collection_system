@@ -19,7 +19,7 @@ RSpec.describe Agency, type: :model do
   end
   
   it 'is invalid without an approved classification' do
-    expect(FactoryGirl.build(:agency, :name, :email, :phone_number)).to_not be_valid
+    expect(FactoryGirl.build(:agency, :name, :email, :phone_number, :nil_approved)).to_not be_valid
   end
   
   it "has many projects" do
