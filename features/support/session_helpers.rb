@@ -13,5 +13,9 @@ module SessionHelpers
   def current_agency
     @agency ||= Agency.create!(name: "Test nonprofit", email: "test@testing.org", phone_number: "123-456-7890", approved: true)
   end
+  
+  def unapproved_agency
+    @agency ||= Agency.create!(name: "Test nonprofit", email: "test@testing.org", phone_number: "123-456-7890", approved: false)
+  end
 end
 World(SessionHelpers)

@@ -225,3 +225,10 @@ li.sidebar a:hover:not(.active) {
     background-color: #555;
     color: white;
 }
+.field_with_errors form {
+  color: red;
+  background-color: red;
+}
+.field_with_errors input {
+  border-color: red;
+}
