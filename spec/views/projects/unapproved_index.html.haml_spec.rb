@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe "projects/index.html.haml", type: :view do
+RSpec.describe "projects/unapproved_index.html.haml", type: :view do
     
-    it 'displays all users correctly' do
+    it 'displays all unapproved projects correctly' do
     assign(:projects,
         [
             FactoryGirl.build(:project, :default, :id=>1),
@@ -24,15 +24,15 @@ RSpec.describe "projects/index.html.haml", type: :view do
     rendered.should include('completed')
   end
   
-    it 'displays unapprove button for projects' do
+  it 'displays approve button for projects' do
     assign(:projects,
         [
-            FactoryGirl.build(:project, :default, :id=>1)
+            FactoryGirl.build(:project, :default, :unapproved, :id=>1)
         ])
         
     render
 
-    rendered.should include('Unapprove')
+    rendered.should include('Approve')
   end
  
 end

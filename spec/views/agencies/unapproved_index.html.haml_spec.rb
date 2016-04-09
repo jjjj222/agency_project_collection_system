@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe "agencies/index.html.haml", type: :view do
+RSpec.describe "agencies/unapproved_index.html.haml", type: :view do
     
-    it 'displays all agencies correctly' do
+    it 'displays all unapproved agencies correctly' do
     assign(:agencies,
         [
-            FactoryGirl.build(:agency, :default, :id=>1),
-            FactoryGirl.build(:agency, :default,
+            FactoryGirl.build(:agency, :default, :unapproved, :id=>1),
+            FactoryGirl.build(:agency, :default, :unapproved,
                 :name => "Agency Two",
                 :email=> "another@email.com",
                 :phone_number=>"817-555-5555",
@@ -24,15 +24,15 @@ RSpec.describe "agencies/index.html.haml", type: :view do
     # rendered.should include('817-555-5555')
   end
   
-  it 'displays unapprove button for agencies' do
+  it 'displays approve button for agencies' do
     assign(:agencies,
         [
-            FactoryGirl.build(:agency, :default, :id=>1)
+            FactoryGirl.build(:agency, :default, :unapproved, :id=>1)
         ])
         
     render
 
-    rendered.should include('Unapprove')
+    rendered.should include('Approve')
   end
  
 end

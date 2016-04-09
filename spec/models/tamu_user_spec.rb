@@ -4,11 +4,11 @@ RSpec.describe TamuUser, type: :model do
   
   it 'is invalid without name' do
       # expect(TamuUser.new(:email => 'test@test.com', :role => "student")).to_not be_valid
-      expect(FactoryGirl.build(:tamu_user, :email, :student)).to_not be_valid
+      expect(FactoryGirl.build(:tamu_user, :email, :student, :admin)).to_not be_valid
   end
   
   it 'is invalid without email' do
-      expect(FactoryGirl.build(:tamu_user, :name, :student)).to_not be_valid
+      expect(FactoryGirl.build(:tamu_user, :name, :student, :admin)).to_not be_valid
   end
   
   it 'is invalid without correctly formatted email' do
@@ -16,8 +16,12 @@ RSpec.describe TamuUser, type: :model do
   end
   
   it "is invalid without a role" do
-    expect(FactoryGirl.build(:tamu_user, :name, :email)).to_not be_valid
+    expect(FactoryGirl.build(:tamu_user, :name, :email, :admin)).to_not be_valid
   end
+  
+  #it 'is invalid without an admin specification' do
+  #  expect(FactoryGirl.build(:tamu_user, :name, :email, :student)).to_not be_valid
+  #end
   
   it "has and belongs to many projects" do
     relation = TamuUser.reflect_on_association(:projects)

@@ -77,3 +77,10 @@ form label {
   font-weight: bold;
   color: maroon;
 }
+.field_with_errors form {
+  color: red;
+  background-color: red;
+}
+.field_with_errors input {
+  border-color: red;
+}

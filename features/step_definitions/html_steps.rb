@@ -7,8 +7,8 @@ When /^I press "([^"]+)"$/i do |item_name|
   click_button(item_name)
 end
 
-Then /^the (\w+) field should be "([^"]*)"$/i do |item_name, data|
-  expect(find_field(item_name.capitalize).value).to eq data
+Then /^the (\w+) field should equal "([^"]*)"$/i do |item_name, data|
+  expect(find_field(item_name).value).to eq data
 end
 Then /^the (.*) should be "([^"]*)"$/i do |item_name, data|
   find_by_id(underscore_words item_name).assert_text(:visible, Regexp.new(Regexp.escape(data), "i"))
@@ -26,4 +26,8 @@ end
 
 When(/^I click "([^"]*)"$/) do |link|
   click_link(link)
+end
+
+Then (/^there should be a button "([^"]*)"$/) do |button|
+  page.should have_selector(:link_or_button, button)
 end
