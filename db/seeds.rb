@@ -16,18 +16,12 @@ example_users = [
   { name: "John Tamu", email: "john@tamu.edu", role: "student", admin: false},
   { name: "Hank Tamu", email: "hank@tamu.edu", role: "professor", admin: false},
   { name: "Malini Malini", email: "malini@tamu.edu", role: "professor", admin: true}
-  
 ]
 
 example_agencies = [
-<<<<<<< HEAD
-  { name: "Some nonprofit", email: "noprofit@gmail.com", phone_number: "979-867-5309" },
-  { name: "Another nonprofit", email: "noprofit2@gmail.com", phone_number: "979-555-5555" },
-  { name: "Test agency", email: "test@test.com", phone_number: "979-555-5555" }
-=======
   { name: "Some nonprofit", email: "noprofit@gmail.com", phone_number: "979-867-5309", approved: true },
-  { name: "Another nonprofit", email: "noprofit2@gmail.com", phone_number: "979-555-5555", approved: false}
->>>>>>> 5875957ad7161369001c28fee78e91355ecbe2da
+  { name: "Another nonprofit", email: "noprofit2@gmail.com", phone_number: "979-555-5555", approved: false},
+  { name: "Test agency", email: "test@test.com", phone_number: "979-555-5555"}
 ]
 
 
