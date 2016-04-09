@@ -20,7 +20,7 @@ example_users = [
 
 example_agencies = [
   { name: "Some nonprofit", email: "noprofit@gmail.com", phone_number: "979-867-5309", approved: true, provider: "fake", uid: "0" },
-  { name: "Another nonprofit", email: "noprofit2@gmail.com", phone_number: "979-555-5555", approved: false, provider: fake, uid: "1"},
+  { name: "Another nonprofit", email: "noprofit2@gmail.com", phone_number: "979-555-5555", approved: false, provider: "fake", uid: "1"},
   { name: "Test agency", email: "test@test.com", phone_number: "979-555-5555", provider: "test", uid: "0"}
 ]
 
