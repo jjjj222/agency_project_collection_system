@@ -19,9 +19,9 @@ RSpec.describe TamuUser, type: :model do
     expect(FactoryGirl.build(:tamu_user, :name, :email, :admin)).to_not be_valid
   end
   
-  it 'is invalid without an admin specification' do
-    expect(FactoryGirl.build(:tamu_user, :name, :email, :student)).to_not be_valid
-  end
+  #it 'is invalid without an admin specification' do
+  #  expect(FactoryGirl.build(:tamu_user, :name, :email, :student)).to_not be_valid
+  #end
   
   it "has and belongs to many projects" do
     relation = TamuUser.reflect_on_association(:projects)
