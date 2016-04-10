@@ -26,7 +26,7 @@
     = link_to 'All Projects', projects_path
     - if logged_in?
       |
-      logged in as "#{@current_user.name}" (#{@current_user.class.to_s} #{@current_user.id})
+      logged in as "#{current_user.name}" (#{@current_user.class.to_s} #{@current_user.id})
 
     #main
       - if flash[:notice]

@@ -1,6 +1,21 @@
 class SessionsController < ApplicationController
   #def new
   #end
+  def tamu_create
+    #user_type = params[:user_type]
+    #user = user_type.constantize.find_by(email: params[:session][:email].downcase) if user_type
+    user = TamuUser.find_by(email: params[:session][:email].downcase)
+    #agency = Agency.find_by(email: params[:session][:email].downcase)
+    if (user)
+      #log_in agency, "Agency"
+      #log_in user, user_type
+      log_in user, "TamuUser"
+      redirect_to mypage_path
+    else
+      flash.now[:notice] = 'Invalid email/password combination'
+      render 'new'
+    end
+  end
 
   def create
     begin

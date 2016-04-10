@@ -10,6 +10,10 @@ RSpec.describe TamuUsersController, type: :controller do
         end
         
         it "renders the :index view" do
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+            session[:user_id] = tamu_user.id
+            session[:user_type] = "TamuUser"
+
             get :index
             response.should render_template :index
         end

@@ -4,6 +4,11 @@ class TamuUsersController < ApplicationController
     end
 
     def index
+        if !logged_in?
+          flash[:notice] = 'Please log in'
+          redirect_to login_path
+        end
+
         @tamu_users = TamuUser.all
     end
     
