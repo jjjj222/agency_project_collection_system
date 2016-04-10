@@ -1,13 +1,13 @@
 #content
   #left{:float => "left", :width => "30%"}
-    %p
-    %input{:size => "15", :maxlength => "100", :name => "search_index", :type => "text", :value => ""}/
-    %br
-    %button{:type => "button"} Search
-    %p
-    %a{:href => projects_path} All Projects
-    %br
-    %br
+    -#%p
+    -#%input{:size => "15", :maxlength => "100", :name => "search_index", :type => "text", :value => ""}/
+    -#%br
+    -#%button{:type => "button"} Search
+    -#%p
+    -#%a{:href => projects_path} All Projects
+    -#%br
+    -#%br
 #right
   %table{:border => 1, :width => "70%"}
     %tr{:height => "10px"}
@@ -19,13 +19,13 @@
         %td= link_to project.name, project_path(project)
         %td= project.created_at.to_date
         %td= project.agency
-#footer
-%hr
-%br
+-##footer
+-#%hr
+-#%br
 -#= link_to 'All projects', projects_path
 -#%br
-= link_to 'All TAMU users', tamu_users_path
-%br
-= link_to 'All Agencies', agencies_path
-%br
-%img(src="https://dl.dropboxusercontent.com/u/41174619/se_project/homepage.png")
+-#= link_to 'All TAMU users', tamu_users_path
+-#%br
+-#= link_to 'All Agencies', agencies_path
+-#%br
+-#%img(src="https://dl.dropboxusercontent.com/u/41174619/se_project/homepage.png")

@@ -14,8 +14,8 @@ Rails.application.routes.draw do
   # get 'tamu_users/index'
 
   get 'welcome/index'
-  get 'welcome/login'
-  get 'welcome/signup'
+  #get 'welcome/login'
+  #get 'welcome/signup'
 
   # get 'tamu_users/my_page'
   #get 'tamu_users/my_page/projects'
