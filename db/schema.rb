@@ -19,9 +19,9 @@ ActiveRecord::Schema.define(version: 20160407022454) do
     t.string   "phone_number"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.boolean  "approved",     default: false
     t.string   "provider"
     t.string   "uid"
-    t.boolean  "approved",     default: false
   end
 
   create_table "projects", force: :cascade do |t|
