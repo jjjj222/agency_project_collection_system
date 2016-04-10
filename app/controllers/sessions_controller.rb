@@ -3,10 +3,8 @@ class SessionsController < ApplicationController
   #end
 
   def create
-    #begin
-      #user_type = params[:user_type]
+    begin
       auth_hash = request.env['omniauth.auth']
-      #auth["provider"]
 
       #user_type = "Agency"
       user_type = get_user_type_by_provider(auth_hash["provider"])
@@ -27,11 +25,10 @@ class SessionsController < ApplicationController
         flash.now[:notice] = 'Invalid email/password combination'
         render 'new'
       end
-    #rescue
-    #  flash[:warning] = "There was an error while trying to authenticate you..."
-    #  render 'new'
-    #  #redirect_to root_path
-    #end
+    rescue
+      flash[:warning] = "There was an error while trying to authenticate you..."
+      render 'new'
+    end
   end
 
   def destroy
