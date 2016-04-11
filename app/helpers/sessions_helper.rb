@@ -1,7 +1,7 @@
 module SessionsHelper
-  def log_in(user, type)
+  def log_in(user, type = user.class.name)
     session[:user_id] = user.id
-    session[:user_type] = type
+    session[:user_type] = type.camelize
   end
 
   def current_user
