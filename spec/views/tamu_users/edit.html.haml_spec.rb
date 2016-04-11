@@ -10,15 +10,15 @@ describe 'tamu_users/edit.html.haml' do
         end
         
         it 'displays a text field for name' do
-            rendered.should have_selector('form#edit_user_form') do |form|
-              form.should have_selector('textarea',
+            expect(rendered).to have_selector('form#edit_user_form') do |form|
+              expect(form).to have_selector('textarea',
                                         :name => 'tamu_user[name]')
             end
         end
         
         it 'displays a text field for email' do
-            rendered.should have_selector('form#edit_user_form') do |form|
-              form.should have_selector('textarea',
+            expect(rendered).to have_selector('form#edit_user_form') do |form|
+              expect(form).to have_selector('textarea',
                                         :name => 'tamu_user[email]')
             end
         end

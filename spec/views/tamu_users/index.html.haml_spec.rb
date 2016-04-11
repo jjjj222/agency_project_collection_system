@@ -12,11 +12,11 @@ RSpec.describe "tamu_users/index.html.haml", type: :view do
         
     render
 
-    rendered.should include('John Smith')
+    expect(rendered).to include('John Smith')
     # rendered.should include('student')
     # rendered.should include('test@tamu.edu')
     
-    rendered.should include('Name Two')
+    expect(rendered).to include('Name Two')
     # rendered.should include('professor')
     # rendered.should include('email2@tamu.edu')
   end

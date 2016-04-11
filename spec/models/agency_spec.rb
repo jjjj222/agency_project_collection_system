@@ -24,6 +24,6 @@ RSpec.describe Agency, type: :model do
   
   it "has many projects" do
     relation = Agency.reflect_on_association(:projects)
-    relation.macro.should == :has_many
+    expect(relation.macro).to eq(:has_many)
   end
 end
