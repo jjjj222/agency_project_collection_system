@@ -52,7 +52,7 @@ class ProjectsController < ApplicationController
             redirect_to project_path
         else
           if @project.errors.any?
-            flash[:notice] = @project.errors.full_messages.join(". ")
+            flash[:notice] = @project.errors.full_messages.join("<br>")
           else
             flash[:notice] = "Failed"
           end

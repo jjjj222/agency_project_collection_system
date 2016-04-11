@@ -25,8 +25,10 @@ describe 'projects/edit.html.haml' do
             expect(rendered).to have_field("Tags", with: @project.tags.join(", "))
         end
         
-        it 'has a field for status' do
-            expect(rendered).to have_field("Status", with: @project.status)
+        it 'has a drop-down for status' do
+            expect(rendered).to have_select("Status",
+                                            selected: @project.status.capitalize,
+                                            options: Project.all_statuses.map(&:capitalize))
         end
     end
 end

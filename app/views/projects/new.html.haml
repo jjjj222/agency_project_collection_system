@@ -3,10 +3,10 @@
 = form_tag projects_path,id: 'new_project_form' do
 
   = label :project, :name, 'Name'
-  = text_field :project, 'name'
+  = text_field :project, 'name', required: true
 
   = label :project, :description, 'Description'
-  = text_field :project, 'description'
+  = text_field :project, 'description', placeholder: "Enter project description"
 
   = label :project, :tags, 'Tags'
   = text_field :project, 'tags'
