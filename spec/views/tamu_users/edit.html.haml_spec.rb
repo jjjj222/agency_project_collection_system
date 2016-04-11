@@ -8,19 +8,17 @@ describe 'tamu_users/edit.html.haml' do
             assign :tamu_user, @tamu_user
             render
         end
-        
-        it 'displays a text field for name' do
-            rendered.should have_selector('form#edit_user_form') do |form|
-              form.should have_selector('textarea',
-                                        :name => 'tamu_user[name]')
-            end
+
+        it 'has a form for editing the user' do
+            expect(rendered).to have_selector('form#edit_user_form')
         end
-        
+
+        it 'displays a text field for name' do
+            expect(rendered).to have_field("Name", with: @tamu_user.name)
+        end
+
         it 'displays a text field for email' do
-            rendered.should have_selector('form#edit_user_form') do |form|
-              form.should have_selector('textarea',
-                                        :name => 'tamu_user[email]')
-            end
+            expect(rendered).to have_field("Email", with: @tamu_user.email)
         end
     end
 end

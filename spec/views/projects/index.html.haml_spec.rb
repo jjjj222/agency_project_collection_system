@@ -15,13 +15,13 @@ RSpec.describe "projects/index.html.haml", type: :view do
         
     render
 
-    rendered.should include('Test Project')
-    rendered.should include('This is the test project description')
-    rendered.should include('open')
+    expect(rendered).to include('Test Project')
+    expect(rendered).to include('This is the test project description')
+    expect(rendered).to include('open')
     
-    rendered.should include('Project Two')
-    rendered.should include('Yet another description')
-    rendered.should include('completed')
+    expect(rendered).to include('Project Two')
+    expect(rendered).to include('Yet another description')
+    expect(rendered).to include('completed')
   end
   
     it 'displays unapprove button for projects' do
@@ -32,7 +32,7 @@ RSpec.describe "projects/index.html.haml", type: :view do
         
     render
 
-    rendered.should include('Unapprove')
+    expect(rendered).to include('Unapprove')
   end
  
 end

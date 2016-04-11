@@ -6,9 +6,9 @@ describe 'projects/show.html.haml' do
 
     render
 
-    rendered.should include('Test Project')
-    rendered.should include('This is the test project description')
-    rendered.should include('open')
+    expect(rendered).to include('Test Project')
+    expect(rendered).to include('This is the test project description')
+    expect(rendered).to include('open')
   end
   
   it 'displays a button to unapprove if project is approved' do
@@ -16,7 +16,7 @@ describe 'projects/show.html.haml' do
 
     render
 
-    rendered.should include('Unapprove')
+    expect(rendered).to include('Unapprove')
   end
   
   it 'displays a button to approve if project is unapproved' do
@@ -24,7 +24,7 @@ describe 'projects/show.html.haml' do
 
     render
 
-    rendered.should include('Approve')
+    expect(rendered).to include('Approve')
   end
   
 end
