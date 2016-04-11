@@ -25,12 +25,12 @@ RSpec.describe TamuUser, type: :model do
   
   it "has and belongs to many projects" do
     relation = TamuUser.reflect_on_association(:projects)
-    relation.macro.should == :has_and_belongs_to_many
+    expect(relation.macro).to eq(:has_and_belongs_to_many)
   end
 
   it "should be either a student or a professor" do
     user = FactoryGirl.build(:tamu_user, :default)
-    user.should satisfy { |u| u.is_student? ^ u.is_professor? }
+    expect(user).to satisfy { |u| u.is_student? ^ u.is_professor? }
   end
   
   it "should fail to validate a bad role" do
