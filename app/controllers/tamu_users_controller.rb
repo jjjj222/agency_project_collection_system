@@ -45,7 +45,7 @@ class TamuUsersController < ApplicationController
             # redirect_to :action => 'edit', id: @tamu_user.id
         else
           if @tamu_user.errors.any?
-            flash[:notice] = @tamu_user.errors.full_messages.join(". ")
+            flash[:notice] = @tamu_user.errors.full_messages.join("<br>")
           else
             flash[:notice] = "Failed"
           end
