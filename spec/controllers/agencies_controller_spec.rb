@@ -53,7 +53,7 @@ RSpec.describe AgenciesController, type: :controller do
 
       it "located the requested @agency" do
         post :approve, id: @agency, agency: FactoryGirl.attributes_for(:agency, :default, :unapproved)
-        expect(assigns(:agency)).to eq(@agency)      
+        expect(assigns(:agency)).to eq(@agency)
       end
 
       it "changes @agency's approved field" do
@@ -81,7 +81,7 @@ RSpec.describe AgenciesController, type: :controller do
 
       it "located the requested @agency" do
         post :unapprove, id: @agency, agency: FactoryGirl.attributes_for(:agency, :default, :approved)
-        expect(assigns(:agency)).to eq(@agency)      
+        expect(assigns(:agency)).to eq(@agency)
       end
 
       it "changes @agency's approved field" do

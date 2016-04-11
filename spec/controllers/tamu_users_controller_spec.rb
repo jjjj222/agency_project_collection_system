@@ -93,7 +93,7 @@ RSpec.describe TamuUsersController, type: :controller do
       context "invalid attributes" do
         it "locates the requested @tamu_user" do
           put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :invalid)
-          expect(assigns(:tamu_user)).to eq(@tamu_user)      
+          expect(assigns(:tamu_user)).to eq(@tamu_user)
         end
     
         it "does not change @tamu_user's attributes" do

@@ -107,7 +107,7 @@ RSpec.describe ProjectsController, type: :controller do
       context "valid attributes" do
         it "located the requested @project" do
           put :update, id: @project, project: FactoryGirl.attributes_for(:project, :default)
-          expect(assigns(:project)).to eq(@project)      
+          expect(assigns(:project)).to eq(@project)
         end
   
         context  "everything goes well" do
@@ -150,7 +150,7 @@ RSpec.describe ProjectsController, type: :controller do
       context "invalid attributes" do
         it "locates the requested @project" do
           put :update, id: @project, project: FactoryGirl.attributes_for(:project, :invalid)
-          expect(assigns(:project)).to eq(@project)      
+          expect(assigns(:project)).to eq(@project)
         end
     
         it "does not change @project's attributes" do
@@ -176,7 +176,7 @@ RSpec.describe ProjectsController, type: :controller do
 
       it "located the requested @project" do
         post :approve, id: @project, project: FactoryGirl.attributes_for(:project, :default, :unapproved)
-        expect(assigns(:project)).to eq(@project)      
+        expect(assigns(:project)).to eq(@project)
       end
 
       it "changes @project's approved field" do
@@ -204,7 +204,7 @@ RSpec.describe ProjectsController, type: :controller do
 
       it "located the requested @project" do
         post :unapprove, id: @project, project: FactoryGirl.attributes_for(:project, :default, :approved)
-        expect(assigns(:project)).to eq(@project)      
+        expect(assigns(:project)).to eq(@project)
       end
 
       it "changes @project's approved field" do
@@ -226,7 +226,7 @@ RSpec.describe ProjectsController, type: :controller do
       
       it "deletes the project" do
         expect{
-          delete :destroy, id: @project        
+          delete :destroy, id: @project
         }.to change(Project,:count).by(-1)
       end
         
