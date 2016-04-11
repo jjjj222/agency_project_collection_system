@@ -33,7 +33,7 @@ RSpec.describe ProjectsController, type: :controller do
     end
     
     describe "GET #show" do
-        it "assigns the requested tamu user to @tamu_user" do
+        it "assigns the requested project to @project" do
             project = FactoryGirl.create(:project, :default)
             get :show, id: project
             expect(assigns(:project)).to eq(project)
@@ -43,6 +43,32 @@ RSpec.describe ProjectsController, type: :controller do
         it "it renders the :show view" do
             get :show, id: FactoryGirl.create(:project, :default)
             expect(response).to render_template :show
+        end
+    end
+    describe "GET #edit" do
+        it "assigns the requested project to @project" do
+            project = FactoryGirl.create(:project, :default)
+            get :edit, id: project
+            expect(assigns(:project)).to eq(project)
+        end
+
+
+        it "it renders the :edit view" do
+            get :edit, id: FactoryGirl.create(:project, :default)
+            expect(response).to render_template :edit
+        end
+    end
+
+    describe "GET #new" do
+        it "makes a new project" do
+            get :new
+            expect(assigns(:project)).to be_a_new(Project)
+        end
+
+
+        it "it renders the :new view" do
+            get :new
+            expect(response).to render_template :new
         end
     end
     

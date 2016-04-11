@@ -32,6 +32,18 @@ RSpec.describe TamuUsersController, type: :controller do
             expect(response).to render_template :show
         end
     end
+    describe "GET #edit" do
+        it "assigns the requested tamu user to @tamu_user" do
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+            get :edit, id: tamu_user
+            expect(assigns(:tamu_user)).to eq(tamu_user)
+        end
+        it "it renders the :edit view" do
+            get :edit, id: FactoryGirl.create(:tamu_user, :default)
+            expect(response).to render_template :edit
+        end
+    end
+
     describe 'PUT update' do
       before :each do
         @tamu_user = FactoryGirl.create(:tamu_user, :default)
