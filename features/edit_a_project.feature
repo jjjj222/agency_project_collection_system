@@ -9,12 +9,7 @@ Feature: Edit a project
     And I go to the edit project page for the current project
 
 Scenario:
-  When  I fill in the "project_status" field with "bad_status"
-  And  I press "submit_project_form"
-  Then I should see a notice about invalid status
-
-Scenario:
-  When  I fill in the "project_status" field with "open"
+  When  I select "Open" for project status
   And  I press "submit_project_form"
   Then I should see a notice telling me it was sucessful
   And the status should be "open"
