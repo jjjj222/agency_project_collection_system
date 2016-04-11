@@ -38,22 +38,42 @@ RSpec.describe TamuUsersController, type: :controller do
       end
   
       context "valid attributes" do
-        it "located the requested @tamu_user" do
-          put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default)
-          expect(assigns(:tamu_user)).to eq(@tamu_user)      
+        context "everything goes well" do
+          it "located the requested @tamu_user" do
+            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default)
+            expect(assigns(:tamu_user)).to eq(@tamu_user)
+          end
+
+          it "changes @tamu_user's attributes, but not role" do
+            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :updated)
+            @tamu_user.reload
+            expect(@tamu_user.name).to eq("Updated Smith")
+            expect(@tamu_user.role).to eq("student")
+            expect(@tamu_user.email).to eq("new_prof@tamu.edu")
+          end
+
+          it "redirects to the updated tamu_user" do
+            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default)
+            expect(response).to redirect_to @tamu_user
+          end
         end
-  
-        it "changes @tamu_user's attributes, but not role" do
-          put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :updated)
-          @tamu_user.reload
-          expect(@tamu_user.name).to eq("Updated Smith")
-          expect(@tamu_user.role).to eq("student")
-          expect(@tamu_user.email).to eq("new_prof@tamu.edu")
-        end
-  
-        it "redirects to the updated tamu_user" do
-          put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default)
-          expect(response).to redirect_to @tamu_user
+        context "update fails" do
+          before :each do
+            expect_any_instance_of(TamuUser).to receive(:update_attributes).and_return(nil)
+          end
+
+          it "does not change @tamu_user's attributes" do
+            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :invalid)
+            @tamu_user.reload
+            expect(@tamu_user.name).to eq("John Smith")
+            expect(@tamu_user.role).to eq("student")
+            expect(@tamu_user.email).to eq("test@tamu.edu")
+          end
+
+          it "re-renders the edit method" do
+            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :invalid)
+            expect(response).to render_template :edit
+          end
         end
         
       end

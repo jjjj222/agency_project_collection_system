@@ -84,20 +84,41 @@ RSpec.describe ProjectsController, type: :controller do
           expect(assigns(:project)).to eq(@project)      
         end
   
-        it "changes @project's attributes" do
-          put :update, id: @project, project: FactoryGirl.attributes_for(:project, :updated)
-          @project.reload
-          expect(@project.name).to eq("Test Project updated")
-          expect(@project.description).to eq("This is the test project description updated")
-          expect(@project.status).to eq("completed")
-          expect(@project.tags).to eq(["updated"])
+        context  "everything goes well" do
+          it "changes @project's attributes" do
+            put :update, id: @project, project: FactoryGirl.attributes_for(:project, :updated)
+            @project.reload
+            expect(@project.name).to eq("Test Project updated")
+            expect(@project.description).to eq("This is the test project description updated")
+            expect(@project.status).to eq("completed")
+            expect(@project.tags).to eq(["updated"])
+          end
+
+          it "redirects to the updated project" do
+            put :update, id: @project, project: FactoryGirl.attributes_for(:project, :default)
+            expect(response).to redirect_to @project
+          end
         end
-  
-        it "redirects to the updated project" do
-          put :update, id: @project, project: FactoryGirl.attributes_for(:project, :default)
-          expect(response).to redirect_to @project
+        context  "update fails" do
+          before :each do
+            expect_any_instance_of(Project).to receive(:update_attributes).and_return(nil)
+          end
+
+          it "does not change @project's attributes" do
+            put :update, id: @project, project: FactoryGirl.attributes_for(:project, :invalid)
+            @project.reload
+            expect(@project.name).to eq("Test Project")
+            expect(@project.description).to eq("This is the test project description")
+            expect(@project.status).to eq("open")
+            expect(@project.tags).to eq([""])
+          end
+          it "re-renders the edit method" do
+            put :update, id: @project, project: FactoryGirl.attributes_for(:project, :invalid)
+            expect(response).to render_template :edit
+          end
+
         end
-        
+
       end
   
       context "invalid attributes" do
