@@ -6,6 +6,6 @@
   = text_field :tamu_user, 'name', required: true
 
   = label :tamu_user, :email, 'Email'
-  = text_field :tamu_user, 'email'
+  = text_field :tamu_user, 'email', type: "email", required: true
 
   = submit_tag 'Save Changes', id: 'submit_user_form'
