@@ -15,7 +15,8 @@ example_projects = [
 example_users = [
   { name: "John Tamu", email: "john@tamu.edu", role: "student", admin: false},
   { name: "Hank Tamu", email: "hank@tamu.edu", role: "professor", admin: false},
-  { name: "Malini Malini", email: "malini@tamu.edu", role: "professor", admin: true}
+  { name: "Malini Malini", email: "malini@tamu.edu", role: "professor", admin: true},
+  { name: "Brennen Taylor", email: "brtaylor1001@gmail.com", role: "student", admin: true},
 ]
 
 example_agencies = [
