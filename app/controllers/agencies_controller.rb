@@ -1,5 +1,7 @@
 class AgenciesController < ApplicationController
     
+    before_action :admin_only, :only=>[:unapproved_index, :unapprove, :approve]
+    
     def index
         @agencies = Agency.where(approved: true)
     end
@@ -68,6 +70,12 @@ class AgenciesController < ApplicationController
         # end
     #end
     
-    
+    private
+
+    def admin_only
+      unless current_user.admin?
+        redirect_to root_path, :alert => "Access denied."
+      end
+    end
     
 end

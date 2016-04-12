@@ -1,5 +1,7 @@
 class ProjectsController < ApplicationController    
     
+    before_action :admin_only, :only=>[:unapproved_index, :unapprove, :approve]
+    
     def project_params
         params[:project][:tags] = params[:project][:tags].split(/[\s,]+/)
         params.require(:project).permit(:name, :description, :status, :approved, 'tags': [])
@@ -81,6 +83,14 @@ class ProjectsController < ApplicationController
         @project.save
         flash[:notice] = "Project '#{@project.name}' unapproved."
         redirect_to projects_path
+    end
+    
+    private
+
+    def admin_only
+      unless current_user.admin?
+        redirect_to root_path, :alert => "Access denied."
+      end
     end
 end
 
