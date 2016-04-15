@@ -6,10 +6,10 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 example_projects = [
-  { name: "Test Project", description: "A completed test project", status: "completed", approved: true},
-  { name: "Test Project 2", description: "BCD", status: "completed", approved: true},
-  { name: "Test Project 3", description: "BCD", status: "open", approved: false},
-  { name: "Test Project 4", description: "BCD", status: "in progress", approved: false}
+  { name: "Test Project", description: "A completed test project", status: "completed", approved: true, agency_id: "1"},
+  { name: "Test Project 2", description: "BCD", status: "completed", approved: true, agency_id: "2"},
+  { name: "Test Project 3", description: "BCD", status: "open", approved: false, agency_id: "2"},
+  { name: "Test Project 4", description: "BCD", status: "in progress", approved: false, agency_id: "3"}
 ]
 
 example_users = [
@@ -20,9 +20,9 @@ example_users = [
 ]
 
 example_agencies = [
-  { name: "Some nonprofit", email: "noprofit@gmail.com", phone_number: "979-867-5309", approved: true, provider: "fake", uid: "0" },
-  { name: "Another nonprofit", email: "noprofit2@gmail.com", phone_number: "979-555-5555", approved: false, provider: "fake", uid: "1"},
-  { name: "Test agency", email: "test@test.com", phone_number: "979-555-5555", provider: "test", uid: "0"}
+  { name: "Some nonprofit", email: "noprofit@gmail.com", phone_number: "979-867-5309", approved: true, provider: "fake", uid: "1" },
+  { name: "Another nonprofit", email: "noprofit2@gmail.com", phone_number: "979-555-5555", approved: false, provider: "fake", uid: "2"},
+  { name: "Test agency", email: "test@test.com", phone_number: "979-555-5555", provider: "test", uid: "3"}
 ]
 
 

@@ -18,7 +18,7 @@
       %tr{:height => "10px"}
         %td= link_to project.name, project_path(project)
         %td= project.created_at.to_date
-        %td= project.agency
+        %td= link_to project.agency.name, agency_path(project.agency)
 -##footer
 -#%hr
 -#%br

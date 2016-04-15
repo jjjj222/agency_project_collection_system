@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController    
     
     before_action :admin_only, :only=>[:unapproved_index, :unapprove, :approve]
+    before_action :agency_only, :only=>[:new, :create, :edit, :update, :destroy]
     
     def project_params
         params[:project][:tags] = params[:project][:tags].split(/[\s,]+/)
@@ -25,7 +26,7 @@ class ProjectsController < ApplicationController
     end
    
     def create
-        @project = Project.new(project_params)
+        @project = current_user.projects.build(project_params)
         
         if @project.save
             flash[:notice] = "#{@project.name} was successfully created."
@@ -88,8 +89,14 @@ class ProjectsController < ApplicationController
     private
 
     def admin_only
-      unless current_user.admin?
+      unless current_user.class.name == "TamuUser" and current_user.admin?
         redirect_to root_path, :alert => "Access denied."
+      end
+    end
+    
+    def agency_only
+      unless current_user.class.name == "Agency"
+        redirect_to root_path :alert => "Access Denied"
       end
     end
 end

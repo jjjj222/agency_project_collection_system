@@ -73,7 +73,7 @@ class AgenciesController < ApplicationController
     private
 
     def admin_only
-      unless current_user.admin?
+      unless current_user.class.name == "TamuUser" and current_user.admin?
         redirect_to root_path, :alert => "Access denied."
       end
     end

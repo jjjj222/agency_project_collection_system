@@ -21,7 +21,8 @@
             %td= project.tags.join ", "
 
 = link_to 'Edit', edit_agency_path(@agency.id)
-- if !@agency.approved  
-    = button_to 'Approve Agency', approve_agency_path(@agency)
-- else
-    = button_to 'Unapprove Agency', unapprove_agency_path(@agency)
+- if @current_user.class.name == "TamuUser" and @current_user.admin?
+    - if !@agency.approved  
+        = button_to 'Approve Agency', approve_agency_path(@agency)
+    - else
+        = button_to 'Unapprove Agency', unapprove_agency_path(@agency)
