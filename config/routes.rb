@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
-  get 'sessions/new'
+  #get 'sessions/new'
 
   get       'login'     => 'sessions#new'
-  post      'login'     => 'sessions#create'
+  post      'login'     => 'sessions#tamu_create'
   get       'logout'    => 'sessions#destroy'
+
+  get '/auth/:provider/callback', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
 
   #resource :mypage
   get       'mypage'    => 'mypage#index'
@@ -11,8 +14,8 @@ Rails.application.routes.draw do
   # get 'tamu_users/index'
 
   get 'welcome/index'
-  get 'welcome/login'
-  get 'welcome/signup'
+  #get 'welcome/login'
+  #get 'welcome/signup'
 
   # get 'tamu_users/my_page'
   #get 'tamu_users/my_page/projects'

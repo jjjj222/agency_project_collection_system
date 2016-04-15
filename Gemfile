@@ -30,6 +30,9 @@ gem 'rack-cas', require: false
 # Gem for validating email
 gem 'validates_email_format_of'
 
+# for google login
+gem "omniauth-google-oauth2"
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

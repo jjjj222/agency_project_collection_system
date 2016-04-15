@@ -5,16 +5,16 @@
 = form_tag project_path(@project), id: 'edit_project_form', :method => :put do
 
   = label :project, :name, 'Name'
-  = text_field :project, 'name'
+  = text_field :project, 'name', required: true
 
-  = label :projects, :description, 'Description'
-  = text_field :project, 'description'
+  = label :project, :description, 'Description'
+  = text_field :project, 'description', placeholder: "Enter project description"
 
-  = label :projects, :tags, 'Tags'
+  = label :project, :tags, 'Tags'
   = text_field :project, 'tags'
 
-  = label :projects, :status, 'Status'
-  = text_field :project, 'status'
+  = label :project, :status, 'Status'
+  = select :project, :status, Project.all_statuses.map { |k| [k.capitalize,k] }
 
   = submit_tag 'Save Changes', id: 'submit_project_form' 
 

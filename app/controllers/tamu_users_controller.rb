@@ -4,6 +4,11 @@ class TamuUsersController < ApplicationController
     end
 
     def index
+        if !logged_in?
+          flash[:notice] = 'Please log in'
+          redirect_to login_path
+        end
+
         @tamu_users = TamuUser.all
     end
     
@@ -40,7 +45,7 @@ class TamuUsersController < ApplicationController
             # redirect_to :action => 'edit', id: @tamu_user.id
         else
           if @tamu_user.errors.any?
-            flash[:notice] = @tamu_user.errors.full_messages.join(". ")
+            flash[:notice] = @tamu_user.errors.full_messages.join("<br>")
           else
             flash[:notice] = "Failed"
           end

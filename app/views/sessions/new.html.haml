@@ -1,16 +1,30 @@
 -#<% provide(:title, "Log in") %>
 %h1 Log in
 
+= link_to 'Log in as Agency', '/auth/google_oauth2'
+
+%br
+-#Login as TAMU User
+
 = form_tag login_path, :method => :post do
 
   = label :session, :email, 'Email'
   = text_field :session, 'email'
 
-  = select_tag :user_type, options_for_select([['Agency', 'Agency'], ['TAMU user', 'TamuUser']], params[:user_type])
+  -#= select_tag :user_type, options_for_select([['Agency', 'Agency'], ['TAMU user', 'TamuUser']], params[:user_type])
   -#= label :session, :password, 'Password'
   -#= text_field :session, 'password'
 
-  = submit_tag 'Log in'
+  = submit_tag 'Log in as TAMU User'
+
+  %br
+  john@tamu.edu
+  %br
+  hank@tamu.edu
+  %br
+  malini@tamu.edu
+
+
 
   -#= label :projects, :description, 'Description'
   -#= text_field :project, 'description'

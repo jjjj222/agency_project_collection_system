@@ -6,6 +6,11 @@ class ProjectsController < ApplicationController
     end
     
     def index
+        if !logged_in?
+          flash[:notice] = 'Please log in'
+          redirect_to login_path
+        end
+
         @projects = Project.where(approved: true)
     end
     
@@ -47,7 +52,7 @@ class ProjectsController < ApplicationController
             redirect_to project_path
         else
           if @project.errors.any?
-            flash[:notice] = @project.errors.full_messages.join(". ")
+            flash[:notice] = @project.errors.full_messages.join("<br>")
           else
             flash[:notice] = "Failed"
           end

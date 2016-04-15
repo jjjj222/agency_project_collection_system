@@ -24,11 +24,11 @@ RSpec.describe Project, type: :model do
   # Test associations
   it "project belogs to an agency" do
     relation = Project.reflect_on_association(:agency)
-    relation.macro.should == :belongs_to
+    expect(relation.macro).to eq(:belongs_to)
   end
   
   it "has and belongs to many users" do
     relation = Project.reflect_on_association(:tamu_user)
-    relation.macro.should == :has_and_belongs_to_many
+    expect(relation.macro).to eq(:has_and_belongs_to_many)
   end
 end

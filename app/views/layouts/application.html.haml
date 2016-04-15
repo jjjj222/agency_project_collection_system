@@ -1,3 +1,4 @@
+!!! 5
 %html
   %head
     %title TAMU Non-Profit Projects Collect System
@@ -6,47 +7,35 @@
     = csrf_meta_tags
 
   %body
-    #head.header_grid
-      #logo.headerlogo
-        =image_tag "csen-logo.png"
-      #content.headerContent
-        %h2.title TAMU Non-Profit Project Collection Systems
-    #header-link
-      = link_to 'Home', root_path
+    %h1.title TAMU Non-Profit Projects Collect System
+    = link_to 'Home', root_path
+    |
+    -#= link_to 'Login', welcome_login_path
+    - if logged_in?
+      = link_to "Log out", logout_path
+    - else
+      = link_to 'Login', login_path
+    |
+    -#= link_to "My page", tamu_user_path(1)
+    = link_to "My page", mypage_path
+    |
+    = link_to 'All TAMU users', tamu_users_path
+    |
+    = link_to 'All Agencies', agencies_path
+    |
+    = link_to 'All Projects', projects_path
+    - if logged_in?
       |
-      -#= link_to 'Login', welcome_login_path
-      - if logged_in?
-        = link_to "Log out", logout_path
-      - else
-        = link_to 'Login', login_path
-      |
-      = link_to 'Sign up', welcome_signup_path
-      |
-      -#= link_to "My page", tamu_user_path(1)
-      = link_to "My page",  mypage_path, :id=>"mypage"
-      - if logged_in?
-        logged in as "#{@current_user.name}" (#{@current_user.class.to_s} #{@current_user.id})
-      |
-      = link_to 'All projects', projects_path
-      |
-      = link_to 'All TAMU users', tamu_users_path
-      |
-      = link_to 'All Agencies', agencies_path
-      / |
-      / %button{:class=>"search", :type => "button"} Search
-      / %input{:class=>"search", :size => "15", :maxlength => "100", :name => "search_index", :type => "text", :value => ""}/
+      logged in as "#{current_user.name}" (#{@current_user.class.to_s} #{@current_user.id})
 
+    #main
+      - if flash[:notice]
+        #notice.message!= flash[:notice]
+      - elsif flash[:warning]
+        #warning.message!= flash[:warning]
 
-  
-    - if flash[:notice]
-      #notice.message= flash[:notice]
-    - elsif flash[:warning]
-      #warning.message= flash[:warning]
-    = yield
+      = yield
 
     -#= debug(params) if Rails.env.development?
     -#%br
     -#= debug(session) if Rails.env.development?
-  
-    -#%div{:id=>"side-bar"}
-    -#= link_to 'Home'

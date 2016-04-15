@@ -6,10 +6,10 @@ describe 'tamu_users/show.html.haml' do
 
     render
 
-    rendered.should include('John Smith')
-    rendered.should include('test@tamu.edu')
-    rendered.should include('Student')
-    rendered.should include("<p id='admin'>true</p>")
+    expect(rendered).to include('John Smith')
+    expect(rendered).to include('test@tamu.edu')
+    expect(rendered).to include('Student')
+    expect(rendered).to include("<p id='admin'>true</p>")
   end
   
   it 'displays a users projects correctly' do
@@ -19,8 +19,8 @@ describe 'tamu_users/show.html.haml' do
 
     render
 
-    rendered.should include('Test Project')
-    rendered.should include('This is the test project description')
-    rendered.should include('open')
+    expect(rendered).to include('Test Project')
+    expect(rendered).to include('This is the test project description')
+    expect(rendered).to include('open')
   end
 end

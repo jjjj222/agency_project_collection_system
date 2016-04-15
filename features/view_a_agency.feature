@@ -6,10 +6,11 @@ Feature: View an agency
 
   Background:
     Given there is a current agency
+    Given I am logged in as a TAMU User
 
-Scenario:
-  When I go to the agencies page
-  And I click "Test nonprofit"
-  Then the name should be "Test nonprofit"
-  And the email should be "test@testing.org"
-  And the phone number should be "123-456-7890"
+#Scenario:
+#  When I go to the agencies page
+#  And I click "Test nonprofit"
+#  Then the name should be "Test nonprofit"
+#  And the email should be "test@testing.org"
+#  And the phone number should be "123-456-7890"

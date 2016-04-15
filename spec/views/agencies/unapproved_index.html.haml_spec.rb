@@ -15,11 +15,11 @@ RSpec.describe "agencies/unapproved_index.html.haml", type: :view do
         
     render
 
-    rendered.should include('Test Agency')
+    expect(rendered).to include('Test Agency')
     # rendered.should include('agency@nonprofit.org')
     # rendered.should include('800-700-6000')
     
-    rendered.should include('Agency Two')
+    expect(rendered).to include('Agency Two')
     # rendered.should include('another@email.com')
     # rendered.should include('817-555-5555')
   end
@@ -32,7 +32,7 @@ RSpec.describe "agencies/unapproved_index.html.haml", type: :view do
         
     render
 
-    rendered.should include('Approve')
+    expect(rendered).to include('Approve')
   end
  
 end
