@@ -5,12 +5,15 @@ RSpec.describe AgenciesController, type: :controller do
     describe "GET #index" do
         it "populates an array of agencies" do
             agency = FactoryGirl.create(:agency, :default, :approved)
+            controller.log_in(agency)
+            
             get :index
             expect(assigns(:agencies)).to eq([agency])
         end
         
         it "renders the :index view" do
             tamu_user = FactoryGirl.create(:tamu_user, :default)
+            controller.log_in(tamu_user)
             session[:user_id] = tamu_user.id
             session[:user_type] = "TamuUser"
 
@@ -21,12 +24,16 @@ RSpec.describe AgenciesController, type: :controller do
     
     describe "GET #unapproved index" do
         it "populates an array of agencies" do
+            admin = FactoryGirl.create(:tamu_user, :default, :admin)
+            controller.log_in(admin)
             agency = FactoryGirl.create(:agency, :default, :unapproved)
             get :unapproved_index
             expect(assigns(:agencies)).to eq([agency])
         end
         
         it "renders the :index view" do
+            admin = FactoryGirl.create(:tamu_user, :default, :admin)
+            controller.log_in(admin)
             get :unapproved_index
             expect(response).to render_template :unapproved_index
         end
@@ -35,13 +42,16 @@ RSpec.describe AgenciesController, type: :controller do
     describe "GET #show" do
         it "assigns the requested agency to @agency" do
             agency = FactoryGirl.create(:agency, :default)
+            controller.log_in(agency)
             get :show, id: agency
             expect(assigns(:agency)).to eq(agency)
         end
         
         
         it "it renders the :show view" do
-            get :show, id: FactoryGirl.create(:agency, :default)
+            agency = FactoryGirl.create(:agency, :default)
+            controller.log_in(agency)
+            get :show, id: agency.id
             expect(response).to render_template :show
         end
     end
@@ -49,6 +59,8 @@ RSpec.describe AgenciesController, type: :controller do
     describe 'POST approve' do
       before :each do
         @agency = FactoryGirl.create(:agency, :default, :unapproved)
+        @admin = FactoryGirl.create(:tamu_user, :default, :admin)
+        controller.log_in(@admin)
       end
 
       it "located the requested @agency" do
@@ -77,6 +89,8 @@ RSpec.describe AgenciesController, type: :controller do
     describe 'POST unapprove' do
       before :each do
         @agency = FactoryGirl.create(:agency, :default, :approved)
+        @admin = FactoryGirl.create(:tamu_user, :default, :admin)
+        controller.log_in(@admin)
       end
 
       it "located the requested @agency" do

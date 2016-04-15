@@ -15,7 +15,7 @@
 = link_to 'Edit', edit_project_path(@project)
 // = button_to( "Approve Project", :action => :approve, :controller => "project")
 - if @current_user.class.name == "TamuUser" and @current_user.admin?
-    - if !@project.approved  
+    - if !@project.approved
         = button_to 'Approve Project', approve_project_path(@project)
     - else
         = button_to 'Unapprove Project', unapprove_project_path(@project)

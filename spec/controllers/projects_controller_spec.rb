@@ -1,8 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
-    
     describe "GET #index" do
+      
+        before :each do
+          @agency = FactoryGirl.create(:agency, :default, :approved)
+          controller.log_in(@agency)
+        end
+      
         it "populates an array of projects" do
             project = FactoryGirl.create(:project, :default, :approved)
             get :index
@@ -20,6 +25,12 @@ RSpec.describe ProjectsController, type: :controller do
     end
     
     describe "GET #unapproved index" do
+        
+        before :each do
+          @admin = FactoryGirl.create(:tamu_user, :default, :admin)
+          controller.log_in(@admin)
+        end
+      
         it "populates an array of projects" do
             project = FactoryGirl.create(:project, :default, :unapproved)
             get :unapproved_index
@@ -33,6 +44,12 @@ RSpec.describe ProjectsController, type: :controller do
     end
     
     describe "GET #show" do
+      
+        before :each do
+          @agency = FactoryGirl.create(:agency, :default, :approved)
+          controller.log_in(@agency)
+        end
+      
         it "assigns the requested project to @project" do
             project = FactoryGirl.create(:project, :default)
             get :show, id: project
@@ -45,7 +62,14 @@ RSpec.describe ProjectsController, type: :controller do
             expect(response).to render_template :show
         end
     end
+    
     describe "GET #edit" do
+      
+        before :each do
+          @agency = FactoryGirl.create(:agency, :default, :approved)
+          controller.log_in(@agency)
+        end
+      
         it "assigns the requested project to @project" do
             project = FactoryGirl.create(:project, :default)
             get :edit, id: project
@@ -60,6 +84,12 @@ RSpec.describe ProjectsController, type: :controller do
     end
 
     describe "GET #new" do
+      
+        before :each do
+          @agency = FactoryGirl.create(:agency, :default, :approved)
+          controller.log_in(@agency)
+        end
+      
         it "makes a new project" do
             get :new
             expect(assigns(:project)).to be_a_new(Project)
@@ -73,6 +103,12 @@ RSpec.describe ProjectsController, type: :controller do
     end
     
     describe "POST create" do
+      
+      before :each do
+          @agency = FactoryGirl.create(:agency, :default, :approved)
+          controller.log_in(@agency)
+      end
+      
       context "with valid attributes" do
         it "creates a new project" do
           expect{
@@ -101,6 +137,8 @@ RSpec.describe ProjectsController, type: :controller do
     
     describe 'PUT update' do
       before :each do
+        @agency = FactoryGirl.create(:agency, :default, :approved)
+        controller.log_in(@agency)
         @project = FactoryGirl.create(:project, :default)
       end
   
@@ -171,6 +209,8 @@ RSpec.describe ProjectsController, type: :controller do
     
     describe 'POST approve' do
       before :each do
+        @admin = FactoryGirl.create(:tamu_user, :default, :admin)
+        controller.log_in(@admin)
         @project = FactoryGirl.create(:project, :default, :unapproved)
       end
 
@@ -199,6 +239,8 @@ RSpec.describe ProjectsController, type: :controller do
     
     describe 'POST unapprove' do
       before :each do
+        @admin = FactoryGirl.create(:tamu_user, :default, :admin)
+        controller.log_in(@admin)
         @project = FactoryGirl.create(:project, :default, :approved)
       end
 
@@ -221,6 +263,8 @@ RSpec.describe ProjectsController, type: :controller do
     
     describe 'DELETE destroy' do
       before :each do
+        @agency = FactoryGirl.create(:agency, :default, :approved)
+        controller.log_in(@agency)
         @project = FactoryGirl.create(:project, :default)
       end
       
