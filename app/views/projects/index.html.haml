@@ -6,8 +6,7 @@
     #left{:float => "left", :width => "30%"}
         -#%p
         %input{:size => "15", :maxlength => "100", :name => "search_index", :type => "text", :value => ""}/
-        %br
-        %button{:type => "button"} Search
+        %button{:type => "button",:class=>"btn btn-primary"} Search
         -#%p
         -#= link_to "Create Project", new_project_path
         -#%br
@@ -18,6 +17,7 @@
         -#%p
         -#= link_to "My page", tamu_user_path(1)
         -#%br
+        %br
         %br
     #right
         %table{:border => 1, :width => "70%"}
@@ -36,7 +36,7 @@
                     %td= project.status
                     %td= project.tags.join ", "
                     %td= project.agency.try(:name) #TODO change to name when creation is figured out
-                    %td= button_to 'Unapprove Project', unapprove_project_path(project)
+                    %td= button_to 'Unapprove Project', unapprove_project_path(project),:class=>"btn btn-warning"
     #footer
 
 
