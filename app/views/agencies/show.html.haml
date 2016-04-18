@@ -20,7 +20,9 @@
             %td= project.status
             %td= project.tags.join ", "
 
-= link_to 'Edit', edit_agency_path(@agency.id)
+-if @current_user.id == @agency.id
+    = link_to 'Edit', edit_agency_path(@agency.id)
+
 - if @current_user.class.name == "TamuUser" and @current_user.admin?
     - if !@agency.approved  
         = button_to 'Approve Agency', approve_agency_path(@agency)

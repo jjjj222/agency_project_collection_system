@@ -6,8 +6,9 @@
 %h3 Email:
 %p#email=  @tamu_user.email
 
-%h3 Admin Status:
-%p#admin= @tamu_user.admin
+-if @current_user.class.name == "TamuUser" and @current_user.admin?
+    %h3 Admin Status:
+    %p#admin= @tamu_user.admin
 
 %table{:border => 1, :width => "70%"}
     %tr{:height => "10px"}
@@ -25,7 +26,8 @@
         %td= project.tags.join ", "
         %td= project.agency.try(:name) #TODO change to name when creation is figured out
 
-= link_to 'Edit', edit_tamu_user_path(@tamu_user.id)
+- if @current_user.id == @tamu_user.id
+    = link_to 'Edit', edit_tamu_user_path(@tamu_user.id)
 
 %br
 %img(src="https://dl.dropboxusercontent.com/u/41174619/se_project/my_page.png")
