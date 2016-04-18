@@ -13,56 +13,7 @@
  *= require_tree .
  *= require_self
  */
- 
- /*css layout*/
-.header_grid{
-	 display : block;
-	 width : 100%;
-	 overflow : auto;
-	 margin : 10px auto 0 auto;
-	 padding : 0;
-	 min-width: 800px;
-	 max-width: 1600px;
-}
-
-.headerLogo{
-	 float : left;
-	 clear : none;
-	 height : 60px;
-	 width : 200px;
-	 padding : 0;
-}
-.headerContent{
-	 float : right;
-	 clear : none;
-	 height : 60px;
-	 width : 350px;
-	 padding : 0;
-}
-
-.blended_grid{
-	 display : block;
-	 width : 100%;
-	 overflow : auto;
-	 margin : 30px auto 0 auto;
-	 min-width: 800px;
-	 max-width: 1600px;
-}
-
-.pageLeftMenu{
-	 float : left;
-	 clear : none;
-	 width : 20%;
-	 min-width: 160px;
-	 max-width: 320px;
-}
-
-.pageFooter{
-	 float : left;
-	 clear : none;
-	 width : 100%;
-}
- 
+  
 html, body {
   margin: 0;
   padding: 0;
@@ -71,12 +22,20 @@ html, body {
   font-family: Tahoma, Verdana, sans-serif;
   font-size: 10pt;
 }
+
+/*to make body stays in the middle*/
+body.layout{
+  width: 800px;
+  min-width: 800px;
+  position: absolute;
+}
+
 div#head {
-  background-color: #500000;
   margin: 0;
   padding: 0;
 }
 div#maroon_top{
+  padding: 0 0 0 10px;
   background-color: #500000;
   color: white;
 }
@@ -96,30 +55,25 @@ a {
 }
 
 h1 {
-  color: #500000;
   font-size: 150%;
   font-style: italic;
   display: block;
-  width: 100%;
-  border-bottom: 1px solid DarkSlateGrey;
+  border-bottom: 0px solid DarkSlateGrey;
+  color: #500000;
 }
 h1.title {
-  margin: 0 0 1em;
-  padding: 10px;
+  margin: 0 0 0.5em;
   background-color: #500000;
+  border-bottom: 0px solid #500000;
   color: white;
-  border-bottom: 4px solid #500000;
-  font-size: 2em;
+  font-size: 32px;
   font-style: normal;
 }
 
 h2.title {
   color: white;
-  font-size: 13pt;
-  font-family: "Times New Roman", Times, serif;
   padding-bottom: 10px;
 }
-
 
 #notice, #warning {
   background: rosybrown;
@@ -193,12 +147,6 @@ td{
   padding-left:5px;
   color:white;
   background-color:#500000;
-}
-
-.container{
-}
-
-.tab-containe{
 }
 
 ul.sidebar {
