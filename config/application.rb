@@ -24,11 +24,8 @@ module AgencyProjectCollectionSystem
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
-    #todo: dunno what this is fully
     #filters passwords from logs
     config.filter_parameters += [:password]
-    require 'rack-cas/session_store/active_record'
-    config.rack_cas.session_store = RackCAS::ActiveRecordStore
     config.rack_cas.server_url = 'https://cas-dev.tamu.edu:443/cas'
   end
 end
