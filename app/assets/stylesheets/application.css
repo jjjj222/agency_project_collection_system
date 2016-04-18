@@ -76,7 +76,10 @@ div#head {
   margin: 0;
   padding: 0;
 }
-
+div#maroon_top{
+  background-color: #500000;
+  color: white;
+}
 div#main {
   margin: 0;
   padding: 0 20px 20px;
@@ -86,6 +89,10 @@ a {
   color: #500000;
   text-decoration: underline;
   font-weight: bold;
+}
+
+#a-maroon a{
+  color: white;
 }
 
 h1 {
