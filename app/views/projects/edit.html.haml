@@ -17,6 +17,3 @@
   = select :project, :status, Project.all_statuses.map { |k| [k.capitalize,k] }, {}, :class=> "form-control",:id=>'project-status-selection'
   %br
   = submit_tag 'Save Changes', id: 'submit_project_form' , :class=>'btn btn-primary'
-%br
-
-%img(src="https://dl.dropboxusercontent.com/u/41174619/se_project/edit_page.png")
