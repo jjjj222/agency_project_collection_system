@@ -25,11 +25,10 @@ module AgencyProjectCollectionSystem
     config.active_record.raise_in_transactional_callbacks = true
 
     #todo: dunno what this is fully
-    config.assets.enabled = true
-    config.assets.version = '1.0'
-    #other project says it filters passwords from logs
+    #filters passwords from logs
     config.filter_parameters += [:password]
     require 'rack-cas/session_store/active_record'
     config.rack_cas.session_store = RackCAS::ActiveRecordStore
+    config.rack_cas.server_url = 'https://cas-dev.tamu.edu:443/cas'
   end
 end

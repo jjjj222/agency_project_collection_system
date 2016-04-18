@@ -1,14 +1,13 @@
-class TamuUsersController < ApplicationController
+class TamuUsersController < CasAuthenticatedController
     def tamu_user_params
       params.require(:tamu_user).permit(:name, :email)
     end
 
     def index
-        if !logged_in?
-          flash[:notice] = 'Please log in'
-          redirect_to login_path
-        end
-
+        # if !logged_in?
+        #   flash[:notice] = 'Please log in'
+        #   redirect_to login_path
+        # end
         @tamu_users = TamuUser.all
     end
     
