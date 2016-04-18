@@ -1,11 +1,15 @@
 -#<% provide(:title, "Log in") %>
 %h1 Log in
 
-= link_to 'Log in as Agency', '/auth/google_oauth2'
+%h2 Agency
+-#= link_to image_tag('google_signin_buttons/web/1x/btn_google_signin_light_normal_web.png', id: "google_login"), '/auth/google_oauth2'
+= link_to "Sign in with Google", '/auth/google_oauth2'
+-#= link_to "Sign in with Google", root_path
 
 %br
 -#Login as TAMU User
 
+%h2 TAMU User
 = form_tag login_path, :method => :post do
 
   = label :session, :email, 'Email'
