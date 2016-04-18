@@ -12,18 +12,17 @@
 %h3 Agency:
 %p#agency= link_to @project.agency.name, agency_path(@project.agency) 
 
-- if @current_user.id == @project.agency.id
-    = link_to 'Edit', edit_project_path(@project)
-// = button_to( "Approve Project", :action => :approve, :controller => "project")
 - if @current_user.class.name == "TamuUser" and @current_user.admin?
     - if !@project.approved
-        = button_to 'Approve Project', approve_project_path(@project)
+        = button_to 'Approve Project', approve_project_path(@project),:class=>"btn btn-warning"
     - else
-        = button_to 'Unapprove Project', unapprove_project_path(@project)
+        = button_to 'Unapprove Project', unapprove_project_path(@project),:class=>"btn btn-warning"
+        
 - if @current_user.id == @project.agency.id
-    = button_to 'Delete', project_path(@project), :method => :delete, :confirm => 'Are you sure?'
-- if @current_user.class.name == "TamuUser"
-    = link_to 'Back to project list', projects_path
+    #edit-delete
+    = button_to 'Edit',edit_project_path(@project), :id=>"edit",:class=>"btn btn-primary"
+    = button_to 'Delete', project_path(@project), :method => :delete, :confirm => 'Are you sure?', :id=>"delete",:class=>"btn btn-danger"
 
 %br
-%img(src="https://dl.dropboxusercontent.com/u/41174619/se_project/project_page.png")
+- if @current_user.class.name == "TamuUser"
+    = button_to 'Back to project list', projects_path,:class=>"btn btn-info"

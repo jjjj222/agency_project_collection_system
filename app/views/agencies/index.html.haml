@@ -1,4 +1,4 @@
-%h1 All Agencies (TODO)
+%h1 All Agencies
 %body
     #content
         #left{:float => "left", :width => "30%"}
@@ -19,3 +19,4 @@
                         - if @current_user.class.name == "TamuUser" and @current_user.admin?
                             %td= button_to 'Unapprove Agency', unapprove_agency_path(agency)
         #footer
+

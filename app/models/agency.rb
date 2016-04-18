@@ -15,7 +15,6 @@ class Agency < ActiveRecord::Base
     parameters = {:provider => auth["provider"], :uid => auth["uid"]}
     #parameters[:approved] = false
 
-    #byebug
     assign_if_not_nil(parameters, :email, auth['info']['email'])
     assign_if_not_nil(parameters, :name, auth['info']['name'])
     #assign_if_not_nil(parameters, :location, auth['info']['location'])
