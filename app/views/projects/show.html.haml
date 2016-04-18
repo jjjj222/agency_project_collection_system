@@ -1,4 +1,7 @@
 %h2#name Details about #{@project.name}
+#edit-delete
+    = button_to 'Edit',edit_project_path(@project), :id=>"edit",:class=>"btn btn-primary"
+    = button_to 'Delete', project_path(@project), :method => :delete, :confirm => 'Are you sure?', :id=>"delete",:class=>"btn btn-danger"
 
 %h3 Description:
 %p#description= @project.description
@@ -16,11 +19,11 @@
 // = button_to( "Approve Project", :action => :approve, :controller => "project")
 - if @current_user.class.name == "TamuUser" and @current_user.admin?
     - if !@project.approved
-        = button_to 'Approve Project', approve_project_path(@project)
+        = button_to 'Approve Project', approve_project_path(@project),:class=>"btn btn-warning"
     - else
-        = button_to 'Unapprove Project', unapprove_project_path(@project)
+        = button_to 'Unapprove Project', unapprove_project_path(@project),:class=>"btn btn-warning"
 = button_to 'Delete', project_path(@project), :method => :delete, :confirm => 'Are you sure?'
 = link_to 'Back to project list', projects_path
 
 %br
-%img(src="https://dl.dropboxusercontent.com/u/41174619/se_project/project_page.png")
+= button_to 'Back to project list', projects_path,:class=>"btn btn-info"
