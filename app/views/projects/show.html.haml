@@ -20,8 +20,8 @@
         
 - if @current_user == @project.agency
     #edit-delete
-    = button_to 'Edit',edit_project_path(@project), :id=>"edit",:class=>"btn btn-primary"
-    = button_to 'Delete', project_path(@project), :method => :delete, :confirm => 'Are you sure?', :id=>"delete",:class=>"btn btn-danger"
+    = button_to 'Edit', edit_project_path(@project), :method => :get, :class=>"btn btn-primary"
+    = button_to 'Delete', project_path(@project), :method => :delete, :confirm => 'Are you sure?', :id=>"delete", :class=>"btn btn-danger"
 
 %br
 - if @current_user.class.name == "TamuUser"

@@ -1,4 +1,7 @@
 class TamuUsersController < ApplicationController
+    
+    before_action :owner_only, :only=>[:edit, :update, :destroy]
+    
     def tamu_user_params
       params.require(:tamu_user).permit(:name, :email)
     end
@@ -45,6 +48,15 @@ class TamuUsersController < ApplicationController
             flash[:notice] = "Failed"
           end
             render action: "edit", id: @tamu_user.id
+        end
+    end
+    
+    private
+
+    def owner_only
+        @tamu_user = TamuUser.find params[:id]
+        unless current_user == @tamu_user
+            redirect_to root_path, :alert => "Access denied."
         end
     end
     

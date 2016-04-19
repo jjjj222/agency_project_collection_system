@@ -2,6 +2,9 @@ class ProjectsController < ApplicationController
     
     before_action :admin_only, :only=>[:unapproved_index, :unapprove, :approve]
     before_action :agency_only, :only=>[:new, :create, :edit, :update, :destroy]
+    before_action :owner_only, :only=>[:edit, :update, :destroy]
+
+    
     
     def project_params
         params[:project][:tags] = params[:project][:tags].split(/[\s,]+/)
@@ -96,8 +99,15 @@ class ProjectsController < ApplicationController
     
     def agency_only
       unless current_user.class.name == "Agency"
-        redirect_to root_path :alert => "Access Denied"
+          redirect_to root_path :alert => "Access Denied"
       end
+    end
+    
+    def owner_only
+        @project = Project.find(params[:id])
+        unless current_user == @project.agency
+            redirect_to root_path, :alert => "Access denied."
+        end
     end
 end
 
