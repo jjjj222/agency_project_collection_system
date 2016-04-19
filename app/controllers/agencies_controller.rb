@@ -1,6 +1,9 @@
 class AgenciesController < ApplicationController
     
     before_action :admin_only, :only=>[:unapproved_index, :unapprove, :approve]
+    before_action :tamu_user_only, :only=>[:index, :show]
+
+    
     #before_action :owner_only, :only=>[:edit, :update, :destroy]
     
     def index
@@ -85,5 +88,18 @@ class AgenciesController < ApplicationController
     #         redirect_to root_path, :alert => "Access denied."
     #     end
     # end
+    
+    def tamu_user_only
+      if params[:id]
+        @agency = Agency.find(params[:id])
+        unless current_user.class.name == "TamuUser" or @agency == current_user
+          redirect_to root_path, :alert => "Access denied."
+        end
+      else 
+        unless current_user.class.name == "TamuUser"
+          redirect_to root_path, :alert => "Access denied."
+        end
+      end
+    end
     
 end

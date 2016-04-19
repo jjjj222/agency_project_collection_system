@@ -3,8 +3,7 @@ class ProjectsController < ApplicationController
     before_action :admin_only, :only=>[:unapproved_index, :unapprove, :approve]
     before_action :agency_only, :only=>[:new, :create, :edit, :update, :destroy]
     before_action :owner_only, :only=>[:edit, :update, :destroy]
-
-    
+    before_action :tamu_user_only, :only=>[:index, :show]
     
     def project_params
         params[:project][:tags] = params[:project][:tags].split(/[\s,]+/)
@@ -20,7 +19,6 @@ class ProjectsController < ApplicationController
     end
    
     def show
-      id = params[:id] # retrieve movie ID from URI route
       @project = Project.find(params[:id])
     end
    
@@ -108,6 +106,19 @@ class ProjectsController < ApplicationController
         unless current_user == @project.agency
             redirect_to root_path, :alert => "Access denied."
         end
+    end
+    
+    def tamu_user_only
+      if params[:id]
+        @project = Project.find(params[:id])
+        unless current_user.class.name == "TamuUser" or @project.agency == current_user
+          redirect_to root_path, :alert => "Access denied."
+        end
+      else 
+        unless current_user.class.name == "TamuUser"
+          redirect_to root_path, :alert => "Access denied."
+        end
+      end
     end
 end
 

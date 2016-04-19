@@ -1,6 +1,7 @@
 class TamuUsersController < ApplicationController
     
     before_action :owner_only, :only=>[:edit, :update, :destroy]
+    before_action :tamu_user_only, :only=>[:index, :show]
     
     def tamu_user_params
       params.require(:tamu_user).permit(:name, :email)
@@ -58,6 +59,20 @@ class TamuUsersController < ApplicationController
         unless current_user == @tamu_user
             redirect_to root_path, :alert => "Access denied."
         end
+    end
+    
+    #will need to modify once we can connect agencies to tamu user to allow agencies to see show if they are connected with that specific tamu user
+    def tamu_user_only
+      if params[:id] #show
+        @tamu_user = TamuUser.find(params[:id])
+        unless current_user.class.name == "TamuUser" or @tamu_user == current_user
+          redirect_to root_path, :alert => "Access denied."
+        end
+      else #index
+        unless current_user.class.name == "TamuUser"
+          redirect_to root_path, :alert => "Access denied."
+        end
+      end
     end
     
 end
