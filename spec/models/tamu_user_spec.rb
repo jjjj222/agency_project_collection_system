@@ -10,6 +10,10 @@ RSpec.describe TamuUser, type: :model do
   it 'is invalid without email' do
       expect(FactoryGirl.build(:tamu_user, :name, :student, :admin)).to_not be_valid
   end
+
+  it 'is invalid without netid' do
+      expect(FactoryGirl.build(:tamu_user, :name, :student, :admin, :email)).to_not be_valid
+  end
   
   it 'is invalid without correctly formatted email' do
       expect(FactoryGirl.build(:tamu_user, :default, :email => "badEmail")).to_not be_valid
