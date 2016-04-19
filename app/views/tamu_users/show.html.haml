@@ -42,7 +42,7 @@
         %h3 Admin Status:
         %p#admin= @tamu_user.admin
       
-      - if @current_user.id == @tamu_user.id
+      - if @current_user == @tamu_user
         = link_to 'Edit Profile', edit_tamu_user_path(@tamu_user.id)
 
     #more.tab-pane.fade

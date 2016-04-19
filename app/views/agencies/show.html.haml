@@ -37,7 +37,7 @@
       %h3 Phone number:
       %p#phone_number=  @agency.phone_number
       
-      -if @current_user.id == @agency.id
+      -if @current_user == @agency
         = link_to 'Edit', edit_agency_path(@agency.id)
 
       - if @current_user.class.name == "TamuUser" and @current_user.admin?
