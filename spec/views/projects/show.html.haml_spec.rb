@@ -1,9 +1,26 @@
 require 'spec_helper'
 
+
+def login_as_user_admin
+    @admin = FactoryGirl.build(:tamu_user, :default, :admin, :id=>1)
+    @current_user = @admin
+end
+
+def login_as_user_non_admin
+    @tamu_user = FactoryGirl.build(:tamu_user, :default, :not_admin, :id=>1)
+    @current_user = @tamu_user
+end
+
+def login_as_agency
+    @agency = FactoryGirl.build(:agency, :default, :approved, :id=>1)
+    @current_user = @agency
+end
+
 describe 'projects/show.html.haml' do
   it 'displays project details correctly' do
-    admin = FactoryGirl.build(:tamu_user, :default, :admin)
-    view.log_in(admin)
+    
+    login_as_user_admin
+    
     agency = FactoryGirl.build(:agency, :default, :id => 1)
     assign(:project, FactoryGirl.build(:project, :default, :id => 1, :agency => agency))
 
@@ -15,8 +32,8 @@ describe 'projects/show.html.haml' do
   end
   
   it 'displays a button to unapprove if project is approved' do
-    admin = FactoryGirl.build(:tamu_user, :default, :admin)
-    view.log_in(admin)
+    login_as_user_admin
+    
     agency = FactoryGirl.build(:agency, :default, :id => 1)
     project = FactoryGirl.build(:project, :default, :approved, :id => 1, :agency => agency)
     project.approved = true
@@ -28,8 +45,8 @@ describe 'projects/show.html.haml' do
   end
   
   it 'displays a button to approve if project is unapproved' do
-    admin = FactoryGirl.build(:tamu_user, :default, :admin)
-    view.log_in(admin)
+    login_as_user_admin
+    
     agency = FactoryGirl.build(:agency, :default, :id => 1)
     assign(:project, FactoryGirl.build(:project, :default, :unapproved, :id => 1, :agency => agency))
 

@@ -20,7 +20,7 @@ class ProjectsController < ApplicationController
    
     def show
       @project = Project.find(params[:id])
-      if !@project.approved and !current_user.admin?
+      if !@project.approved and current_user.class.name == "TamuUser" and !current_user.admin?
         redirect_to projects_path
       end
     end

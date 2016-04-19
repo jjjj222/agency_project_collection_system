@@ -5,7 +5,10 @@ RSpec.describe AgenciesController, type: :controller do
     describe "GET #index" do
         it "populates an array of agencies" do
             agency = FactoryGirl.create(:agency, :default, :approved)
-            controller.log_in(agency)
+            
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+            
+            controller.log_in(tamu_user)
             
             get :index
             expect(assigns(:agencies)).to eq([agency])

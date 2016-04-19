@@ -4,8 +4,8 @@ RSpec.describe ProjectsController, type: :controller do
     describe "GET #index" do
       
         before :each do
-          @agency = FactoryGirl.create(:agency, :default, :approved)
-          controller.log_in(@agency)
+          @tamu_user = FactoryGirl.create(:tamu_user, :default)
+          controller.log_in(@tamu_user)
         end
       
         it "populates an array of projects" do
@@ -46,8 +46,8 @@ RSpec.describe ProjectsController, type: :controller do
     describe "GET #show" do
       
         before :each do
-          @agency = FactoryGirl.create(:agency, :default, :approved)
-          controller.log_in(@agency)
+          @tamu_user = FactoryGirl.create(:tamu_user, :default)
+          controller.log_in(@tamu_user)
         end
       
         it "assigns the requested project to @project" do
@@ -78,7 +78,8 @@ RSpec.describe ProjectsController, type: :controller do
 
 
         it "it renders the :edit view" do
-            get :edit, id: FactoryGirl.create(:project, :default)
+            @project = FactoryGirl.create(:project, :default, :agency => @agency)
+            get :edit, id: @project
             expect(response).to render_template :edit
         end
     end
@@ -139,7 +140,7 @@ RSpec.describe ProjectsController, type: :controller do
       before :each do
         @agency = FactoryGirl.create(:agency, :default, :approved)
         controller.log_in(@agency)
-        @project = FactoryGirl.create(:project, :default)
+        @project = FactoryGirl.create(:project, :default, :agency => @agency)
       end
   
       context "valid attributes" do
@@ -265,7 +266,7 @@ RSpec.describe ProjectsController, type: :controller do
       before :each do
         @agency = FactoryGirl.create(:agency, :default, :approved)
         controller.log_in(@agency)
-        @project = FactoryGirl.create(:project, :default)
+        @project = FactoryGirl.create(:project, :default, :agency => @agency)
       end
       
       it "deletes the project" do

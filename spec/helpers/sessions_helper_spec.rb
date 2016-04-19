@@ -40,18 +40,18 @@ describe SessionsHelper do
   # end
   
   def login_as_user_admin
-    session[:user_id] = 1
-    session[:user_type] = "TamuUser"
+    @admin = FactoryGirl.build(:tamu_user, :default, :admin, :id=>1)
+    @current_user = @admin
   end
   
   def login_as_user_non_admin
-    session[:user_id] = 1
-    session[:user_type] = "TamuUser"
+      @tamu_user = FactoryGirl.build(:tamu_user, :default, :not_admin, :id=>1)
+      @current_user = @tamu_user
   end
   
   def login_as_agency
-    session[:user_id] = 1
-    session[:user_type] = "Agency"
+      @agency = FactoryGirl.build(:agency, :default, :approved, :id=>1)
+      @current_user = @agency
   end
   
 end

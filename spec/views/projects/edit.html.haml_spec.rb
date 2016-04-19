@@ -1,10 +1,26 @@
 require 'spec_helper'
 
+def login_as_user_admin
+    @admin = FactoryGirl.build(:tamu_user, :default, :admin, :id=>1)
+    @current_user = @admin
+end
+
+def login_as_user_non_admin
+    @tamu_user = FactoryGirl.build(:tamu_user, :default, :not_admin, :id=>1)
+    @current_user = @tamu_user
+end
+
+def login_as_agency
+    @agency = FactoryGirl.build(:agency, :default, :approved, :id=>1)
+    @current_user = @agency
+end
+
 describe 'projects/edit.html.haml' do
     
     context 'given a project with correct data' do
         before do
-            @project = FactoryGirl.build(:project, :default, :id=>1)
+            login_as_agency
+            @project = FactoryGirl.build(:project, :default, :agency=>@agency, :id=>1)
             assign :project, @project
             render
         end

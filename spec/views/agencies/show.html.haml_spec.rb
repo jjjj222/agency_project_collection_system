@@ -1,9 +1,25 @@
 require 'spec_helper'
 
+def login_as_user_admin
+    @admin = FactoryGirl.build(:tamu_user, :default, :admin, :id=>1)
+    @current_user = @admin
+end
+
+def login_as_user_non_admin
+    @tamu_user = FactoryGirl.build(:tamu_user, :default, :not_admin, :id=>1)
+    @current_user = @tamu_user
+end
+
+def login_as_agency
+    @agency = FactoryGirl.build(:agency, :default, :approved, :id=>1)
+    @current_user = @agency
+end
+
 describe 'agencies/show.html.haml' do
   it 'displays agency details correctly' do
     agency = FactoryGirl.build(:agency, :default, :id => 1)
     assign(:agency, agency)
+    
     view.log_in(agency)
 
     render
@@ -27,9 +43,7 @@ describe 'agencies/show.html.haml' do
   end
   
   it 'displays a button to unapprove if agency is approved' do
-    
-    admin = FactoryGirl.build(:tamu_user, :default, :admin)
-    view.log_in(admin)
+    login_as_user_admin
     
     agency = FactoryGirl.build(:agency, :default, :approved, :id => 1)
     assign(:agency, agency)
@@ -40,9 +54,7 @@ describe 'agencies/show.html.haml' do
   end
   
   it 'displays a button to approve if agency is unapproved' do
-    
-    admin = FactoryGirl.build(:tamu_user, :default, :admin)
-    view.log_in(admin)
+    login_as_user_admin
     
     agency = FactoryGirl.build(:agency, :default, :unapproved, :id => 1)
     assign(:agency, agency)
