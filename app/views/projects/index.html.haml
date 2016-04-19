@@ -36,7 +36,7 @@
                     %td= project.description
                     %td= project.status
                     %td= project.tags.join ", "
-                    %td= project.agency.try(:name) #TODO change to name when creation is figured out
+                    %td= link_to project.agency.name, agency_path(project.agency)
                     - if @current_user.class.name == "TamuUser" and @current_user.admin?
                         %td= button_to 'Unapprove Project', unapprove_project_path(project),:class=>"btn btn-warning"
     #footer
