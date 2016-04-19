@@ -28,9 +28,9 @@
             = link_to 'All Projects', projects_path
             - if @current_user.admin?
               |
-              = link_to "All Unapproved Agencies", unapproved_projects_index_path
+              = link_to "All Unapproved Agencies", unapproved_agencies_index_path
               |
-              = link_to "All Unapproved Projects", unapproved_agencies_index_path
+              = link_to "All Unapproved Projects", unapproved_projects_index_path
           - else
             |
             = link_to "My Page", agency_path(@current_user.id)

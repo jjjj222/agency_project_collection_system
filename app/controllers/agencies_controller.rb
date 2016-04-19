@@ -16,6 +16,9 @@ class AgenciesController < ApplicationController
     
     def show
         @agency = Agency.find params[:id]
+        if !@agency.approved and !current_user.admin?
+          redirect_to agencies_path
+        end
     end
     
     def approve

@@ -20,6 +20,9 @@ class ProjectsController < ApplicationController
    
     def show
       @project = Project.find(params[:id])
+      if !@project.approved and !current_user.admin?
+        redirect_to projects_path
+      end
     end
    
     def new
