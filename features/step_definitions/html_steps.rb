@@ -17,6 +17,7 @@ end
 When /^I fill in the "(\w+)" field with "([^"]*)"/i do |field_name, data|
   fill_in(field_name, with: data)
 end
+
 When /^I select "([^"]*)" for (.*)/i do |data, field_name|
   select data, from: (underscore_words field_name)
 end

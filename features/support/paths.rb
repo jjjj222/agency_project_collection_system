@@ -26,6 +26,11 @@ module NavigationHelpers
     when /^mypage$/
       mypage_path
 
+    when /^my profile page$/
+      mypage_profile_path
+
+    when /^my profile edit page$/
+      mypage_profile_edit_path
     #when /^google authentication page$/
     #  "/auth/google_oauth2"
 
