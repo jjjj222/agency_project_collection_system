@@ -31,15 +31,15 @@
 
           Logged in as #{current_user.name}
     #main
-      #left
-      #center
+      #layoutleft
+      #layoutcenter
         - if flash[:notice]
           #notice.message!= flash[:notice]
         - elsif flash[:warning]
           #warning.message!= flash[:warning]
 
         = yield
-      #right
+      #layoutright
     -#= debug(params) if Rails.env.development?
     -#%br
     -#= debug(session) if Rails.env.development?

@@ -76,19 +76,19 @@ html, body {
   font-size: 10pt;
 }
 
-div#left{
+div#layoutleft{
   width: 10%;
   height: 100%;
   float: left;
   /*min-width: 50px;*/
 }
-div#right{
+div#layoutright{
   width: 10%;
   height: 100%;
   float: right;
   /*min-width: 50px;*/
 }
-div#center{
+div#layoutcenter{
 /*to make body stays in the middle*/
   width: 80%;
   min-width: 800px;
