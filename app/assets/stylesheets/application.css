@@ -23,14 +23,26 @@ html, body {
   font-size: 10pt;
 }
 
-
-body.layout{
+div#left{
+  width: 10%;
+  height: 100%;
+  float: left;
+  /*min-width: 50px;*/
+}
+div#right{
+  width: 10%;
+  height: 100%;
+  float: right;
+  /*min-width: 50px;*/
+}
+div#center{
 /*to make body stays in the middle*/
-  width: 800px;
+  width: 80%;
   min-width: 800px;
-  position: absolute;
-  left: 50%;
-  margin-left: -400px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #F2F2F2;
+  height: 100%;
 }
 
 div#head {
@@ -38,9 +50,11 @@ div#head {
   padding: 0;
 }
 div#maroon_top{
-  padding: 0 0 0 10px;
+  /*padding: 0 0 0 10px;*/
   background-color: #500000;
   color: white;
+  width:100%;
+  min-width: 800px;
 }
 div#main {
   margin: 0;
@@ -93,9 +107,9 @@ form label {
 
 /*css for table*/
 table {
-    border:none;
-    border-collapse: collapse;
-        border-spacing: 0;
+  border:none;
+  border-collapse: collapse;
+  border-spacing: 0;
   margin:0px;padding:5px;
   color:#ffffff;
 }
