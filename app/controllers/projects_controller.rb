@@ -1,4 +1,4 @@
-class ProjectsController < ApplicationController    
+class ProjectsController < CasAuthenticatedController
     
     def project_params
         params[:project][:tags] = params[:project][:tags].split(/[\s,]+/)
@@ -6,11 +6,6 @@ class ProjectsController < ApplicationController
     end
     
     def index
-        if !logged_in?
-          flash[:notice] = 'Please log in'
-          redirect_to login_path
-        end
-
         @projects = Project.where(approved: true)
     end
     

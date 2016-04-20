@@ -1,10 +1,7 @@
-class AgenciesController < ApplicationController
+class AgenciesController < CasAuthenticatedController
     
     def index
-        if !logged_in?
-          flash[:notice] = 'Please log in'
-          redirect_to login_path
-        end
+        ensure_logged_in
 
 
         @agencies = Agency.where(approved: true)
@@ -19,6 +16,7 @@ class AgenciesController < ApplicationController
     end
     
     def approve
+        ensure_logged_in
         @agency = Agency.find(params[:id])
         @agency.approved = true;
         @agency.save
@@ -32,6 +30,7 @@ class AgenciesController < ApplicationController
     end
     
     def unapprove
+        ensure_logged_in
         @agency = Agency.find(params[:id])
         @agency.approved = false;
         @agency.save

@@ -13,7 +13,19 @@ Given /the Google user exist/ do |user_table|
 end
 
 Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
-  if user_type.downcase == "agency"
+  case underscore_words(user_type.downcase)
+
+  when "admin"
+    visit(tamu_users_url) #Assuming it requires CAS log in
+    fill_in 'username', with: "adminNetid"
+    fill_in 'password', with: "anything will do"
+    click_button 'Login'
+  when "tamu_user"
+    visit(tamu_users_url) #Assuming it requires CAS log in
+    fill_in 'username', with: "testNetid"
+    fill_in 'password', with: "anything will do"
+    click_button 'Login'
+  when "agency"
     info_hash = Hash.new
     info_hash['name'] = 'Test User'
     info_hash['email'] = 'test@gmail.com'
@@ -28,6 +40,8 @@ Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
     visit root_path
     click_link "Login"
     click_link "Sign in with Google"
+  else
+    raise "Invalid user type"
   end
 end
 
