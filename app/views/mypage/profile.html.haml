@@ -1,0 +1,14 @@
+%h1 Profile
+
+%h3 Name:
+%p#name= @current_user.name
+
+%h3 Email:
+%p#email=  @current_user.email
+
+- if @current_user.respond_to?(:phone_number)
+  %h3 Phone Number:
+  %p#phone_number= @current_user.phone_number
+
+
+= link_to "Edit", mypage_profile_edit_path

@@ -36,7 +36,6 @@
             = link_to "My Page", agency_path(@current_user.id)
           |
           logged in as "#{current_user.name}" (#{@current_user.class.to_s} #{@current_user.id})
-
     #main
       - if flash[:notice]
         #notice.message!= flash[:notice]

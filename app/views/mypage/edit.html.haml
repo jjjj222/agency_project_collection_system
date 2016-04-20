@@ -1,0 +1,15 @@
+%h1 Edit Profile
+
+= form_tag mypage_profile_path, id: 'edit_user_form', :method => :post do
+
+  = label :user, :name, 'Name'
+  = text_field :user, 'name', required: true, value: @current_user.name
+
+  = label :user, :email, 'Email'
+  = text_field :user, 'email', type: "email", required: true, value: @current_user.email
+
+  - if @current_user.respond_to?(:phone_number)
+    = label :user, :phone_number, 'Phone Number'
+    = text_field :user, 'phone_number', type: "phone_number", value: @current_user.phone_number
+
+  = submit_tag 'Save Changes', id: 'submit_user_form'
