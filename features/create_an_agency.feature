@@ -18,8 +18,6 @@ Scenario: Login to create profile
   And   I should see "Log out"
   And   I should not see "Login"
 
-Scenario: Require login before accessing mypage
+Scenario: Not logged in
   Given I am on the homepage
-  When  I follow "My page"
-  Then  I should be on login page
-  And   I should see "Please log in"
+  Then  I should not see "My Page"
