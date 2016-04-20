@@ -8,19 +8,34 @@ RSpec.describe ProjectsController, type: :controller do
           controller.log_in(@tamu_user)
         end
       
-        it "populates an array of projects" do
+        it "populates an array of projects if logged in as tamu user" do
             project = FactoryGirl.create(:project, :default, :approved)
             get :index
             expect(assigns(:projects)).to eq([project])
         end
         
-        it "renders the :index view" do
+        it "renders the :index view if logged in as tamu user" do
             tamu_user = FactoryGirl.create(:tamu_user, :default)
             session[:user_id] = tamu_user.id
             session[:user_type] = "TamuUser"
 
             get :index
             expect(response).to render_template :index
+        end
+        
+        it "populates an array of projects if logged in" do
+            controller.log_out
+            project = FactoryGirl.create(:project, :default, :approved)
+            get :index
+            expect(assigns(:projects)).to_not eq([project])
+        end
+        
+        it "renders the :index view if logged in" do
+            controller.log_out
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+
+            get :index
+            expect(response).to_not render_template :index
         end
     end
     
@@ -31,15 +46,28 @@ RSpec.describe ProjectsController, type: :controller do
           controller.log_in(@admin)
         end
       
-        it "populates an array of projects" do
+        it "populates an array of projects if logged in as admin" do
             project = FactoryGirl.create(:project, :default, :unapproved)
             get :unapproved_index
             expect(assigns(:projects)).to eq([project])
         end
         
-        it "renders the :index view" do
+        it "renders the unapproved index view if logged in as admin" do
             get :unapproved_index
             expect(response).to render_template :unapproved_index
+        end
+        
+        it "populates an array of projects if not logged in as admin" do
+            controller.log_out
+            project = FactoryGirl.create(:project, :default, :unapproved)
+            get :unapproved_index
+            expect(assigns(:projects)).to_not eq([project])
+        end
+        
+        it "renders the unapproved index view if not logged in as admin" do
+            controller.log_out
+            get :unapproved_index
+            expect(response).to_not render_template :unapproved_index
         end
     end
     
@@ -50,16 +78,30 @@ RSpec.describe ProjectsController, type: :controller do
           controller.log_in(@tamu_user)
         end
       
-        it "assigns the requested project to @project" do
+        it "assigns the requested project to @project if logged in as a tamu user" do
             project = FactoryGirl.create(:project, :default)
             get :show, id: project
             expect(assigns(:project)).to eq(project)
         end
         
         
-        it "it renders the :show view" do
+        it "it renders the :show view if logged in as tamu user" do
             get :show, id: FactoryGirl.create(:project, :default)
             expect(response).to render_template :show
+        end
+        
+        it "does not assign the requested project to @project if not logged in" do
+            controller.log_out
+            project = FactoryGirl.create(:project, :default)
+            get :show, id: project
+            expect(assigns(:project)).to_not eq(project)
+        end
+        
+        
+        it "it does not render the :show view if not logged in" do
+            controller.log_out
+            get :show, id: FactoryGirl.create(:project, :default)
+            expect(response).to_not render_template :show
         end
     end
     
@@ -70,17 +112,32 @@ RSpec.describe ProjectsController, type: :controller do
           controller.log_in(@agency)
         end
       
-        it "assigns the requested project to @project" do
+        it "assigns the requested project to @project if logged in as the owning agency" do
             project = FactoryGirl.create(:project, :default)
             get :edit, id: project
             expect(assigns(:project)).to eq(project)
         end
 
 
-        it "it renders the :edit view" do
+        it "it renders the :edit view if logged in as the owning agency" do
             @project = FactoryGirl.create(:project, :default, :agency => @agency)
             get :edit, id: @project
             expect(response).to render_template :edit
+        end
+        
+        it "does not assign the requested project to @project if not logged in as the owning agency" do
+            controller.log_out
+            project = FactoryGirl.create(:project, :default)
+            get :edit, id: project
+            expect(assigns(:project)).to_not eq(project)
+        end
+
+
+        it "it does not render the :edit view if not logged in as the owning agency" do
+            controller.log_out
+            @project = FactoryGirl.create(:project, :default, :agency => @agency)
+            get :edit, id: @project
+            expect(response).to_not render_template :edit
         end
     end
 
@@ -91,15 +148,26 @@ RSpec.describe ProjectsController, type: :controller do
           controller.log_in(@agency)
         end
       
-        it "makes a new project" do
+        it "makes a new project if logged in as an agency" do
             get :new
             expect(assigns(:project)).to be_a_new(Project)
         end
 
-
-        it "it renders the :new view" do
+        it "it renders the :new view if logged in as an agency" do
             get :new
             expect(response).to render_template :new
+        end
+        
+        it "does not create a new project if not logged in as an agency" do
+            controller.log_out
+            get :new
+            expect(assigns(:project)).to_not be_a_new(Project)
+        end
+
+        it "it does not render the :new view if not logged in as an agency" do
+            controller.log_out
+            get :new
+            expect(response).to_not render_template :new
         end
     end
     
@@ -110,7 +178,7 @@ RSpec.describe ProjectsController, type: :controller do
           controller.log_in(@agency)
       end
       
-      context "with valid attributes" do
+      context "with valid attributes and logged in as agency" do
         it "creates a new project" do
           expect{
             post :create, project: FactoryGirl.attributes_for(:project, :default)
@@ -133,7 +201,22 @@ RSpec.describe ProjectsController, type: :controller do
         it "re-renders the new method" do
           post :create, project: FactoryGirl.attributes_for(:project, :invalid)
         end
-      end 
+      end
+      
+      context "with valid attributes but not logged in" do
+        it "creates a new project" do
+          controller.log_out
+          expect{
+            post :create, project: FactoryGirl.attributes_for(:project, :default)
+          }.to change(Project,:count).by(0)
+        end
+        
+        it "redirects to the new project" do
+          controller.log_out
+          post :create, project: FactoryGirl.attributes_for(:project, :default)
+          expect(response).to_not redirect_to Project.last
+        end
+      end
     end
     
     describe 'PUT update' do
@@ -143,7 +226,7 @@ RSpec.describe ProjectsController, type: :controller do
         @project = FactoryGirl.create(:project, :default, :agency => @agency)
       end
   
-      context "valid attributes" do
+      context "valid attributes and logged in as agency" do
         it "located the requested @project" do
           put :update, id: @project, project: FactoryGirl.attributes_for(:project, :default)
           expect(assigns(:project)).to eq(@project)
@@ -204,6 +287,32 @@ RSpec.describe ProjectsController, type: :controller do
         it "re-renders the edit method" do
           put :update, id: @project, project: FactoryGirl.attributes_for(:project, :invalid)
           expect(response).to render_template :edit
+        end
+      end
+      
+      context "valid attributes and not logged in as agency" do
+        it "located the requested @project" do
+          controller.log_out
+          put :update, id: @project, project: FactoryGirl.attributes_for(:project, :default)
+          expect(assigns(:project)).to_not eq(@project)
+        end
+  
+        context  "everything goes well" do
+          it "changes @project's attributes" do
+            controller.log_out
+            put :update, id: @project, project: FactoryGirl.attributes_for(:project, :updated)
+            @project.reload
+            expect(@project.name).to_not eq("Test Project updated")
+            expect(@project.description).to_not eq("This is the test project description updated")
+            expect(@project.status).to_not eq("completed")
+            expect(@project.tags).to_not eq(["updated"])
+          end
+
+          it "redirects to the updated project" do
+            controller.log_out
+            put :update, id: @project, project: FactoryGirl.attributes_for(:project, :default)
+            expect(response).to_not redirect_to @project
+          end
         end
       end
     end
