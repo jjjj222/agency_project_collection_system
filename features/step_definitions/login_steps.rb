@@ -13,18 +13,19 @@ Given /the Google user exist/ do |user_table|
 end
 
 Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
+  user_login = ->(user) {
+    visit(tamu_users_url) #Assuming it requires CAS log in
+    fill_in 'username', with: user.netid
+    fill_in 'password', with: "anything will do"
+    click_button 'Login'
+  }
+
   case underscore_words(user_type.downcase)
 
   when "admin"
-    visit(tamu_users_url) #Assuming it requires CAS log in
-    fill_in 'username', with: "adminNetid"
-    fill_in 'password', with: "anything will do"
-    click_button 'Login'
+    user_login.call(current_admin)
   when "tamu_user"
-    visit(tamu_users_url) #Assuming it requires CAS log in
-    fill_in 'username', with: "testNetid"
-    fill_in 'password', with: "anything will do"
-    click_button 'Login'
+    user_login.call(current_user)
   when "agency"
     info_hash = Hash.new
     info_hash['name'] = 'Test User'

@@ -1,4 +1,5 @@
 module SessionsHelper
+
   def log_in(user, type = user.class.name)
     session[:user_id] = user.id
     session[:user_type] = type.camelize
@@ -17,6 +18,9 @@ module SessionsHelper
   end
 
   def logged_in?
+    if current_user.nil? && cas_logged_in?
+      after_cas_logged_in
+    end
     !current_user.nil?
   end
 
@@ -25,4 +29,22 @@ module SessionsHelper
     session.delete(:user_type)
     @current_user = nil
   end
+
+  def fix_cas_session
+    if session[:cas].respond_to?(:symbolize_keys)
+      session[:cas] = session[:cas].symbolize_keys
+    end
+  end
+
+  def cas_logged_in?
+    session[:cas] && (session[:cas][:user] || session[:cas]["user"])
+  end
+
+  def after_cas_logged_in
+    fix_cas_session
+    netid = session[:cas][:extra_attributes]["tamuEduPersonNetID"]
+    user = TamuUser.find_by(netid: netid)
+    log_in(user)
+  end
+
 end

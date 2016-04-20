@@ -1,9 +1,6 @@
 class AgenciesController < CasAuthenticatedController
     
     def index
-        ensure_logged_in
-
-
         @agencies = Agency.where(approved: true)
     end
     
@@ -16,7 +13,6 @@ class AgenciesController < CasAuthenticatedController
     end
     
     def approve
-        ensure_logged_in
         @agency = Agency.find(params[:id])
         @agency.approved = true;
         @agency.save
@@ -30,7 +26,6 @@ class AgenciesController < CasAuthenticatedController
     end
     
     def unapprove
-        ensure_logged_in
         @agency = Agency.find(params[:id])
         @agency.approved = false;
         @agency.save
