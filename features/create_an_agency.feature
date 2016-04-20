@@ -12,9 +12,7 @@ Background: A agency with google account
 Scenario: Login to create profile
   Given I am on the homepage
   When  I follow "Login"
-  Then  I should be on login page
-  When  I click the "Sign in with Google"
-  Then  I should be on mypage
+  And   I click the "Sign in with Google"
   And   I should see "Google User"
   And   I should see "user@gmail.com"
   And   I should see "Log out"
