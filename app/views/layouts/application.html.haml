@@ -28,17 +28,18 @@
       / .top-header
       #login-as
         - if logged_in?
+
           Logged in as #{current_user.name}
-      
-
     #main
-      - if flash[:notice]
-        #notice.message!= flash[:notice]
-      - elsif flash[:warning]
-        #warning.message!= flash[:warning]
+      #left
+      #center
+        - if flash[:notice]
+          #notice.message!= flash[:notice]
+        - elsif flash[:warning]
+          #warning.message!= flash[:warning]
 
-      = yield
-
+        = yield
+      #right
     -#= debug(params) if Rails.env.development?
     -#%br
     -#= debug(session) if Rails.env.development?
