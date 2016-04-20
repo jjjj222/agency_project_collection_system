@@ -18,17 +18,10 @@ Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
     fill_in 'Email', with: user.email
     click_button 'Log in as TAMU User'
   }
-
-  case underscore_words(user_type.downcase)
-
-  when "admin"
-    user_login.call(current_admin)
-  when "tamu_user"
-    user_login.call(current_user)
-  when "agency"
+  agency_login = ->(agency) {
     info_hash = Hash.new
     info_hash['name'] = 'Test User'
-    info_hash['email'] = 'test@gmail.com'
+    info_hash['email'] = agency.email
 
     auth_hash = Hash.new
     auth_hash['info'] = info_hash
@@ -40,6 +33,18 @@ Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
     visit root_path
     click_link "Login"
     click_link "Sign in with Google"
+  }
+
+  case underscore_words(user_type.downcase)
+
+  when "admin"
+    user_login.call(current_admin)
+  when "tamu_user"
+    user_login.call(current_user)
+  when "agency"
+    agency_login.call(current_agency)
+  when "unapproved_agency"
+    agency_login.call(unapproved_agency)
   else
     raise "Invalid user type"
   end

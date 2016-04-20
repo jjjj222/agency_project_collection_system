@@ -5,10 +5,6 @@ Feature: Approving an unapproved agency
   so that other tamu users can see the agency
 
 Background:
-  Given the following TAMU Users exist:
-  | name           | email         | role    | admin |
-  | TAMU User Name | user@tamu.edu | student | true  |
-
   Given I am logged in as an admin
   And I go to the show agency page for the unapproved agency
   
