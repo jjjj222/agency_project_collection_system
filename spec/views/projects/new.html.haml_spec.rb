@@ -27,7 +27,6 @@ describe 'projects/new.html.haml' do
         
         it 'displays a hidden field for status with value of open' do
             expect(rendered).to have_selector('#project_status', visible: false)
-            # Hackish way to test value on hidden fields, would be nice to release
             expect(rendered).to have_selector("input#project_status[value=\"open\"]", visible: false)
         end
     end
