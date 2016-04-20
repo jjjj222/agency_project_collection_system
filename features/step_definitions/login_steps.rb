@@ -13,7 +13,8 @@ Given /the Google user exist/ do |user_table|
 end
 
 Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
-  if user_type.downcase == "agency"
+  user_type = user_type.downcase
+  if user_type == "agency"
     info_hash = Hash.new
     info_hash['name'] = 'Test User'
     info_hash['email'] = 'test@gmail.com'
@@ -28,6 +29,12 @@ Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
     visit root_path
     click_link "Login"
     click_link "Sign in with Google"
+  elsif user_type == "admin"
+    #visit root_path
+    #click_link "Login"
+    #fill_in("session[email]", with: "user@tamu.edu")
+  #| TAMU User Name | user@tamu.edu | student | true  |
+    #click_link "Sign in with Google"
   end
 end
 
