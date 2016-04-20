@@ -13,8 +13,19 @@ Given /the Google user exist/ do |user_table|
 end
 
 Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
-  user_type = user_type.downcase
-  if user_type == "agency"
+  user_login = ->(user) {
+    visit login_path
+    fill_in 'Email', with: user.email
+    click_button 'Log in as TAMU User'
+  }
+
+  case underscore_words(user_type.downcase)
+
+  when "admin"
+    user_login.call(current_admin)
+  when "tamu_user"
+    user_login.call(current_user)
+  when "agency"
     info_hash = Hash.new
     info_hash['name'] = 'Test User'
     info_hash['email'] = 'test@gmail.com'
@@ -29,12 +40,8 @@ Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
     visit root_path
     click_link "Login"
     click_link "Sign in with Google"
-  elsif user_type == "admin"
-    #visit root_path
-    #click_link "Login"
-    #fill_in("session[email]", with: "user@tamu.edu")
-  #| TAMU User Name | user@tamu.edu | student | true  |
-    #click_link "Sign in with Google"
+  else
+    raise "Invalid user type"
   end
 end
 

@@ -12,4 +12,4 @@ Background:
     Then the name should be "Test Smith"
     And the email should be "test@test.org"
     And the role should be "student"
-    And the admin should be "true"
+    And I should not see "Admin"
