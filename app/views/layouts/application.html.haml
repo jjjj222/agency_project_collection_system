@@ -5,30 +5,31 @@
     = stylesheet_link_tag 'application'
     = javascript_include_tag 'application'
     = csrf_meta_tags
-
   %body
     #maroon_top
       %h1.title TAMU Non-Profit Projects Collect System
-      #a-maroon
-        = link_to 'Home', root_path
-        |
-        -#= link_to 'Login', welcome_login_path
+      .top-header
+        #a-maroon
+          = link_to 'Home', root_path
+          
+          = link_to "My page", mypage_path
+          
+          = link_to 'All TAMU Users', tamu_users_path
+         
+          = link_to 'All Agencies', agencies_path
+
+          = link_to 'All Projects', projects_path
+
+          - if logged_in?
+            = link_to "Log out", logout_path
+          - else
+            = link_to 'Login', login_path
+          
+      / .top-header
+      #login-as
         - if logged_in?
-          = link_to "Log out", logout_path
-        - else
-          = link_to 'Login', login_path
-        |
-        -#= link_to "My page", tamu_user_path(1)
-        = link_to "My page", mypage_path
-        |
-        = link_to 'All TAMU users', tamu_users_path
-        |
-        = link_to 'All Agencies', agencies_path
-        |
-        = link_to 'All Projects', projects_path
-        - if logged_in?
-          |
-          logged in as "#{current_user.name}" (#{@current_user.class.to_s} #{@current_user.id})
+          Logged in as #{current_user.name}
+      
 
     #main
       - if flash[:notice]

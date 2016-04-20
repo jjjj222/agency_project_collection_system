@@ -97,6 +97,7 @@ a {
 
 #a-maroon a{
   color: white;
+  padding:15px;
 }
 
 h1 {
@@ -237,3 +238,10 @@ li.sidebar a:hover:not(.active) {
 .field_with_errors input {
   border-color: red;
 }
+.top-header{
+    display:inline-block;
+}
+#login-as{
+  float: right;
+}
+
