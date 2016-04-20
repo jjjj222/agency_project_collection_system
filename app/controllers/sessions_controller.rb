@@ -1,4 +1,7 @@
 class SessionsController < ApplicationController
+  
+  skip_before_action :require_login
+  
   #def new
   #end
   def tamu_create
@@ -10,7 +13,7 @@ class SessionsController < ApplicationController
       #log_in agency, "Agency"
       #log_in user, user_type
       log_in user, "TamuUser"
-      redirect_to mypage_path
+      redirect_to tamu_user_path(user.id)
     else
       flash.now[:notice] = 'Invalid email/password combination'
       render 'new'
@@ -35,7 +38,7 @@ class SessionsController < ApplicationController
         session[:user_id] = user.id
         session[:user_type] = "Agency"
         flash[:success] = "Welcome, #{user.name}!"
-        redirect_to mypage_path
+        redirect_to agency_path(user)
       else
         flash.now[:notice] = 'Invalid email/password combination'
         render 'new'

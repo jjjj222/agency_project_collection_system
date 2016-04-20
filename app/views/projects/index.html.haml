@@ -27,7 +27,8 @@
                 %th{:align=> "left"} Status
                 %th{:align=> "left"} Tags
                 %th{:align=> "left"} Agency
-                %th{:align=> "left"} Unapprove Project
+                - if @current_user.class.name == "TamuUser" and @current_user.admin?
+                    %th{:align=> "left"} Unapprove Project
         
             - @projects.each do |project|
                 %tr{:height => "10px"}
@@ -35,8 +36,9 @@
                     %td= project.description
                     %td= project.status
                     %td= project.tags.join ", "
-                    %td= project.agency.try(:name) #TODO change to name when creation is figured out
-                    %td= button_to 'Unapprove Project', unapprove_project_path(project),:class=>"btn btn-warning"
+                    %td= link_to project.agency.name, agency_path(project.agency)
+                    - if @current_user.class.name == "TamuUser" and @current_user.admin?
+                        %td= button_to 'Unapprove Project', unapprove_project_path(project),:class=>"btn btn-warning"
     #footer
 
 

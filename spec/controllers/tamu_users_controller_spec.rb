@@ -2,17 +2,19 @@ require 'rails_helper'
 
 RSpec.describe TamuUsersController, type: :controller do
 
+    
+
     describe "GET #index" do
         it "populates an array of tamu users" do
             tamu_user = FactoryGirl.create(:tamu_user, :default)
+            controller.log_in(tamu_user)
             get :index
             expect(assigns(:tamu_users)).to eq([tamu_user])
         end
         
         it "renders the :index view" do
             tamu_user = FactoryGirl.create(:tamu_user, :default)
-            session[:user_id] = tamu_user.id
-            session[:user_type] = "TamuUser"
+            controller.log_in(tamu_user)
 
             get :index
             expect(response).to render_template :index
@@ -22,24 +24,30 @@ RSpec.describe TamuUsersController, type: :controller do
     describe "GET #show" do
         it "assigns the requested tamu user to @tamu_user" do
             tamu_user = FactoryGirl.create(:tamu_user, :default)
+            controller.log_in(tamu_user)
             get :show, id: tamu_user
             expect(assigns(:tamu_user)).to eq(tamu_user)
         end
         
         
         it "it renders the :show view" do
-            get :show, id: FactoryGirl.create(:tamu_user, :default)
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+            controller.log_in(tamu_user)
+            get :show, id: tamu_user
             expect(response).to render_template :show
         end
     end
     describe "GET #edit" do
         it "assigns the requested tamu user to @tamu_user" do
             tamu_user = FactoryGirl.create(:tamu_user, :default)
+            controller.log_in(tamu_user)
             get :edit, id: tamu_user
             expect(assigns(:tamu_user)).to eq(tamu_user)
         end
         it "it renders the :edit view" do
-            get :edit, id: FactoryGirl.create(:tamu_user, :default)
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+            controller.log_in(tamu_user)
+            get :edit, id: tamu_user
             expect(response).to render_template :edit
         end
     end
@@ -47,6 +55,7 @@ RSpec.describe TamuUsersController, type: :controller do
     describe 'PUT update' do
       before :each do
         @tamu_user = FactoryGirl.create(:tamu_user, :default)
+        controller.log_in(@tamu_user)
       end
   
       context "valid attributes" do
@@ -114,6 +123,7 @@ RSpec.describe TamuUsersController, type: :controller do
     describe 'DELETE destroy' do
       before :each do
         @tamu_user = FactoryGirl.create(:tamu_user, :default)
+        controller.log_in(@tamu_user)
       end
       
       it "deletes the tamu_user" do

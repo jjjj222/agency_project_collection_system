@@ -1,8 +1,24 @@
 require 'rails_helper'
 
+def login_as_user_admin
+    @admin = FactoryGirl.build(:tamu_user, :default, :admin, :id=>1)
+    @current_user = @admin
+end
+
+def login_as_user_non_admin
+    @tamu_user = FactoryGirl.build(:tamu_user, :default, :not_admin, :id=>1)
+    @current_user = @tamu_user
+end
+
+def login_as_agency
+    @agency = FactoryGirl.build(:agency, :default, :approved, :id=>1)
+    @current_user = @agency
+end
+
 RSpec.describe "agencies/index.html.haml", type: :view do
     
     it 'displays all agencies correctly' do
+    
     assign(:agencies,
         [
             FactoryGirl.build(:agency, :default, :id=>1),
@@ -25,9 +41,12 @@ RSpec.describe "agencies/index.html.haml", type: :view do
   end
   
   it 'displays unapprove button for agencies' do
+    
+    login_as_user_admin
+     
     assign(:agencies,
         [
-            FactoryGirl.build(:agency, :default, :id=>1)
+            FactoryGirl.build(:agency, :default, :approved, :id=>1)
         ])
         
     render
