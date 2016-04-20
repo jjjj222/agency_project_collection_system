@@ -19,6 +19,15 @@ RSpec.describe TamuUsersController, type: :controller do
             get :index
             expect(response).to render_template :index
         end
+        
+        it "redirects to root path if not tamu_user" do
+          controller.log_out
+          @agency = FactoryGirl.create(:agency, :default, :approved)
+          controller.log_in(@agency)
+          get :index
+          expect(response).to redirect_to root_path
+        end
+        
     end
     
     describe "GET #show" do
@@ -36,6 +45,15 @@ RSpec.describe TamuUsersController, type: :controller do
             get :show, id: tamu_user
             expect(response).to render_template :show
         end
+        
+        it "redirects to root path if not tamu_user and is not connected to tamu_user" do
+          controller.log_out
+          @agency = FactoryGirl.create(:agency, :default, :approved)
+          controller.log_in(@agency)
+          get :show, id: FactoryGirl.create(:tamu_user, :default)
+          expect(response).to redirect_to root_path
+        end
+        
     end
     describe "GET #edit" do
         it "assigns the requested tamu user to @tamu_user" do
@@ -49,7 +67,14 @@ RSpec.describe TamuUsersController, type: :controller do
             controller.log_in(tamu_user)
             get :edit, id: tamu_user
             expect(response).to render_template :edit
-        end
+        end 
+        
+        it "it renders the root path if not current tamu_user" do
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+            controller.log_in(tamu_user)
+            get :edit, id: FactoryGirl.create(:tamu_user, :updated)
+            expect(response).to redirect_to root_path
+        end 
     end
 
     describe 'PUT update' do
