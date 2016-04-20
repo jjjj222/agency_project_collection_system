@@ -6,11 +6,11 @@ module SessionHelpers
     @admin ||= TamuUser.create! name: "Admin Doe", email: "admin@test.org", role: "professor", admin: true
   end
   def current_project
-    @project ||= Project.create!(name: "Test Project", status: "open", description: "some desc", agency_id: current_agency.id, approved: true)
+    @project ||= Project.create!(name: "Test Project", status: "open", description: "some desc", agency: current_agency, approved: true)
   end
 
   def unapproved_project
-    @unapproved_project ||= Project.create!(name: "Test Project", status: "open", description: "some desc", agency_id: current_agency.id, approved: false)
+    @unapproved_project ||= Project.create!(name: "Test Project", status: "open", description: "some desc", agency: current_agency, approved: false)
   end
 
   def current_agency
