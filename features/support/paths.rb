@@ -5,15 +5,15 @@ module NavigationHelpers
   #
   # step definition in web_steps.rb
   #
-  def id_of(object_name)
-    case object_name
-    when /^Sign in with Google$/
-      "google_login"
-    else
-      raise "Can't find mapping from \"#{object_name}\" to a id.\n" +
-        "Now, go and add a mapping in #{__FILE__}"
-    end
-  end
+  #def id_of(object_name)
+  #  case object_name
+  #  when /^Sign in with Google$/
+  #    "google_login"
+  #  else
+  #    raise "Can't find mapping from \"#{object_name}\" to a id.\n" +
+  #      "Now, go and add a mapping in #{__FILE__}"
+  #  end
+  #end
 
   def path_to(page_name)
     case page_name
@@ -26,8 +26,13 @@ module NavigationHelpers
     when /^mypage$/
       mypage_path
 
-    when /^google authentication page$/
-      "/auth/google_oauth2"
+    when /^my profile page$/
+      mypage_profile_path
+
+    when /^my profile edit page$/
+      mypage_profile_edit_path
+    #when /^google authentication page$/
+    #  "/auth/google_oauth2"
 
       #"https://accounts.google.com/ServiceLogin"
     #when /^the edit page for "([^"]*)"$/
@@ -52,14 +57,15 @@ module NavigationHelpers
     #     user_profile_path(User.find_by_login($1))
 
     else
-      begin
-        page_name =~ /^the (.*) page$/
-        path_components = $1.split(/\s+/)
-        self.send(path_components.push('path').join('_').to_sym)
-      rescue NoMethodError, ArgumentError
-        raise "Can't find mapping from \"#{page_name}\" to a path.\n" +
-          "Now, go and add a mapping in #{__FILE__}"
-      end
+      return nil
+      #begin
+      #  page_name =~ /^the (.*) page$/
+      #  path_components = $1.split(/\s+/)
+      #  self.send(path_components.push('path').join('_').to_sym)
+      #rescue NoMethodError, ArgumentError
+      #  raise "Can't find mapping from \"#{page_name}\" to a path.\n" +
+      #    "Now, go and add a mapping in #{__FILE__}"
+      #end
     end
   end
 end
