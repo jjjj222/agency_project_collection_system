@@ -1,8 +1,7 @@
-class SessionsController < ApplicationController
+class SessionsController < CasAuthenticatedController
   #def new
   #end
   def tamu_create
-    #user_type = params[:user_type]
     #user = user_type.constantize.find_by(email: params[:session][:email].downcase) if user_type
     user = TamuUser.find_by(email: params[:session][:email].downcase)
     #agency = Agency.find_by(email: params[:session][:email].downcase)

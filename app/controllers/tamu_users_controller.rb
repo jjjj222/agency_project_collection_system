@@ -8,7 +8,6 @@ class TamuUsersController < CasAuthenticatedController
         #   flash[:notice] = 'Please log in'
         #   redirect_to login_path
         # end
-        ensure_logged_in
         @tamu_users = TamuUser.all
     end
     

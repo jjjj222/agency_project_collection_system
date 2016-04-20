@@ -3,20 +3,21 @@ require 'rails_helper'
 RSpec.describe TamuUsersController, type: :controller do
 
     describe "GET #index" do
+      context "logged in as a tamu user" do
+        before :each do
+            @tamu_user = FactoryGirl.create(:tamu_user, :default)
+            controller.log_in(@tamu_user)
+        end
         it "populates an array of tamu users" do
-            tamu_user = FactoryGirl.create(:tamu_user, :default)
             get :index
-            expect(assigns(:tamu_users)).to eq([tamu_user])
+            expect(assigns(:tamu_users)).to eq([@tamu_user])
         end
         
         it "renders the :index view" do
-            tamu_user = FactoryGirl.create(:tamu_user, :default)
-            session[:user_id] = tamu_user.id
-            session[:user_type] = "TamuUser"
-
             get :index
             expect(response).to render_template :index
         end
+      end
     end
     
     describe "GET #show" do
