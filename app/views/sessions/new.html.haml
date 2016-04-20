@@ -14,8 +14,9 @@
   -#= select_tag :user_type, options_for_select([['Agency', 'Agency'], ['TAMU user', 'TamuUser']], params[:user_type])
   -#= label :session, :password, 'Password'
   -#= text_field :session, 'password'
-
-  = submit_tag 'Log in as TAMU User'
+  %br
+  %br
+  = submit_tag 'Log in as TAMU User',:class=>"btn btn-primary"
 
   %br
   john@tamu.edu
