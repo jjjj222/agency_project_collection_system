@@ -1,9 +1,9 @@
 module SessionHelpers
   def current_user
-    @user ||= TamuUser.create! name: "Test Smith", email: "test@test.org", netid: "testNetid", role: "student", admin: false
+    @user ||= TamuUser.create! name: "Test Smith", email: "test@test.org", role: "student", admin: false
   end
   def current_admin
-    @admin ||= TamuUser.create! name: "Admin Doe", email: "admin@test.org", netid: "adminNetid", role: "professor", admin: true
+    @admin ||= TamuUser.create! name: "Admin Doe", email: "admin@test.org", role: "professor", admin: true
   end
   def current_project
     @project ||= Project.create!(name: "Test Project", status: "open", description: "some desc", agency_id: current_agency.id, approved: true)
