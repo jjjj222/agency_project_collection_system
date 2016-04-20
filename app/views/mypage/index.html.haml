@@ -6,6 +6,8 @@
 %h3 Phone Number:
 %p#phone_number= @current_user.respond_to?(:phone_number) ?  @current_user.phone_number : "N/A"
 
+= link_to "My Profile", mypage_profile_path
+%br
 = link_to "Create Project", new_project_path
 
 %table{:border => 1, :width => "70%"}

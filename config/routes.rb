@@ -9,7 +9,10 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
 
   #resource :mypage
-  get       'mypage'    => 'mypage#index'
+  get       'mypage'                => 'mypage#index'
+  get       'mypage/profile'        => 'mypage#profile'
+  post      'mypage/profile'        => 'mypage#update'
+  get       'mypage/profile/edit'   => 'mypage#edit'
 
   # get 'tamu_users/index'
 
