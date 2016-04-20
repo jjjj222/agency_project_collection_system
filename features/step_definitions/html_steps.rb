@@ -57,7 +57,8 @@ end
 #end
 
 Then (/^there should be a button "([^"]*)"$/) do |button|
-  page.should have_selector(:link_or_button, button)
+  #page.should have_selector(:link_or_button, button)
+  expect(page).to have_selector(:link_or_button, button)
 end
 
 #When /^(?:|I )click(?: the)? "([^"]*)" icon$/ do |icon|
