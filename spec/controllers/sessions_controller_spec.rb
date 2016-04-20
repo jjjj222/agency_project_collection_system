@@ -17,7 +17,7 @@ RSpec.describe SessionsController, type: :controller do
     context "logged in" do
       before :each do
         @tamu_user = FactoryGirl.create(:tamu_user, :default)
-        controller.log_in(@tamu_user, "TamuUser")
+        controller.log_in(@tamu_user)
       end
 
       it "should log them out" do

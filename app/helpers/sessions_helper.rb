@@ -44,7 +44,11 @@ module SessionsHelper
     fix_cas_session
     netid = session[:cas][:extra_attributes]["tamuEduPersonNetID"]
     user = TamuUser.find_by(netid: netid)
-    log_in(user)
+    if not user.nil?
+      log_in(user)
+    else
+      flash[:warning] = "Forgetting cas credentials, you are not in the system yet and adding not yet implemented"
+    end
   end
 
 end
