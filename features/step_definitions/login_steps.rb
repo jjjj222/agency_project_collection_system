@@ -30,11 +30,29 @@ Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
     click_link "Login"
     click_link "Sign in with Google"
   elsif user_type == "admin"
-    #visit root_path
-    #click_link "Login"
+    hash = Hash.new
+    hash['name'] = "Admin"
+    hash['email'] = "admin@tamu.edu"
+    hash['role'] = 'student'
+    hash['admin'] = true
+    TamuUser.create hash
+
+    visit root_path
+    click_link "Login"
+    fill_in('Email', with: 'admin@tamu.edu')
+    click_button('sign_in')
     #fill_in("session[email]", with: "user@tamu.edu")
   #| TAMU User Name | user@tamu.edu | student | true  |
     #click_link "Sign in with Google"
+  #Given the following TAMU Users exist:
+  #| name           | email         | role    | admin |
+  #| TAMU User Name | user@tamu.edu | student | true  |
+
+  #Given I am on the homepage
+  #When  I follow "Login"
+  #Then  I should be on login page
+  #When  I fill in the "Email" field with "user@tamu.edu"
+  #And   I press "sign_in"
   end
 end
 
