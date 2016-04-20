@@ -33,6 +33,14 @@ RSpec.describe AgenciesController, type: :controller do
             get :index
             expect(response).to_not render_template :edit
         end
+        
+        it "redirects to root path if not tamu_user" do
+          controller.log_out
+          @agency = FactoryGirl.create(:agency, :default, :approved)
+          controller.log_in(@agency)
+          get :index
+          expect(response).to redirect_to root_path
+        end
     end
     
     describe "GET #unapproved index" do
@@ -61,6 +69,14 @@ RSpec.describe AgenciesController, type: :controller do
             get :unapproved_index
             expect(response).to_not render_template :unapproved_index
         end
+        
+        it "redirects to root path if not admin" do
+            not_an_admin = FactoryGirl.create(:tamu_user, :default, :not_admin)
+            controller.log_in(not_an_admin)
+            get :unapproved_index
+            expect(response).to redirect_to root_path
+        end
+        
     end
     
     describe "GET #show" do
@@ -90,6 +106,23 @@ RSpec.describe AgenciesController, type: :controller do
             get :show, id: agency.id
             expect(response).to_not render_template :show
         end
+        
+        it "it renders :agencies if not admin trying to view unapproved agency" do
+            controller.log_out
+            @tamu_user_not_admin = FactoryGirl.create(:tamu_user, :default, :not_admin)
+            controller.log_in(@tamu_user_not_admin)
+            get :show, id: FactoryGirl.create(:agency, :default, :unapproved)
+            expect(response).to redirect_to agencies_path
+        end
+        
+        it "redirects to root path if not tamu_user and is not the current agency" do
+          controller.log_out
+          @agency = FactoryGirl.create(:agency, :default, :approved)
+          controller.log_in(@agency)
+          get :show, id: FactoryGirl.create(:agency, :default)
+          expect(response).to redirect_to root_path
+        end
+        
     end
     
     describe 'POST approve' do
@@ -147,6 +180,13 @@ RSpec.describe AgenciesController, type: :controller do
         post :approve, id: @agency#, agency: FactoryGirl.attributes_for(:agency, :default)
         expect(response).to_not redirect_to unapproved_agencies_index_path
       end
+      
+      it "redirects to root path if not admin" do
+            controller.current_user.admin = false
+            post :approve, id: @agency
+            expect(response).to redirect_to root_path
+      end
+      
     end
     
     describe 'POST unapprove' do
@@ -190,6 +230,13 @@ RSpec.describe AgenciesController, type: :controller do
         post :approve, id: @agency#, agency: FactoryGirl.attributes_for(:agency, :default)
         expect(response).to_not redirect_to agencies_path
       end
+      
+      it "redirects to root path if not admin" do
+            controller.current_user.admin = false
+            post :unapprove, id: @agency
+            expect(response).to redirect_to root_path
+      end
+      
     end
     
 end

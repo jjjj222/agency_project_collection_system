@@ -100,7 +100,7 @@ class ProjectsController < ApplicationController
     
     def agency_only
       unless current_user.class.name == "Agency"
-          redirect_to root_path :alert => "Access Denied"
+          redirect_to root_path, :alert => "Access Denied"
       end
     end
     

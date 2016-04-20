@@ -37,6 +37,15 @@ RSpec.describe ProjectsController, type: :controller do
             get :index
             expect(response).to_not render_template :index
         end
+        
+        it "redirects to root path if not tamu_user" do
+          controller.log_out
+          @agency = FactoryGirl.create(:agency, :default, :approved)
+          controller.log_in(@agency)
+          get :index
+          expect(response).to redirect_to root_path
+        end
+        
     end
     
     describe "GET #unapproved index" do
@@ -69,6 +78,13 @@ RSpec.describe ProjectsController, type: :controller do
             get :unapproved_index
             expect(response).to_not render_template :unapproved_index
         end
+        
+        it "redirects to root path if not admin" do
+            controller.current_user.admin = false
+            get :unapproved_index
+            expect(response).to redirect_to root_path
+        end
+        
     end
     
     describe "GET #show" do
@@ -103,6 +119,23 @@ RSpec.describe ProjectsController, type: :controller do
             get :show, id: FactoryGirl.create(:project, :default)
             expect(response).to_not render_template :show
         end
+        
+        it "it renders :projects if not admin trying to view unapproved project" do
+            controller.log_out
+            @tamu_user_not_admin = FactoryGirl.create(:tamu_user, :default, :not_admin)
+            controller.log_in(@tamu_user_not_admin)
+            get :show, id: FactoryGirl.create(:project, :default)
+            expect(response).to redirect_to projects_path
+        end
+        
+        it "redirects to root path if not tamu_user and does not own projects" do
+          controller.log_out
+          @agency = FactoryGirl.create(:agency, :default, :approved)
+          controller.log_in(@agency)
+          get :show, id: FactoryGirl.create(:project, :default)
+          expect(response).to redirect_to root_path
+        end
+        
     end
     
     describe "GET #edit" do
@@ -345,6 +378,13 @@ RSpec.describe ProjectsController, type: :controller do
         post :approve, id: @project#, project: FactoryGirl.attributes_for(:project, :default)
         expect(response).to redirect_to unapproved_projects_index_path
       end
+      
+      it "redirects to root path if not admin" do
+            controller.current_user.admin = false
+            post :approve, id: @project
+            expect(response).to redirect_to root_path
+      end
+      
     end
     
     describe 'POST unapprove' do
@@ -369,6 +409,13 @@ RSpec.describe ProjectsController, type: :controller do
         post :approve, id: @project#, project: FactoryGirl.attributes_for(:project, :default)
         expect(response).to redirect_to projects_path
       end
+      
+      it "redirects to root path if not admin" do
+            controller.current_user.admin = false
+            post :unapprove, id: @project
+            expect(response).to redirect_to root_path
+      end
+      
     end
     
     describe 'DELETE destroy' do
@@ -388,5 +435,14 @@ RSpec.describe ProjectsController, type: :controller do
         delete :destroy, id: @project
         expect(response).to redirect_to projects_path
       end
+      
+      it "redirects to root path if not agency" do
+        controller.log_out
+        @tamu_user = FactoryGirl.create(:tamu_user, :default)
+        controller.log_in(@tamu_user)
+        delete :destroy, id: @project
+        expect(response).to redirect_to root_path
+      end
+      
     end
 end
