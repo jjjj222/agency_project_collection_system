@@ -1,4 +1,8 @@
-class TamuUsersController < CasAuthenticatedController
+class TamuUsersController < ApplicationController
+    
+    before_action :owner_only, :only=>[:edit, :update, :destroy]
+    before_action :tamu_user_only, :only=>[:index, :show]
+    
     def tamu_user_params
       params.require(:tamu_user).permit(:name, :email)
     end
@@ -42,15 +46,33 @@ class TamuUsersController < CasAuthenticatedController
         if @tamu_user.update_attributes(tamu_user_params)
             flash[:notice] = "# Profile was successfully updated."
             redirect_to tamu_user_path
-            # redirect_to :action => 'edit', id: @tamu_user.id
         else
-          if @tamu_user.errors.any?
-            flash[:notice] = @tamu_user.errors.full_messages.join("<br>")
-          else
-            flash[:notice] = "Failed"
-          end
+            model_failed_flash @tamu_user
             render action: "edit", id: @tamu_user.id
         end
+    end
+    
+    private
+
+    def owner_only
+        @tamu_user = TamuUser.find params[:id]
+        unless current_user == @tamu_user
+            redirect_to root_path, :alert => "Access denied."
+        end
+    end
+    
+    #will need to modify once we can connect agencies to tamu user to allow agencies to see show if they are connected with that specific tamu user
+    def tamu_user_only
+      if params[:id] #show
+        @tamu_user = TamuUser.find(params[:id])
+        unless current_user.is_a?(TamuUser) or @tamu_user == current_user
+          redirect_to root_path, :alert => "Access denied."
+        end
+      else #index
+        unless current_user.is_a?(TamuUser)
+          redirect_to root_path, :alert => "Access denied."
+        end
+      end
     end
     
 end

@@ -2,55 +2,122 @@ require 'rails_helper'
 
 RSpec.describe TamuUsersController, type: :controller do
 
+    
+
     describe "GET #index" do
-      context "logged in as a tamu user" do
-        before :each do
-            @tamu_user = FactoryGirl.create(:tamu_user, :default)
-            controller.log_in(@tamu_user)
-        end
-        it "populates an array of tamu users" do
+        it "populates an array of tamu users if logged in" do
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+            controller.log_in(tamu_user)
             get :index
-            expect(assigns(:tamu_users)).to eq([@tamu_user])
+            expect(assigns(:tamu_users)).to eq([tamu_user])
         end
         
-        it "renders the :index view" do
+        it "renders the :index view if logged in" do
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+            controller.log_in(tamu_user)
+
             get :index
             expect(response).to render_template :index
         end
-      end
+        
+        it "does not populate an array of tamu users if not logged in" do
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+            get :index
+            expect(assigns(:tamu_users)).to_not eq([tamu_user])
+        end
+        
+        it "does not render the :index view if not logged in" do
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+            get :index
+            expect(response).to_not render_template :index
+        end
+        
+        it "redirects to root path if not tamu_user" do
+          controller.log_out
+          @agency = FactoryGirl.create(:agency, :default, :approved)
+          controller.log_in(@agency)
+          get :index
+          expect(response).to redirect_to root_path
+        end
+        
     end
     
     describe "GET #show" do
-        it "assigns the requested tamu user to @tamu_user" do
+        it "assigns the requested tamu user to @tamu_user if logged in" do
             tamu_user = FactoryGirl.create(:tamu_user, :default)
+            controller.log_in(tamu_user)
             get :show, id: tamu_user
             expect(assigns(:tamu_user)).to eq(tamu_user)
         end
         
-        
-        it "it renders the :show view" do
-            get :show, id: FactoryGirl.create(:tamu_user, :default)
+        it "it renders the :show view if logged in" do
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+            controller.log_in(tamu_user)
+            get :show, id: tamu_user
             expect(response).to render_template :show
         end
+        
+        it "does not assign the requested tamu user to @tamu_user if not logged in" do
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+            get :show, id: tamu_user
+            expect(assigns(:tamu_user)).to_not eq(tamu_user)
+        end
+        
+        it "it does not render the :show view if not logged in" do
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+            get :show, id: tamu_user
+            expect(response).to_not render_template :show
+        end
+        
+        it "redirects to root path if not tamu_user and is not connected to tamu_user" do
+          controller.log_out
+          @agency = FactoryGirl.create(:agency, :default, :approved)
+          controller.log_in(@agency)
+          get :show, id: FactoryGirl.create(:tamu_user, :default)
+          expect(response).to redirect_to root_path
+        end
+        
     end
     describe "GET #edit" do
-        it "assigns the requested tamu user to @tamu_user" do
+        it "assigns the requested tamu user to @tamu_user if logged in" do
             tamu_user = FactoryGirl.create(:tamu_user, :default)
+            controller.log_in(tamu_user)
             get :edit, id: tamu_user
             expect(assigns(:tamu_user)).to eq(tamu_user)
         end
-        it "it renders the :edit view" do
-            get :edit, id: FactoryGirl.create(:tamu_user, :default)
+        it "it renders the :edit view if logged in" do
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+            controller.log_in(tamu_user)
+            get :edit, id: tamu_user
             expect(response).to render_template :edit
         end
+        
+        it "does not assign the requested tamu user to @tamu_user if not logged in" do
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+            get :edit, id: tamu_user
+            expect(assigns(:tamu_user)).to_not eq(tamu_user)
+        end
+        it "it does not renders the :edit view if not logged in" do
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+            get :edit, id: tamu_user
+            expect(response).to_not render_template :edit
+        end
+        
+        it "it renders the root path if not current tamu_user" do
+            tamu_user = FactoryGirl.create(:tamu_user, :default)
+            controller.log_in(tamu_user)
+            get :edit, id: FactoryGirl.create(:tamu_user, :updated)
+            expect(response).to redirect_to root_path
+        end 
     end
 
     describe 'PUT update' do
       before :each do
         @tamu_user = FactoryGirl.create(:tamu_user, :default)
+        controller.log_in(@tamu_user)
       end
   
-      context "valid attributes" do
+      context "valid attributes and logged in" do
         context "everything goes well" do
           it "located the requested @tamu_user" do
             put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default)
@@ -110,17 +177,36 @@ RSpec.describe TamuUsersController, type: :controller do
           expect(response).to render_template :edit
         end
       end
+      
+      context "valid attributes and not logged in" do
+        context "everything goes well" do
+          it "located the requested @tamu_user" do
+            controller.log_out
+            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default)
+            expect(assigns(:tamu_user)).to_not eq(@tamu_user)
+          end
+        end
+      end
+      
     end
     
     describe 'DELETE destroy' do
       before :each do
         @tamu_user = FactoryGirl.create(:tamu_user, :default)
+        controller.log_in(@tamu_user)
       end
       
       it "deletes the tamu_user" do
         expect{
           delete :destroy, id: @tamu_user        
         }.to change(TamuUser,:count).by(-1)
+      end
+      
+      it "does not delete the tamu_user if not logged in" do
+        controller.log_out
+        expect{
+          delete :destroy, id: @tamu_user        
+        }.to change(TamuUser,:count).by(0)
       end
         
       it "redirects to tamu_user#index" do

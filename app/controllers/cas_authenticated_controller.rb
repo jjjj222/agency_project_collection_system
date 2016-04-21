@@ -1,4 +1,4 @@
-class CasAuthenticatedController < ApplicationController
+class CasAuthenticatedController < ActionController::Base
   include SessionsHelper
 
   def ensure_cas_logged_in

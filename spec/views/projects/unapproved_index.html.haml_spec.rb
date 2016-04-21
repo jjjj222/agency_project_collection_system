@@ -1,15 +1,22 @@
 require 'rails_helper'
 
+
 RSpec.describe "projects/unapproved_index.html.haml", type: :view do
     
     it 'displays all unapproved projects correctly' do
+    
+    @current_user = FactoryGirl.build(:tamu_user, :default, :admin, :id=>1)
+    
+    @agency = FactoryGirl.build(:agency, :default, :approved, :id=>1)
+    
     assign(:projects,
         [
-            FactoryGirl.build(:project, :default, :id=>1),
+            FactoryGirl.build(:project, :default, :agency=>@agency, :id=>1),
             FactoryGirl.build(:project, :default,
                 :name => "Project Two",
                 :description=> "Yet another description",
                 :status=>"completed",
+                :agency=>@agency,
                 :id=>2)
         ])
         
@@ -25,9 +32,13 @@ RSpec.describe "projects/unapproved_index.html.haml", type: :view do
   end
   
   it 'displays approve button for projects' do
+    
+    @current_user = FactoryGirl.build(:tamu_user, :default, :admin, :id=>1)
+    
+    @agency = FactoryGirl.build(:agency, :default, :approved, :id=>1)
     assign(:projects,
         [
-            FactoryGirl.build(:project, :default, :unapproved, :id=>1)
+            FactoryGirl.build(:project, :default, :unapproved, :agency => @agency, :id=>1)
         ])
         
     render

@@ -6,11 +6,6 @@ class Agency < ActiveRecord::Base
   validates :phone_number, format: { with: /\d{3}-\d{3}-\d{4}/, message: "bad format" }, :allow_blank => true
   validates :approved, :inclusion => {:in => [true, false]}
 
-  def is_approved?
-    approved == true
-  end
-
-
   def self.create_with_omniauth(auth)
     parameters = {:provider => auth["provider"], :uid => auth["uid"]}
     #parameters[:approved] = false

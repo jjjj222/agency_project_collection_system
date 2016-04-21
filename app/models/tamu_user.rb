@@ -12,10 +12,6 @@ class TamuUser < ActiveRecord::Base
     role == "professor"
   end
   
-  def is_admin?
-    admin == true
-  end
-  
   has_and_belongs_to_many :projects
   
   validates :name, presence: true

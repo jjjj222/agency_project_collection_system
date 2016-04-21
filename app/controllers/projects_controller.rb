@@ -1,4 +1,9 @@
-class ProjectsController < CasAuthenticatedController
+class ProjectsController < ApplicationController
+    
+    before_action :admin_only, :only=>[:unapproved_index, :unapprove, :approve]
+    before_action :agency_only, :only=>[:new, :create, :edit, :update, :destroy]
+    before_action :owner_only, :only=>[:edit, :update, :destroy]
+    before_action :tamu_user_only, :only=>[:index, :show]
     
     def project_params
         params[:project][:tags] = params[:project][:tags].split(/[\s,]+/)
@@ -14,8 +19,10 @@ class ProjectsController < CasAuthenticatedController
     end
    
     def show
-      id = params[:id] # retrieve movie ID from URI route
       @project = Project.find(params[:id])
+      if !@project.approved and current_user.is_a?(TamuUser) and !current_user.admin?
+        redirect_to projects_path
+      end
     end
    
     def new
@@ -23,16 +30,15 @@ class ProjectsController < CasAuthenticatedController
     end
    
     def create
-        @project = Project.new(project_params)
+        @project = current_user.projects.build(project_params)
         
         if @project.save
             flash[:notice] = "#{@project.name} was successfully created."
             redirect_to project_path(@project)
         else
-            flash[:notice] = "Failed"
+            model_failed_flash @project
             render action: "new"
         end
-        
     end
    
     def edit
@@ -46,11 +52,7 @@ class ProjectsController < CasAuthenticatedController
             flash[:notice] = "#{@project.name} was successfully updated."
             redirect_to project_path
         else
-          if @project.errors.any?
-            flash[:notice] = @project.errors.full_messages.join("<br>")
-          else
-            flash[:notice] = "Failed"
-          end
+            model_failed_flash @project
             render action: "edit"
         end
     end
@@ -81,6 +83,34 @@ class ProjectsController < CasAuthenticatedController
         @project.save
         flash[:notice] = "Project '#{@project.name}' unapproved."
         redirect_to projects_path
+    end
+    
+    private
+
+    def agency_only
+      unless current_user.is_a?(Agency)
+          redirect_to root_path, :alert => "Access Denied"
+      end
+    end
+    
+    def owner_only
+        @project = Project.find(params[:id])
+        unless current_user == @project.agency
+            redirect_to root_path, :alert => "Access denied."
+        end
+    end
+    
+    def tamu_user_only
+      if params[:id]
+        @project = Project.find(params[:id])
+        unless current_user.is_a?(TamuUser) or @project.agency == current_user
+          redirect_to root_path, :alert => "Access denied."
+        end
+      else 
+        unless current_user.is_a?(TamuUser)
+          redirect_to root_path, :alert => "Access denied."
+        end
+      end
     end
 end
 

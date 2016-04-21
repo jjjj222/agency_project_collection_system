@@ -1,0 +1,11 @@
+#project-mypage{
+    margin-left:10px
+}
+
+#edit-delete .button_to{
+    display: inline-block; 
+}
+
+#project_status{
+    width:100px;
+}

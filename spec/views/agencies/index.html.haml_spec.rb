@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "agencies/index.html.haml", type: :view do
     
     it 'displays all agencies correctly' do
+    
     assign(:agencies,
         [
             FactoryGirl.build(:agency, :default, :id=>1),
@@ -25,9 +26,12 @@ RSpec.describe "agencies/index.html.haml", type: :view do
   end
   
   it 'displays unapprove button for agencies' do
+    
+    @current_user = FactoryGirl.build(:tamu_user, :default, :admin, :id=>1)
+     
     assign(:agencies,
         [
-            FactoryGirl.build(:agency, :default, :id=>1)
+            FactoryGirl.build(:agency, :default, :approved, :id=>1)
         ])
         
     render

@@ -1,4 +1,4 @@
-%h1 All Agencies (TODO)
+%h1 All Agencies
 %body
     #content
         #left{:float => "left", :width => "30%"}
@@ -10,10 +10,13 @@
             %table{:border => 1, :width => "70%"}
                 %tr{:height => "10px"}
                     %th{:align=> "left"} Name
-                    %th{:align=> "left"} Unapprove Agency
+                    - if @current_user.class.name == "TamuUser" and @current_user.admin?
+                        %th{:align=> "left"} Unapprove Agency
             
                 - @agencies.each do |agency|
                     %tr{:height => "10px"}
                         %td= link_to agency.name, agency_path(agency.id)
-                        %td= button_to 'Unapprove Agency', unapprove_agency_path(agency)
+                        - if @current_user.class.name == "TamuUser" and @current_user.admin?
+                            %td= button_to 'Unapprove Agency', unapprove_agency_path(agency)
         #footer
+

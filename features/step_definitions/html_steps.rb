@@ -3,20 +3,10 @@ Given /^(?:|I )am on(?: the)? (.+)$/ do |page_name|
   visit path_to(page_name)
 end
 
-Then /^(?:|I )should be on(?: the)? (.+)$/ do |page_name|
-  #puts page.body
-  current_path = URI.parse(current_url).path
-  expect(current_path).to eql path_to(page_name)
-  #if current_path.respond_to? :should
-  #  expect(current_path).to eql path_to(page_name)
-  #else
-  #  assert_equal path_to(page_name), current_path
-  #end
-end
-
-When /^I fill in the "(\w+)" field with "([^"]*)"/i do |field_name, data|
+When /^I fill in the "([^"]*)" field with "([^"]*)"/i do |field_name, data|
   fill_in(field_name, with: data)
 end
+
 When /^I select "([^"]*)" for (.*)/i do |data, field_name|
   select data, from: (underscore_words field_name)
 end
@@ -56,7 +46,8 @@ end
 #end
 
 Then (/^there should be a button "([^"]*)"$/) do |button|
-  page.should have_selector(:link_or_button, button)
+  #page.should have_selector(:link_or_button, button)
+  expect(page).to have_selector(:link_or_button, button)
 end
 
 #When /^(?:|I )click(?: the)? "([^"]*)" icon$/ do |icon|

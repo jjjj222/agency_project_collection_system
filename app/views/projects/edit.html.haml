@@ -14,9 +14,6 @@
   = text_field :project, 'tags'
 
   = label :project, :status, 'Status'
-  = select :project, :status, Project.all_statuses.map { |k| [k.capitalize,k] }
-
-  = submit_tag 'Save Changes', id: 'submit_project_form' 
-
-
-%img(src="https://dl.dropboxusercontent.com/u/41174619/se_project/edit_page.png")
+  = select :project, :status, Project.all_statuses.map { |k| [k.capitalize,k] }, {}, :class=> "form-control"
+  %br
+  = submit_tag 'Save Changes', id: 'submit_project_form' , :class=>'btn btn-primary'

@@ -9,5 +9,9 @@ Background:
 
 Scenario:
   Given I am on the homepage
-  When  I follow "My page"
-  Then  I should be on mypage
+  Then  I follow "My Page"
+  Then  I follow "My Profile"
+  Then  I follow "Edit"
+  When  I fill in the "Name" field with "123"
+  And   I press "submit_agency_form"
+  Then  the name should be "123"

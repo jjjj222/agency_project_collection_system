@@ -7,7 +7,7 @@ FactoryGirl.define do
         description  "This is the test project description";
         status "open";
         tags [""];
-        approved true;
+        approved false;
     }
     
     trait(:test) {

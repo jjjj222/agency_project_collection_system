@@ -12,6 +12,7 @@ FactoryGirl.define do
       name "Updated Smith"
       role "professor"
       email "new_prof@tamu.edu"
+      netid "othernetid"
     }
     trait (:invalid) {
       email "not_an_email"
