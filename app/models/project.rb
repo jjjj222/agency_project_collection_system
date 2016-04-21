@@ -3,10 +3,6 @@ class Project < ActiveRecord::Base
   def self.all_statuses
     ["completed","in progress","cancelled","open"]
   end
-  
-  def is_approved?
-    approved == true
-  end
 
   belongs_to :agency
   has_and_belongs_to_many :tamu_user
