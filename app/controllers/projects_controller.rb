@@ -87,12 +87,6 @@ class ProjectsController < ApplicationController
     
     private
 
-    def admin_only
-      unless current_user.is_a?(TamuUser) and current_user.admin?
-        redirect_to root_path, :alert => "Access denied."
-      end
-    end
-    
     def agency_only
       unless current_user.is_a?(Agency)
           redirect_to root_path, :alert => "Access Denied"

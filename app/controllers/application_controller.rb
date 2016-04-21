@@ -23,4 +23,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  private
+
+  def admin_only
+    unless current_user.is_a?(TamuUser) and current_user.admin?
+      redirect_to root_path, :alert => "Access denied."
+    end
+  end
+
 end
