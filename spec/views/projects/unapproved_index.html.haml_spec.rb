@@ -1,16 +1,11 @@
 require 'rails_helper'
 
 
-def login_as_user_admin
-    @current_user = FactoryGirl.build(:tamu_user, :default, :admin, :id=>1)
-end
-
-
 RSpec.describe "projects/unapproved_index.html.haml", type: :view do
     
     it 'displays all unapproved projects correctly' do
     
-    login_as_user_admin
+    @current_user = FactoryGirl.build(:tamu_user, :default, :admin, :id=>1)
     
     @agency = FactoryGirl.build(:agency, :default, :approved, :id=>1)
     
@@ -38,8 +33,7 @@ RSpec.describe "projects/unapproved_index.html.haml", type: :view do
   
   it 'displays approve button for projects' do
     
-    login_as_user_admin
-    
+    @current_user = FactoryGirl.build(:tamu_user, :default, :admin, :id=>1)
     
     @agency = FactoryGirl.build(:agency, :default, :approved, :id=>1)
     assign(:projects,
