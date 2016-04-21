@@ -45,8 +45,6 @@ Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
     agency_login.call(current_agency)
   when "unapproved_agency"
     agency_login.call(unapproved_agency)
-  else
-    raise "Invalid user type"
   end
 end
 

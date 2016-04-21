@@ -36,10 +36,9 @@ class ProjectsController < ApplicationController
             flash[:notice] = "#{@project.name} was successfully created."
             redirect_to project_path(@project)
         else
-            flash[:notice] = "Failed"
+            model_failed_flash @project
             render action: "new"
         end
-        
     end
    
     def edit
@@ -53,11 +52,7 @@ class ProjectsController < ApplicationController
             flash[:notice] = "#{@project.name} was successfully updated."
             redirect_to project_path
         else
-          if @project.errors.any?
-            flash[:notice] = @project.errors.full_messages.join("<br>")
-          else
-            flash[:notice] = "Failed"
-          end
+            model_failed_flash @project
             render action: "edit"
         end
     end

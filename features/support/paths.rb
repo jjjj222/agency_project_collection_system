@@ -20,45 +20,11 @@ module NavigationHelpers
     when /^home\s?page/
       root_path
 
-    when /^login page/
-      login_path
-
-    when /^mypage$/
-      mypage_path
-
-    when /^my profile page$/
-      mypage_profile_path
-
-    when /^my profile edit page$/
-      mypage_profile_edit_path
+    when /^(\w+) (.+) page$/i
+      eval (controller_action_name action: $1, controller: $2)
 
     when /^(\w+) (.+) page for (?:the) (.*)$/i
       controller_action_path action: $1, controller: $2, param: $3
-
-    #when /^google authentication page$/
-    #  "/auth/google_oauth2"
-
-      #"https://accounts.google.com/ServiceLogin"
-    #when /^the edit page for "([^"]*)"$/
-    #  edit_movie_path(Movie.find_by_title($1))
-
-    #when /^the details page for "([^"]*)"$/
-    #  movie_path(Movie.find_by_title($1))
-
-    #when /^the Similar Movies page for "([^"]*)"$/
-    #  similar_movie_path(Movie.find_by_title($1))
-      #test = edit_movie_path(Movie.find_by_title($1))
-      #movies = Movie.where(title: $1)
-      ##test = edit_movie_path(movies[0])
-      #debugger
-      #edit_movie_path(movies[0])
-#When /^(?:|I )go to (.+) for "([^"]*)"$/ do |page_name, movie|
-
-    # Add more mappings here.
-    # Here is an example that pulls values out of the Regexp:
-    #
-    #   when /^(.*)'s profile page$/i
-    #     user_profile_path(User.find_by_login($1))
 
     else
       return nil
@@ -73,19 +39,24 @@ module NavigationHelpers
     end
   end
 
-  def controller_action_path(opts)
+  def controller_action_name(opts)
     controller_name = underscore_words opts[:controller]
-    param_name = underscore_words opts[:param]
 
     # compute the url helper method name, e.g. edit_tamu_user
-    path_name =
+    path =
       if not ["index","show"].include? opts[:action]
         "#{opts[:action]}_#{controller_name}".downcase
       else
         controller_name
       end
 
-    code = "#{path_name}_url #{param_name}"
+    "#{path}_url"
+  end
+
+  def controller_action_path(opts)
+    path_name = controller_action_name opts
+    param_name = underscore_words opts[:param]
+    code = "#{path_name} #{param_name}"
     eval code
   end
 end

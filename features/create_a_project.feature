@@ -3,3 +3,18 @@ Feature: Adding a project
   As an agency
   So that I can get a project connected with a student
   I want to add a project
+
+Background: Logged in as an approved agency
+    Given I am logged in as an agency
+    And   I go to the new project page
+
+Scenario: Fail to make a nameless project
+  When I fill in the "Name" field with ""
+  And  I press "Save Changes"
+  Then I should see a notice about invalid name
+
+Scenario:
+  When I fill in the "Name" field with "New project"
+  And  I fill in the "Description" field with "This is a description"
+  And  I press "Save Changes"
+  Then I should see a notice telling me it was sucessful
