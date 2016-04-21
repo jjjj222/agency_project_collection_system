@@ -26,7 +26,7 @@ Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
     auth_hash = Hash.new
     auth_hash['info'] = info_hash
     auth_hash['provider'] = 'google_oauth2'
-    auth_hash['uid'] = '11111'
+    auth_hash['uid'] = agency.uid
 
     OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(auth_hash)
 
