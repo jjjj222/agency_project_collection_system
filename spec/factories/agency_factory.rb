@@ -13,5 +13,15 @@ FactoryGirl.define do
     trait(:approved) {approved true}
     trait(:unapproved) {approved false}
     trait(:nil_approved) {approved nil}
+    trait(:invalid) { name "" }
+    trait(:other) {
+      name "Other Agency"
+      email "other@nonprofit.org"
+      phone_number "100-200-3000"
+      approved true
+    }
+    trait (:updated) {
+      name "New Agency"
+    }
   end
 end

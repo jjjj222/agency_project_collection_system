@@ -2,9 +2,12 @@ class AgenciesController < ApplicationController
     
     before_action :admin_only, :only=>[:unapproved_index, :unapprove, :approve]
     before_action :tamu_user_only, :only=>[:index, :show]
-
     
-    #before_action :owner_only, :only=>[:edit, :update, :destroy]
+    before_action :owner_only, :only=>[:edit, :update, :destroy]
+
+    def agency_params
+      params.require(:agency).permit(:name)
+    end
     
     def index
         @agencies = Agency.where(approved: true)
@@ -18,6 +21,25 @@ class AgenciesController < ApplicationController
         @agency = Agency.find params[:id]
         if !@agency.approved and current_user.class.name == "TamuUser" and !current_user.admin?
           redirect_to agencies_path
+        end
+    end
+
+    def edit
+        @agency = Agency.find params[:id]
+    end
+
+    def update
+        @agency = Agency.find params[:id]
+        if @agency.update_attributes(agency_params)
+            flash[:notice] = "# Profile was successfully updated."
+            redirect_to agency_path
+        else
+          if @agency.errors.any?
+            flash[:notice] = @agency.errors.full_messages.join("<br>")
+          else
+            flash[:notice] = "Failed"
+          end
+          render action: "edit", id: @agency.id
         end
     end
     
@@ -85,12 +107,12 @@ class AgenciesController < ApplicationController
       end
     end
     
-    # def owner_only
-    #     @agency = Agency.find params[:id]
-    #     unless current_user == @agency
-    #         redirect_to root_path, :alert => "Access denied."
-    #     end
-    # end
+    def owner_only
+        @agency = Agency.find params[:id]
+        unless current_user == @agency
+            redirect_to root_path, :alert => "Access denied."
+        end
+    end
     
     def tamu_user_only
       if params[:id]

@@ -13,5 +13,5 @@ Scenario:
   Then  I follow "My Profile"
   Then  I follow "Edit"
   When  I fill in the "Name" field with "123"
-  And   I press "submit_user_form"
-  Then  I should see "123"
+  And   I press "submit_agency_form"
+  Then  the name should be "123"

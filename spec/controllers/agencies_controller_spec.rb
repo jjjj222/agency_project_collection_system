@@ -238,5 +238,91 @@ RSpec.describe AgenciesController, type: :controller do
       end
       
     end
+
+    describe "GET #edit" do
+        it "assigns the requested agency to @agency" do
+            agency = FactoryGirl.create(:agency, :default)
+            controller.log_in(agency)
+            get :edit, id: agency
+            expect(assigns(:agency)).to eq(agency)
+        end
+        it "it renders the :edit view" do
+            agency = FactoryGirl.create(:agency, :default)
+            controller.log_in(agency)
+            get :edit, id: agency
+            expect(response).to render_template :edit
+        end 
+        
+        it "it renders the root path if not current agency" do
+            agency = FactoryGirl.create(:agency, :default)
+            controller.log_in(agency)
+            get :edit, id: FactoryGirl.create(:agency, :other)
+            expect(response).to redirect_to root_path
+        end 
+    end
     
+    describe 'PUT update' do
+      before :each do
+        @agency = FactoryGirl.create(:agency, :default)
+        controller.log_in(@agency)
+      end
+  
+      context "valid attributes" do
+        context "everything goes well" do
+          it "located the requested @agency" do
+            put :update, id: @agency, agency: FactoryGirl.attributes_for(:agency, :default)
+            expect(assigns(:agency)).to eq(@agency)
+          end
+
+          it "changes @agency's attributes, but not email" do
+            put :update, id: @agency, agency: FactoryGirl.attributes_for(:agency, :updated)
+            @agency.reload
+            expect(@agency.name).to eq("New Agency")
+            expect(@agency.email).to eq("agency@nonprofit.org")
+          end
+
+          it "redirects to the updated agency" do
+            put :update, id: @agency, agency: FactoryGirl.attributes_for(:agency, :default)
+            expect(response).to redirect_to @agency
+          end
+        end
+        context "update fails" do
+          before :each do
+            expect_any_instance_of(Agency).to receive(:update_attributes).and_return(nil)
+          end
+
+          it "does not change @agency's attributes" do
+            put :update, id: @agency, agency: FactoryGirl.attributes_for(:agency, :invalid)
+            @agency.reload
+            expect(@agency.name).to eq("Test Agency")
+            expect(@agency.email).to eq("agency@nonprofit.org")
+          end
+
+          it "re-renders the edit method" do
+            put :update, id: @agency, agency: FactoryGirl.attributes_for(:agency, :invalid)
+            expect(response).to render_template :edit
+          end
+        end
+        
+      end
+  
+      context "invalid attributes" do
+        it "locates the requested @agency" do
+          put :update, id: @agency, agency: FactoryGirl.attributes_for(:agency, :invalid)
+          expect(assigns(:agency)).to eq(@agency)
+        end
+    
+        it "does not change @agency's attributes" do
+          put :update, id: @agency, agency: FactoryGirl.attributes_for(:agency, :invalid)
+          @agency.reload
+            expect(@agency.name).to eq("Test Agency")
+            expect(@agency.email).to eq("agency@nonprofit.org")
+        end
+    
+        it "re-renders the edit method" do
+          put :update, id: @agency, agency: FactoryGirl.attributes_for(:agency, :invalid)
+          expect(response).to render_template :edit
+        end
+      end
+    end
 end
