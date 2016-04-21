@@ -1,16 +1,11 @@
 require 'spec_helper'
 
-def login_as_agency
-    @agency = FactoryGirl.build(:agency, :default, :approved, :id=>1)
-    @current_user = @agency
-end
-
 describe 'projects/edit.html.haml' do
     
     context 'given a project with correct data' do
         before do
-            login_as_agency
-            @project = FactoryGirl.build(:project, :default, :agency=>@agency, :id=>1)
+            @current_user = FactoryGirl.build(:agency, :default, :approved, :id=>1)
+            @project = FactoryGirl.build(:project, :default, :agency=>@current_user, :id=>1)
             assign :project, @project
             render
         end
