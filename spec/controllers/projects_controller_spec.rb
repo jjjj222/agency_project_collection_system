@@ -357,26 +357,52 @@ RSpec.describe ProjectsController, type: :controller do
         @project = FactoryGirl.create(:project, :default, :unapproved)
       end
 
-      it "located the requested @project" do
+      it "located the requested @project if logged in as admin" do
         post :approve, id: @project, project: FactoryGirl.attributes_for(:project, :default, :unapproved)
         expect(assigns(:project)).to eq(@project)
       end
 
-      it "changes @project's approved field" do
+      it "changes @project's approved field if logged in as admin" do
         post :approve, id: @project#, project: FactoryGirl.attributes_for(:project, :default, :approved)
         @project.reload
         expect(@project.approved).to eq(true)
       end
+      
+      it "does not locate the requested @project if not logged in" do
+        controller.log_out
+        post :approve, id: @project, project: FactoryGirl.attributes_for(:project, :default, :unapproved)
+        expect(assigns(:project)).to_not eq(@project)
+      end
 
-      it "redirects to the approved projects if there is no unapproved projects left" do
+      it "does not change @project's approved field if not logged in" do
+        controller.log_out
+        post :approve, id: @project#, project: FactoryGirl.attributes_for(:project, :default, :approved)
+        @project.reload
+        expect(@project.approved).to_not eq(true)
+      end
+
+      it "redirects to the approved projects if there is no unapproved projects left if logged in as admin" do
         post :approve, id: @project#, project: FactoryGirl.attributes_for(:project, :default)
         expect(response).to redirect_to projects_path
       end
       
-      it "redirects to the unapproved projects if there are unapproved projects left" do
+      it "redirects to the unapproved projects if there are unapproved projects left if logged in as admin" do
         FactoryGirl.create(:project, :default, :unapproved)
         post :approve, id: @project#, project: FactoryGirl.attributes_for(:project, :default)
         expect(response).to redirect_to unapproved_projects_index_path
+      end
+      
+      it "does not redirect to the approved projects if there is no unapproved projects left if not logged in" do
+        controller.log_out
+        post :approve, id: @project#, project: FactoryGirl.attributes_for(:project, :default)
+        expect(response).to_not redirect_to projects_path
+      end
+      
+      it "does not redirect to the unapproved projects if there are unapproved projects left if not logged in" do
+        controller.log_out
+        FactoryGirl.create(:project, :default, :unapproved)
+        post :approve, id: @project#, project: FactoryGirl.attributes_for(:project, :default)
+        expect(response).to_not redirect_to unapproved_projects_index_path
       end
       
       it "redirects to root path if not admin" do
@@ -394,20 +420,39 @@ RSpec.describe ProjectsController, type: :controller do
         @project = FactoryGirl.create(:project, :default, :approved)
       end
 
-      it "located the requested @project" do
+      it "located the requested @project if logged in" do
         post :unapprove, id: @project, project: FactoryGirl.attributes_for(:project, :default, :approved)
         expect(assigns(:project)).to eq(@project)
       end
 
-      it "changes @project's approved field" do
+      it "changes @project's approved field if logged in" do
         post :unapprove, id: @project#, project: FactoryGirl.attributes_for(:project, :default, :approved)
         @project.reload
         expect(@project.approved).to eq(false)
       end
 
-      it "redirects to the approved projects" do
+      it "redirects to the approved projects if logged in" do
         post :approve, id: @project#, project: FactoryGirl.attributes_for(:project, :default)
         expect(response).to redirect_to projects_path
+      end
+      
+      it "is not located the requested @project if not logged in" do
+        controller.log_out
+        post :unapprove, id: @project, project: FactoryGirl.attributes_for(:project, :default, :approved)
+        expect(assigns(:project)).to_not eq(@project)
+      end
+
+      it "does not change @project's approved field if not logged in" do
+        controller.log_out
+        post :unapprove, id: @project#, project: FactoryGirl.attributes_for(:project, :default, :approved)
+        @project.reload
+        expect(@project.approved).to_not eq(false)
+      end
+
+      it "does not redirect to the approved projects if not logged in" do
+        controller.log_out
+        post :approve, id: @project#, project: FactoryGirl.attributes_for(:project, :default)
+        expect(response).to_not redirect_to projects_path
       end
       
       it "redirects to root path if not admin" do
@@ -425,15 +470,28 @@ RSpec.describe ProjectsController, type: :controller do
         @project = FactoryGirl.create(:project, :default, :agency => @agency)
       end
       
-      it "deletes the project" do
+      it "deletes the project if logged in as agency" do
         expect{
           delete :destroy, id: @project
         }.to change(Project,:count).by(-1)
       end
         
-      it "redirects to project#index" do
+      it "redirects to project#index if logged in as agency" do
         delete :destroy, id: @project
         expect(response).to redirect_to projects_path
+      end
+      
+      it "does not delete the project if not logged in as agency" do
+        controller.log_out
+        expect{
+          delete :destroy, id: @project
+        }.to change(Project,:count).by(0)
+      end
+        
+      it "does not redirect to project#index if not logged in as agency" do
+        controller.log_out
+        delete :destroy, id: @project
+        expect(response).to_not redirect_to projects_path
       end
       
       it "redirects to root path if not agency" do
