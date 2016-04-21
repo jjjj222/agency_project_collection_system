@@ -6,16 +6,6 @@ def login_as_user_admin
     @current_user = @admin
 end
 
-def login_as_user_non_admin
-    @tamu_user = FactoryGirl.build(:tamu_user, :default, :not_admin, :id=>1)
-    @current_user = @tamu_user
-end
-
-def login_as_agency
-    @agency = FactoryGirl.build(:agency, :default, :approved, :id=>1)
-    @current_user = @agency
-end
-
 RSpec.describe "projects/index.html.haml", type: :view do
     
     it 'displays all users correctly' do
