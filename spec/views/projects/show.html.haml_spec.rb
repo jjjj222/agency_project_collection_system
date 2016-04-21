@@ -2,8 +2,7 @@ require 'spec_helper'
 
 
 def login_as_user_admin
-    @admin = FactoryGirl.build(:tamu_user, :default, :admin, :id=>1)
-    @current_user = @admin
+    @current_user = FactoryGirl.build(:tamu_user, :default, :admin, :id=>1)
 end
 
 

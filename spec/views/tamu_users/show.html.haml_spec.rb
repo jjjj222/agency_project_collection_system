@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 def login_as_user_non_admin
-    @tamu_user = FactoryGirl.build(:tamu_user, :default, :not_admin, :id=>1)
-    @current_user = @tamu_user
+    @current_user = FactoryGirl.build(:tamu_user, :default, :not_admin, :id=>1)
 end
 
 describe 'tamu_users/show.html.haml' do
