@@ -19,7 +19,7 @@ class AgenciesController < ApplicationController
     
     def show
         @agency = Agency.find params[:id]
-        if !@agency.approved and current_user.class.name == "TamuUser" and !current_user.admin?
+        if !@agency.approved and current_user.is_a?(TamuUser) and !current_user.admin?
           redirect_to agencies_path
         end
     end
@@ -102,7 +102,7 @@ class AgenciesController < ApplicationController
     private
 
     def admin_only
-      unless current_user.class.name == "TamuUser" and current_user.admin?
+      unless current_user.is_a?(TamuUser) and current_user.admin?
         redirect_to root_path, :alert => "Access denied."
       end
     end
@@ -117,11 +117,11 @@ class AgenciesController < ApplicationController
     def tamu_user_only
       if params[:id]
         @agency = Agency.find(params[:id])
-        unless current_user.class.name == "TamuUser" or @agency == current_user
+        unless current_user.is_a?(TamuUser) or @agency == current_user
           redirect_to root_path, :alert => "Access denied."
         end
       else 
-        unless current_user.class.name == "TamuUser"
+        unless current_user.is_a?(TamuUser)
           redirect_to root_path, :alert => "Access denied."
         end
       end

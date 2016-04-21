@@ -61,11 +61,11 @@ class TamuUsersController < ApplicationController
     def tamu_user_only
       if params[:id] #show
         @tamu_user = TamuUser.find(params[:id])
-        unless current_user.class.name == "TamuUser" or @tamu_user == current_user
+        unless current_user.is_a?(TamuUser) or @tamu_user == current_user
           redirect_to root_path, :alert => "Access denied."
         end
       else #index
-        unless current_user.class.name == "TamuUser"
+        unless current_user.is_a?(TamuUser)
           redirect_to root_path, :alert => "Access denied."
         end
       end

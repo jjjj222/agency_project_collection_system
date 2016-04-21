@@ -20,7 +20,7 @@ class ProjectsController < ApplicationController
    
     def show
       @project = Project.find(params[:id])
-      if !@project.approved and current_user.class.name == "TamuUser" and !current_user.admin?
+      if !@project.approved and current_user.is_a?(TamuUser) and !current_user.admin?
         redirect_to projects_path
       end
     end
@@ -88,13 +88,13 @@ class ProjectsController < ApplicationController
     private
 
     def admin_only
-      unless current_user.class.name == "TamuUser" and current_user.admin?
+      unless current_user.is_a?(TamuUser) and current_user.admin?
         redirect_to root_path, :alert => "Access denied."
       end
     end
     
     def agency_only
-      unless current_user.class.name == "Agency"
+      unless current_user.is_a?(Agency)
           redirect_to root_path, :alert => "Access Denied"
       end
     end
@@ -109,11 +109,11 @@ class ProjectsController < ApplicationController
     def tamu_user_only
       if params[:id]
         @project = Project.find(params[:id])
-        unless current_user.class.name == "TamuUser" or @project.agency == current_user
+        unless current_user.is_a?(TamuUser) or @project.agency == current_user
           redirect_to root_path, :alert => "Access denied."
         end
       else 
-        unless current_user.class.name == "TamuUser"
+        unless current_user.is_a?(TamuUser)
           redirect_to root_path, :alert => "Access denied."
         end
       end
