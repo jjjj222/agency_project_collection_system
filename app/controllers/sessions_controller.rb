@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
 
   def create
     begin
-      auth_hash = request.env['omniauth.auth']
+      auth_hash = get_auth_hash
 
       user_type = "Agency" # TAMU Users logged in indirectly by CAS
 
@@ -52,4 +52,9 @@ class SessionsController < ApplicationController
     end
     redirect_to root_path
   end
+
+  def get_auth_hash
+    request.env['omniauth.auth']
+  end
+
 end
