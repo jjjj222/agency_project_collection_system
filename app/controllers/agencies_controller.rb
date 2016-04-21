@@ -34,11 +34,7 @@ class AgenciesController < ApplicationController
             flash[:notice] = "# Profile was successfully updated."
             redirect_to agency_path
         else
-          if @agency.errors.any?
-            flash[:notice] = @agency.errors.full_messages.join("<br>")
-          else
-            flash[:notice] = "Failed"
-          end
+          model_failed_flash @agency
           render action: "edit", id: @agency.id
         end
     end
@@ -83,20 +79,6 @@ class AgenciesController < ApplicationController
     # def destroy
     #     @agency = Agency.find params[:id]
     #     @agency.destroy
-    # end
-    
-    # def edit
-    #     @agency = Agency.find params[:id]
-    # end
-    
-    # def update
-    #     @agency = Agency.find params[:id]
-    #     # This was in an example model controller from a tutorial
-    #     # Not sure if this is something we need yet?
-        
-    #     if @robot.update_attributes(params[:agency])
-    #         redirect_to :action => 'show', :id => @agency.id
-    #     end
     # end
     
     private

@@ -41,7 +41,6 @@ class TamuUsersController < ApplicationController
         if @tamu_user.update_attributes(tamu_user_params)
             flash[:notice] = "# Profile was successfully updated."
             redirect_to tamu_user_path
-            # redirect_to :action => 'edit', id: @tamu_user.id
         else
             model_failed_flash @tamu_user
             render action: "edit", id: @tamu_user.id
