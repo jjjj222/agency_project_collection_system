@@ -31,6 +31,10 @@ module NavigationHelpers
 
     when /^my profile edit page$/
       mypage_profile_edit_path
+
+    when /^(\w+) (.+) page for (?:the) (.*)$/i
+      controller_action_path action: $1, controller: $2, param: $3
+
     #when /^google authentication page$/
     #  "/auth/google_oauth2"
 
@@ -67,6 +71,22 @@ module NavigationHelpers
       #    "Now, go and add a mapping in #{__FILE__}"
       #end
     end
+  end
+
+  def controller_action_path(opts)
+    controller_name = underscore_words opts[:controller]
+    param_name = underscore_words opts[:param]
+
+    # compute the url helper method name, e.g. edit_tamu_user
+    path_name =
+      if not ["index","show"].include? opts[:action]
+        "#{opts[:action]}_#{controller_name}".downcase
+      else
+        controller_name
+      end
+
+    code = "#{path_name}_url #{param_name}"
+    eval code
   end
 end
 
