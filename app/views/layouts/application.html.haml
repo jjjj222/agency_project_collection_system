@@ -1,50 +1,93 @@
-!!! 5
 %html
   %head
     %title TAMU Non-Profit Projects Collect System
     = stylesheet_link_tag 'application'
     = javascript_include_tag 'application'
     = csrf_meta_tags
-
   %body
     #maroon_top
       %h1.title TAMU Non-Profit Projects Collect System
-      #a-maroon
-        = link_to 'Home', root_path
-        - if !logged_in?
-          |
-          = link_to 'Login', my_login_path
-        - else
-          |
-          = link_to "Log out", my_logout_path
-          - if @current_user.class.name == "TamuUser"
-            |
-            = link_to "My Page", tamu_user_path(@current_user.id)
-            |
-            = link_to 'All TAMU users', tamu_users_path
-            |
-            = link_to 'All Agencies', agencies_path
-            |
-            = link_to 'All Projects', projects_path
-            - if @current_user.admin?
-              |
-              = link_to "All Unapproved Agencies", unapproved_agencies_index_path
-              |
-              = link_to "All Unapproved Projects", unapproved_projects_index_path
+      .top-header
+        #a-maroon
+          = link_to 'Home', root_path
+          - if !logged_in?
+            
+            = link_to 'Login', my_login_path
           - else
-            |
-            = link_to "My Page", agency_path(@current_user.id)
-          |
-          logged in as "#{current_user.name}" (#{@current_user.class.to_s} #{@current_user.id})
-
+            
+           
+            - if @current_user.class.name == "TamuUser"
+              
+              = link_to "My Page", tamu_user_path(@current_user.id)
+              
+              = link_to 'All TAMU users', tamu_users_path
+              
+              = link_to 'All Agencies', agencies_path
+              
+              = link_to 'All Projects', projects_path
+              - if @current_user.admin?
+                
+                = link_to "All Unapproved Agencies", unapproved_agencies_index_path
+                
+                = link_to "All Unapproved Projects", unapproved_projects_index_path
+            - else
+              
+              = link_to "My Page", agency_path(@current_user.id)
+            = link_to "Log out", my_logout_path
+      / .top-header
+      #login-as
+        - if logged_in?
+          Logged in as #{current_user.name}
     #main
-      - if flash[:notice]
-        #notice.message!= flash[:notice]
-      - elsif flash[:warning]
-        #warning.message!= flash
+      #layoutcenter
+        - if flash[:notice]
+          #notice.message!= flash[:notice]
+        - elsif flash[:warning]
+          #warning.message!= flash[:warning]
+
+        = yield
+    #maroon_footer
+      Copyright 2016 Texas A&M University 
+      %br
+      Developed By:
+    
+/       #a-maroon
+/         = link_to 'Home', root_path
+/         - if !logged_in?
+/           |
+/           = link_to 'Login', my_login_path
+/         - else
+/           |
+/           = link_to "Log out", logout_path
+/           - if @current_user.class.name == "TamuUser"
+/             |
+/             = link_to "My Page", tamu_user_path(@current_user.id)
+/             |
+/             = link_to 'All TAMU users', tamu_users_path
+/             |
+/             = link_to 'All Agencies', agencies_path
+/             |
+/             = link_to 'All Projects', projects_path
+/             - if @current_user.admin?
+/               |
+/               = link_to "All Unapproved Agencies", unapproved_agencies_index_path
+/               |
+/               = link_to "All Unapproved Projects", unapproved_projects_index_path
+/           - else
+/             |
+/             = link_to "My Page", agency_path(@current_user.id)
+/           |
+/           logged in as "#{current_user.name}" (#{@current_user.class.to_s} #{@current_user.id})
+
+/     #main
+/       - if flash[:notice]
+/         #notice.message!= flash[:notice]
+/       - elsif flash[:warning]
+/         #warning.message!= flash
       
-      = yield
+/       = yield
       
-    -#= debug(params) if Rails.env.development?
-    -#%br
-    -#= debug(session) if Rails.env.development?
+/ >>>>>>> 979a042b9d1db697986f633021a8c7fbd47290d4
+/     -#= debug(params) if Rails.env.development?
+/     -#%br
+/     -#= debug(session) if Rails.env.development?

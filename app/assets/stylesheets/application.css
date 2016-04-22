@@ -17,77 +17,59 @@
  
  /*css layout*/
 
-
-
-.header_grid{
-	 display : block;
-	 width : 100%;
-	 overflow : auto;
-	 margin : 10px auto 0 auto;
-	 padding : 0;
-	 min-width: 800px;
-	 max-width: 1600px;
-}
-
-.headerLogo{
-	 float : left;
-	 clear : none;
-	 height : 60px;
-	 width : 200px;
-	 padding : 0;
-}
-.headerContent{
-	 float : right;
-	 clear : none;
-	 height : 60px;
-	 width : 350px;
-	 padding : 0;
-}
-
-.blended_grid{
-	 display : block;
-	 width : 100%;
-	 overflow : auto;
-	 margin : 30px auto 0 auto;
-	 min-width: 800px;
-	 max-width: 1600px;
-}
-
-.pageLeftMenu{
-	 float : left;
-	 clear : none;
-	 width : 20%;
-	 min-width: 160px;
-	 max-width: 320px;
-}
-
-.pageFooter{
-	 float : left;
-	 clear : none;
-	 width : 100%;
-}
  
 html, body {
   margin: 0;
   padding: 0;
-  background: White;
+  background-color: #C3C3C3;
   color: DarkSlateGrey;
   font-family: Tahoma, Verdana, sans-serif;
   font-size: 10pt;
+  height:100%;
 }
-div#head {
-  background-color: #500000;
-  margin: 0;
-  padding: 0;
+
+/*body {
+
+}*/
+
+#main {
+  /*margin: 0;
+  padding: 0 20px 20px;*/
+  height: 100%;
+  /*padding-bottom: 50px;*/
+  width: 100%;
+  min-width: 1200px;
+  background: #C5C5C5;
 }
-div#maroon_top{
+
+#layoutcenter{
+/*to make body stays in the middle*/
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #F2F2F2;
+  padding: 30px;
+  height: 100%;
+}
+
+
+#maroon_top{
+  /*padding: 0 0 0 10px;*/
   background-color: #500000;
   color: white;
+  width:100%;
+  min-width: 1200px;
 }
-div#main {
-  margin: 0;
-  padding: 0 20px 20px;
+
+#maroon_footer{
+  /*padding: 0 0 0 10px;*/
+  background-color: #500000;
+  color: white;
+  width:100%;
+  height: 50px;
+  min-width: 800px;
 }
+
 a {
   background: transparent;
   color: #500000;
@@ -97,33 +79,29 @@ a {
 
 #a-maroon a{
   color: white;
+  padding:15px;
 }
 
 h1 {
-  color: #500000;
   font-size: 150%;
   font-style: italic;
   display: block;
-  width: 100%;
-  border-bottom: 1px solid DarkSlateGrey;
+  border-bottom: 0px solid DarkSlateGrey;
+  color: #500000;
 }
 h1.title {
-  margin: 0 0 1em;
-  padding: 10px;
+  margin: 0 0 0.5em;
   background-color: #500000;
+  border-bottom: 0px solid #500000;
   color: white;
-  border-bottom: 4px solid #500000;
-  font-size: 2em;
+  font-size: 32px;
   font-style: normal;
 }
 
 h2.title {
   color: white;
-  font-size: 13pt;
-  font-family: "Times New Roman", Times, serif;
   padding-bottom: 10px;
 }
-
 
 #notice, #warning {
   background: rosybrown;
@@ -140,9 +118,9 @@ form label {
 
 /*css for table*/
 table {
-    border:none;
-    border-collapse: collapse;
-        border-spacing: 0;
+  border:none;
+  border-collapse: collapse;
+  border-spacing: 0;
   margin:0px;padding:5px;
   color:#ffffff;
 }
@@ -199,12 +177,6 @@ td{
   background-color:#500000;
 }
 
-.container{
-}
-
-.tab-containe{
-}
-
 ul.sidebar {
     list-style-type: none;
     margin: 0;
@@ -237,3 +209,10 @@ li.sidebar a:hover:not(.active) {
 .field_with_errors input {
   border-color: red;
 }
+.top-header{
+    display:inline-block;
+}
+#login-as{
+  float: right;
+}
+

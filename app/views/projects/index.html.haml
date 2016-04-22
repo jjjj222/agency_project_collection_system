@@ -1,3 +1,5 @@
+%h1 All Project
+
 !!!
 -#%head
 -#    %h1 TAMU Non-Profit Projects Collect System
@@ -41,26 +43,28 @@
                         %td= button_to 'Unapprove Project', unapprove_project_path(project),:class=>"btn btn-warning"
     #footer
 
-
-
-
-/   !!!
-/ %head
-/  %h1 TAMU Non-Profit Projects Collect System
-/ %body
-/  #content
-/ %table#projects
-/   %thead
-/     %tr
-/       %th Name
-/       %th Description
-/       %th Status
-/       %th Tags
-/   %tbody
-/     - @projects.each do |project|
-/       %tr{:height => "10px"}
-/         %td= project.name
-/         %td= project.description
-/         %td= project.status
-/         %td= project.tags
-/         %td= link_to "More about #{project.name}", project_path(project)
+/ #left{:float => "left", :width => "30%"}
+/     %br
+/     %input{:size => "15", :maxlength => "100", :name => "search_index", :type => "text", :value => ""}/
+/     %button{:type => "button",:class=>"btn btn-primary"} Search
+/     %br
+/     %br
+/ #right
+/     %table{:border => 1, :width => "70%"}
+/         %tr{:height => "10px"}
+/             %th{:class=>'span7 text-center'} Project Name
+/             %th{:class=>'span7 text-center'} Description
+/             %th{:class=>'span7 text-center'} Status
+/             %th{:class=>'span7 text-center'} Tags
+/             %th{:class=>'span7 text-center'} Agency
+/             %th{:class=>'span7 text-center'} Unapprove Project
+    
+/         - @projects.each do |project|
+/             %tr{:height => "40px"}
+/                 %td= link_to project.name, project_path(project)
+/                 %td= project.description
+/                 %td= project.status
+/                 %td= project.tags.join ", "
+/                 %td= project.agency.try(:name) #TODO change to name when creation is figured out
+/                 %td{:class=>'span7 text-center'}= button_to 'Unapprove', unapprove_project_path(project),:class=>"btn btn-danger"
+/ #footer
