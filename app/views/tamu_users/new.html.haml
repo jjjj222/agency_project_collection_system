@@ -11,6 +11,8 @@
 
   = label :tamu_user, :role, 'Role' #TODO: rename this for users?
   = select :tamu_user, :role, [['Student', 'student'], ['Faculty', 'unapproved_professor']], class: "form-control"
+
+  = hidden_field :tamu_user, :netid, value: session_netid
   %br
   %br
-  = submit_tag 'Save Changes',  :class=>'btn btn-primary'
+  = submit_tag 'Create profile',  :class=>'btn btn-primary'
