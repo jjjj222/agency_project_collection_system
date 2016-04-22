@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get       'tamu_login'     => 'sessions#tamu_login'
 
   get '/auth/:provider/callback', to: 'sessions#create'
-  #delete '/logout', to: 'sessions#destroy'
+  delete '/logout', to: 'sessions#destroy'
 
   #resource :mypage
   get       'mypage'    => 'mypage#index'

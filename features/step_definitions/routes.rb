@@ -7,6 +7,7 @@ When /^I go to the (.*s)(?:\s+|)page/i do |page_name|
 end
 
 When /^(?:|I )follow "([^"]*)"$/ do |link|
+    #byebug
     click_link(link)
 end
 
