@@ -14,5 +14,21 @@ class ApplicationController < ActionController::Base
       redirect_to my_login_path
     end
   end
-  
+
+  def model_failed_flash(model)
+    if model.errors.any?
+      flash[:notice] = model.errors.full_messages.join("<br>")
+    else
+      flash[:notice] = "Failed"
+    end
+  end
+
+  private
+
+  def admin_only
+    unless current_user.is_a?(TamuUser) and current_user.admin?
+      redirect_to root_path, :alert => "Access denied."
+    end
+  end
+
 end

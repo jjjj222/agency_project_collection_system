@@ -14,7 +14,7 @@
 
   .tab-content
     #my_projects.tab-pane.fade.in.active
-      - if @current_user == @agency
+      - if @current_user == @agency && @current_user.approved?
         = link_to 'Create Project', new_project_path(@agency)
     
       %table{:border => 1, :width => "70%"}

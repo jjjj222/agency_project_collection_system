@@ -43,11 +43,7 @@ class TamuUsersController < ApplicationController
             redirect_to tamu_user_path
             # redirect_to :action => 'edit', id: @tamu_user.id
         else
-          if @tamu_user.errors.any?
-            flash[:notice] = @tamu_user.errors.full_messages.join("<br>")
-          else
-            flash[:notice] = "Failed"
-          end
+            model_failed_flash @tamu_user
             render action: "edit", id: @tamu_user.id
         end
     end
@@ -65,11 +61,11 @@ class TamuUsersController < ApplicationController
     def tamu_user_only
       if params[:id] #show
         @tamu_user = TamuUser.find(params[:id])
-        unless current_user.class.name == "TamuUser" or @tamu_user == current_user
+        unless current_user.is_a?(TamuUser) or @tamu_user == current_user
           redirect_to root_path, :alert => "Access denied."
         end
       else #index
-        unless current_user.class.name == "TamuUser"
+        unless current_user.is_a?(TamuUser)
           redirect_to root_path, :alert => "Access denied."
         end
       end

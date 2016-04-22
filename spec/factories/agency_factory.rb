@@ -6,6 +6,7 @@ FactoryGirl.define do
       email "agency@nonprofit.org"
       phone_number "800-700-6000"
       approved true
+      provider "google_oauth2"
     }
     trait(:name) { name "Test Agency" }
     trait(:email) { email "agency@nonprofit.org" }

@@ -1,9 +1,9 @@
-When /^I go to the (\w+) (.+) page for (?:the) (.*)$/i do |action, controller, param|
-  visit (controller_action_path action: action, controller: controller, param: param)
-end
+# When /^I go to the (\w+) (.+) page for (?:the) (.*)$/i do |action, controller, param|
+#   visit (controller_action_path action: action, controller: controller, param: param)
+# end
 
-When /^I go to the (.*s)(?:\s+|)page/i do |page_name|
-  visit (eval "#{page_name}_url")
+When /I go to the (.*)$/i do |page_name|
+  visit (path_to page_name)
 end
 
 When /^(?:|I )follow "([^"]*)"$/ do |link|
