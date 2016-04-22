@@ -1,45 +1,35 @@
 class SessionsController < ApplicationController
+  
+  skip_before_action :require_login
+  
   #def new
   #end
-  def tamu_create
-    #user_type = params[:user_type]
-    #user = user_type.constantize.find_by(email: params[:session][:email].downcase) if user_type
-    user = TamuUser.find_by(email: params[:session][:email].downcase)
-    #agency = Agency.find_by(email: params[:session][:email].downcase)
-    if (user)
-      #log_in agency, "Agency"
-      #log_in user, user_type
-      log_in user, "TamuUser"
-      redirect_to mypage_path
-    else
-      flash.now[:notice] = 'Invalid email/password combination'
-      render 'new'
+  def tamu_new
+    if not cas_logged_in?
+      render status: 401, text: "Redirecting to SSO..."
+    end
+    if cas_logged_in? and not current_user_in_session
+      after_cas_logged_in
     end
   end
 
   def create
     begin
-      auth_hash = request.env['omniauth.auth']
+      auth_hash = get_auth_hash
 
-      #user_type = "Agency"
-      user_type = get_user_type_by_provider(auth_hash["provider"])
+      user_type = "Agency" # TAMU Users logged in indirectly by CAS
 
       user = user_type.constantize.find_by(uid: auth_hash['uid'], provider: auth_hash['provider'])
       if user == nil
           user = user_type.constantize.create_with_omniauth(auth_hash)
       end
 
-      if (user)
-        #user = find_or_create_by()
-        #user = Agency.from_omniauth(auth_hash)
-        session[:user_id] = user.id
-        session[:user_type] = "Agency"
-        flash[:success] = "Welcome, #{user.name}!"
-        redirect_to mypage_path
-      else
-        flash.now[:notice] = 'Invalid email/password combination'
-        render 'new'
-      end
+      #user = find_or_create_by()
+      #user = Agency.from_omniauth(auth_hash)
+      session[:user_id] = user.id
+      session[:user_type] = "Agency"
+      flash[:success] = "Welcome, #{user.name}!"
+      redirect_to agency_path(user)
     rescue
       flash[:warning] = "There was an error while trying to authenticate you..."
       render 'new'
@@ -56,13 +46,8 @@ class SessionsController < ApplicationController
     redirect_to root_path
   end
 
-  private
-  def get_user_type_by_provider(provider)
-    if provider == "google_oauth2"
-      return "Agency"
-    else
-      return "TamuUser"
-    end
-    return nil
+  def get_auth_hash
+    request.env['omniauth.auth']
   end
+
 end

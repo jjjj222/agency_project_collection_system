@@ -10,6 +10,10 @@ RSpec.describe TamuUser, type: :model do
   it 'is invalid without email' do
       expect(FactoryGirl.build(:tamu_user, :name, :student, :admin)).to_not be_valid
   end
+
+  it 'is invalid without netid' do
+      expect(FactoryGirl.build(:tamu_user, :name, :student, :admin, :email)).to_not be_valid
+  end
   
   it 'is invalid without correctly formatted email' do
       expect(FactoryGirl.build(:tamu_user, :default, :email => "badEmail")).to_not be_valid
@@ -28,9 +32,9 @@ RSpec.describe TamuUser, type: :model do
     expect(relation.macro).to eq(:has_and_belongs_to_many)
   end
 
-  it "should be either a student or a professor" do
+  it "should be either a student, professor, or unapproved professor" do
     user = FactoryGirl.build(:tamu_user, :default)
-    expect(user).to satisfy { |u| u.is_student? ^ u.is_professor? }
+    expect([:is_student?,:is_professor?,:is_unapproved_professor?].map{|m| user.send(m)}).to contain_exactly(true, false, false)
   end
   
   it "should fail to validate a bad role" do
@@ -45,6 +49,11 @@ RSpec.describe TamuUser, type: :model do
   it "Ensure creating as a prof is a prof" do
     user = FactoryGirl.build(:tamu_user, :default, :professor)
     expect(user).to be_is_professor
+  end
+
+  it "Ensure creating as a unapproved prof is a unapproved prof" do
+    user = FactoryGirl.build(:tamu_user, :default, :unapproved_professor)
+    expect(user).to be_is_unapproved_professor
   end
   
   it 'Test is_professor? method' do

@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'rack-cas'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -22,5 +23,9 @@ module AgencyProjectCollectionSystem
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    #filters passwords from logs
+    config.filter_parameters += [:password]
+    config.rack_cas.server_url = 'https://cas-dev.tamu.edu:443/cas'
   end
 end

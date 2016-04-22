@@ -35,11 +35,15 @@
       %h3 Role:
       %p#role= @tamu_user.role.capitalize
 
-
       %h3 Email:
       %p#email=  @tamu_user.email
-      %br
-      = link_to 'Edit Profile', edit_tamu_user_path(@tamu_user.id)
+      
+      -if @current_user.class.name == "TamuUser" and @current_user.admin?
+        %h3 Admin Status:
+        %p#admin= @tamu_user.admin
+      
+      - if @current_user == @tamu_user
+        = link_to 'Edit Profile', edit_tamu_user_path(@tamu_user.id)
 
     #more.tab-pane.fade
       %h3 More

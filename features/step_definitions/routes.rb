@@ -1,18 +1,15 @@
-When /^I go to the (\w+) (.+) page for (?:the) (.*)$/i do |action, controller, param|
-  controller_name = underscore_words controller
-  param_name = underscore_words param
+# When /^I go to the (\w+) (.+) page for (?:the) (.*)$/i do |action, controller, param|
+#   visit (controller_action_path action: action, controller: controller, param: param)
+# end
 
-  # compute the url helper method name, e.g. edit_tamu_user
-  path_name = 
-    if not ["index","show"].include? action
-      "#{action}_#{controller_name}".downcase
-    else
-      controller_name
-    end
-
-  code = "#{path_name}_url #{param_name}"
-  visit (eval code)
+When /I go to the (.*)$/i do |page_name|
+  visit (path_to page_name)
 end
-When /^I go to the (.*s)(?:\s+|)page/i do |page_name|
-  visit (eval "#{page_name}_url")
+
+When /^(?:|I )follow "([^"]*)"$/ do |link|
+    click_link(link)
+end
+
+When /^(?:|I )click(?: the)? "([^"]*)"$/ do |link|
+    click_link(link)
 end

@@ -1,23 +1,22 @@
 module SessionsHelper
-  def log_in(user, type = user.class.name)
-    session[:user_id] = user.id
-    session[:user_type] = type.camelize
+
+  def logged_in?
+    not current_user_in_session.nil?
   end
 
   def current_user
-    type = session[:user_type]
-
-    #todo check type get from session is a valid user type
-    @current_user ||= type.constantize.find_by(id: session[:user_id]) if type
-    #if type == "agency"
-    #  @current_user ||= Agency.find_by(id: session[:user_id])
-    #else
-    #  @current_user ||= TamuUser.find_by(id: session[:user_id])
-    #end
+    if logged_in?
+      current_user_in_session
+    else
+      nil
+    end
   end
 
-  def logged_in?
-    !current_user.nil?
+
+
+  def log_in(user, type = user.class.name)
+    session[:user_id] = user.id
+    session[:user_type] = type.camelize
   end
 
   def log_out
@@ -25,4 +24,22 @@ module SessionsHelper
     session.delete(:user_type)
     @current_user = nil
   end
+
+  def fix_cas_session
+    if session[:cas].respond_to?(:symbolize_keys)
+      session[:cas] = session[:cas].symbolize_keys
+    end
+  end
+
+  def cas_logged_in?
+    session[:cas] && (session[:cas][:user] || session[:cas]["user"])
+  end
+
+  def current_user_in_session
+    type = session[:user_type]
+
+    #todo check type get from session is a valid user type
+    @current_user ||= type.constantize.find_by(id: session[:user_id]) if type
+  end
+
 end

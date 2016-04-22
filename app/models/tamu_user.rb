@@ -1,7 +1,7 @@
 class TamuUser < ActiveRecord::Base
   
   def self.all_roles
-    ["student","professor"]
+    ["student","professor","unapproved_professor"]
   end
   
   def is_student?
@@ -11,14 +11,15 @@ class TamuUser < ActiveRecord::Base
   def is_professor?
     role == "professor"
   end
-  
-  def is_admin?
-    admin == true
+
+  def is_unapproved_professor?
+    role == "unapproved_professor"
   end
   
   has_and_belongs_to_many :projects
   
   validates :name, presence: true
+  validates :netid, presence: true
   validates :email, email_format: { message: "doesn't look like an email address" }, presence: true
   validates :role, :inclusion => { :in => TamuUser.all_roles }, presence: true
   #validates :admin, :inclusion => {:in => [true, false]}, presence: true

@@ -14,6 +14,6 @@
   = text_field :project, 'tags'
 
   = label :project, :status, 'Status'
-  = select :project, :status, Project.all_statuses.map { |k| [k.capitalize,k] }, {}, :class=> "form-control",:id=>'project-status-selection'
+  = select :project, :status, Project.all_statuses.map { |k| [k.capitalize,k] }, {}, :class=> "form-control"
   %br
   = submit_tag 'Save Changes', id: 'submit_project_form' , :class=>'btn btn-primary'

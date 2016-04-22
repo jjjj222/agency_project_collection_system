@@ -1,31 +1,15 @@
 -#<% provide(:title, "Log in") %>
 %h1 Log in
 
-= link_to 'Log in as Agency', '/auth/google_oauth2'
 
-%br
+%h2 Agency
+-#= link_to image_tag('google_signin_buttons/web/1x/btn_google_signin_light_normal_web.png', id: "google_login"), '/auth/google_oauth2'
+= link_to "Sign in with Google", '/auth/google_oauth2'
+
+%h2 TAMU User
+= link_to "Sign in with CAS", tamu_login_path
+
 -#Login as TAMU User
-
-= form_tag login_path, :method => :post do
-
-  = label :session, :email, 'Email'
-  = text_field :session, 'email'
-
-  -#= select_tag :user_type, options_for_select([['Agency', 'Agency'], ['TAMU user', 'TamuUser']], params[:user_type])
-  -#= label :session, :password, 'Password'
-  -#= text_field :session, 'password'
-  %br
-  %br
-  = submit_tag 'Log in as TAMU User',:class=>"btn btn-primary"
-
-  %br
-  john@tamu.edu
-  %br
-  hank@tamu.edu
-  %br
-  malini@tamu.edu
-
-
 
   -#= label :projects, :description, 'Description'
   -#= text_field :project, 'description'
@@ -42,7 +26,7 @@
 -#
 -#<div class="row">
 -#  <div class="col-md-6 col-md-offset-3">
--#    <%= form_for(:session, url: login_path) do |f| %>
+-#    <%= form_for(:session, url: my_login_path) do |f| %>
 -#
 -#      <%= f.label :email %>
 -#      <%= f.email_field :email, class: 'form-control' %>

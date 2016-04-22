@@ -39,4 +39,11 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  config.rack_cas.fake = true
+  config.rack_cas.fake_attributes = {
+    'adminNetid' => { 'tamuEduPersonNetID' => 'adminNetid', 'tamuEduPersonUIN' => '111002333', 'uid'=>'ffffffffffffffffffffffffffffffff'},
+    'testNetid'  => { 'tamuEduPersonNetID' => 'testNetid',  'tamuEduPersonUIN' => '111002444', 'uid'=>'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'}
+  }
+
 end

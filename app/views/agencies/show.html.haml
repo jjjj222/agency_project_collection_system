@@ -14,6 +14,9 @@
 
   .tab-content
     #my_projects.tab-pane.fade.in.active
+      - if @current_user == @agency && @current_user.approved?
+        = link_to 'Create Project', new_project_path(@agency)
+    
       %table{:border => 1, :width => "70%"}
         %tr{:height => "10px"}
           %th{:align=> "left"} Project Name
@@ -27,11 +30,28 @@
             %td= project.description
             %td= project.status
             %td= project.tags.join ", "
+        
+    #my_profile.tab-pane.fade
+      %h3 My Profile
+
+      %h3 Email:
+      %p#email=  @agency.email
+      
+      %h3 Phone number:
+      %p#phone_number=  @agency.phone_number
+      
+      -if @current_user == @agency
+        = link_to 'Edit', edit_agency_path(@agency.id)
+
+      - if @current_user.class.name == "TamuUser" and @current_user.admin?
+        - if !@agency.approved
+          = button_to 'Approve Agency', approve_agency_path(@agency)
+        - else
+          = button_to 'Unapprove Agency', unapprove_agency_path(@agency)
+
+    #more.tab-pane.fade
+      %h3 More
+      %p Something more
 
 
-= link_to 'Edit', edit_agency_path(@agency.id)
-- if !@agency.approved  
-    = button_to 'Approve Agency', approve_agency_path(@agency)
-- else
-    = button_to 'Unapprove Agency', unapprove_agency_path(@agency)
 
