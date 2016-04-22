@@ -3,6 +3,11 @@ Given /^(?:|I )am on(?: the)? (.+)$/ do |page_name|
   visit path_to(page_name)
 end
 
+# TODO: move towards this
+When /^I fill in ([^"]*) with "([^"]*)"/i do |field_name, data|
+  fill_in(field_name, with: data)
+end
+
 When /^I fill in the "([^"]*)" field with "([^"]*)"/i do |field_name, data|
   fill_in(field_name, with: data)
 end

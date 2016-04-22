@@ -14,7 +14,9 @@ end
 
 Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
   user_login = ->(user) {
-    visit(tamu_users_url) #Assuming it requires CAS log in
+    visit root_path
+    click_link "Login"
+    click_link 'Sign in with CAS'
     fill_in 'username', with: user.netid
     fill_in 'password', with: "anything will do"
     click_button 'Login'

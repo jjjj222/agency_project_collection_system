@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   include SessionsHelper
+  include ApplicationHelper
   
   # TODO
   before_action :require_login
@@ -13,6 +14,22 @@ class ApplicationController < ActionController::Base
     unless logged_in?
       flash[:error] = "Please log in to access this page."
       redirect_to my_login_path
+    end
+  end
+
+  def cas_log_in
+    render status: 401, text: "Redirecting to SSO..."
+  end
+
+  def after_cas_logged_in
+    fix_cas_session
+    netid = session[:cas][:extra_attributes]["tamuEduPersonNetID"]
+    user = TamuUser.find_by(netid: netid)
+    if not user.nil?
+      log_in(user)
+      redirect_to profile_for(user)
+    else
+      redirect_to new_tamu_user_path
     end
   end
 

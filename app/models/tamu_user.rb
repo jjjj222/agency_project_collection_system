@@ -1,7 +1,7 @@
 class TamuUser < ActiveRecord::Base
   
   def self.all_roles
-    ["student","professor"]
+    ["student","professor","unapproved_professor"]
   end
   
   def is_student?
@@ -10,6 +10,10 @@ class TamuUser < ActiveRecord::Base
   
   def is_professor?
     role == "professor"
+  end
+
+  def is_unapproved_professor?
+    role == "unapproved_professor"
   end
   
   has_and_belongs_to_many :projects

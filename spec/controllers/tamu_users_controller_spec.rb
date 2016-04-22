@@ -2,6 +2,10 @@ require 'rails_helper'
 
 RSpec.describe TamuUsersController, type: :controller do
 
+    def cas_log_in(user)
+      cas_hash = { user: user.netid, extra_attributes: { 'tamuEduPersonNetID' => user.netid } }
+      session[:cas] = cas_hash
+    end
     
 
     describe "GET #index" do
@@ -219,6 +223,94 @@ RSpec.describe TamuUsersController, type: :controller do
       it "redirects to tamu_user#index" do
         delete :destroy, id: @tamu_user
         expect(response).to redirect_to tamu_users_path
+      end
+    end
+
+    describe 'GET #new' do
+
+      it "should not be accessible if not authenticated" do
+        get :new
+        expect(response).to redirect_to root_path
+      end
+
+      context "cas authenticated" do
+        before :each do
+          @tamu_user = FactoryGirl.build(:tamu_user, :default)
+          cas_log_in(@tamu_user)
+        end
+
+        it "should render the new view" do
+          get :new
+          expect(response).to render_template :new
+        end
+
+        it "should default the email to their tamu one" do
+          get :new
+          expect(assigns(:tamu_user).email).to include(@tamu_user.netid)
+        end
+
+        it "should not be accessible if already in the system" do
+          @tamu_user.save
+          controller.log_in(@tamu_user)
+          get :new
+          expect(response).to redirect_to root_path
+        end
+
+        it "should not be accessible by agencies" do
+          agency = FactoryGirl.create(:agency, :default)
+          controller.log_in(agency)
+          get :new
+          expect(response).to redirect_to root_path
+        end
+      end
+
+    end
+
+    describe 'POST #create' do
+      #TODO: validation stuffs, increases count by 1
+
+      it "should not be accessible if not authenticated" do
+        post :create
+        expect(response).to redirect_to root_path
+      end
+
+      context "cas authenticated" do
+        before :each do
+          @tamu_user = FactoryGirl.build(:tamu_user, :default)
+          cas_log_in(@tamu_user)
+        end
+
+        it "should not be accessible if already in the system" do
+          @tamu_user.save
+          controller.log_in(@tamu_user)
+          post :create
+          expect(response).to redirect_to root_path
+        end
+
+        it "should not be accessible by agencies" do
+          agency = FactoryGirl.create(:agency, :default)
+          controller.log_in(agency)
+          post :create
+          expect(response).to redirect_to root_path
+        end
+
+        context "invalid attributes" do
+          def attributes
+            FactoryGirl.attributes_for(:tamu_user, :invalid)
+          end
+          it "should redirect to the new tamu user" do
+            post :create, tamu_user: attributes
+            expect(response).to render_template :new
+          end
+        end
+
+        context "valid attributes" do
+          it "should log in as the created tamu user" do
+            expect(FactoryGirl.build(:tamu_user, :default)).to be_valid
+            post :create, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default)
+            expect(controller).to be_logged_in
+          end
+        end
       end
     end
 

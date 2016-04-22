@@ -4,6 +4,14 @@ class SessionsController < ApplicationController
   
   #def new
   #end
+  def tamu_new
+    if not cas_logged_in?
+      render status: 401, text: "Redirecting to SSO..."
+    end
+    if cas_logged_in? and not current_user_in_session
+      after_cas_logged_in
+    end
+  end
 
   def create
     begin

@@ -2,6 +2,12 @@ require 'rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
 
+  #TODO: find a place to put this, also in tamu users atm
+  def cas_log_in(user)
+    cas_hash = { user: user.netid, extra_attributes: { 'tamuEduPersonNetID' => user.netid } }
+    session[:cas] = cas_hash
+  end
+
   describe "GET #new" do
     it "returns http success" do
       get :new
@@ -9,8 +15,45 @@ RSpec.describe SessionsController, type: :controller do
     end
   end
 
-  describe "POST #tamu_create" do
-    # needs to be rewritten for CAS now
+  describe "POST #tamu_new" do
+    context "not yet authenticated" do
+      it "should render a 401" do
+        post :tamu_new
+        expect(response).to have_http_status(401)
+      end
+    end
+    context "logging in as admin" do
+      before :each do
+        @admin = FactoryGirl.create(:tamu_user, :default, :admin)
+      end
+      it "should redirect to user profile" do
+        cas_log_in @admin
+        post :tamu_new
+        expect(response).to redirect_to tamu_user_path(@admin)
+      end
+      it "should find the correct user" do
+        cas_log_in @admin
+        post :tamu_new
+        expect(controller.current_user).to eq(@admin)
+      end
+    end
+
+    context "logging in as new user" do
+      before :each do
+        @user = FactoryGirl.build(:tamu_user, :default)
+      end
+
+      it "should redirect to the new user page" do
+        cas_log_in @user
+        post :tamu_new
+        expect(response).to redirect_to new_tamu_user_path
+      end
+    end
+
+
+
+    #TODO: more
+
   end
 
   describe "DELETE #destroy" do

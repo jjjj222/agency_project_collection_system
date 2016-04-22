@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   #get 'sessions/new'
 
   get       'my_login'  => 'sessions#new'
+  get       'tamu_login'  => 'sessions#tamu_new'
   get       'logout'    => 'sessions#destroy'
 
   get '/auth/:provider/callback', to: 'sessions#create'

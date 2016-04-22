@@ -1,10 +1,18 @@
 class TamuUsersController < ApplicationController
+    include TamuUsersHelper
     
     before_action :owner_only, :only=>[:edit, :update, :destroy]
     prepend_before_action :tamu_user_only, :only=>[:index, :show]
+    prepend_before_action :new_tamu_user_only, :only => [:new, :create]
+    skip_before_action :require_login, :only => [:new, :create]
     
     def tamu_user_params
       params.require(:tamu_user).permit(:name, :email)
+    end
+    def create_tamu_user_params
+      p = params.require(:tamu_user).permit(:name, :email, :role)
+      p[:netid] = session_netid
+      p
     end
 
     def index
@@ -15,15 +23,22 @@ class TamuUsersController < ApplicationController
         @tamu_user = TamuUser.find params[:id]
     end
     
-    # def new
-    #     @tamu_user = TamuUser.new
-    # end
+    def new
+         @tamu_user = new_tamu_user_skeleton
+    end
     
-    # def create
-    #     @tamu_user = TamuUser.new params[:tamu_user]
-    #     # This was in an example model controller from a tutorial
-    #     # Not sure if this is something we need yet?
-    # end
+    def create
+        #TODO: stop creating as faculty for now?
+        @tamu_user = TamuUser.new create_tamu_user_params
+        if @tamu_user.save
+            log_in(@tamu_user)
+            flash[:notice] = "Profile for #{@tamu_user.name} was successfully created!"
+            redirect_to tamu_user_path(@tamu_user)
+        else
+            model_failed_flash @tamu_user
+            render action: "new"
+        end
+    end
     
     def destroy
         @tamu_user = TamuUser.find params[:id]
@@ -61,14 +76,20 @@ class TamuUsersController < ApplicationController
       if params[:id] #show
         @tamu_user = TamuUser.find(params[:id])
         unless current_user.is_a?(TamuUser) or @tamu_user == current_user
-          redirect_to root_path, :alert => "Access denied."
+          return redirect_to root_path, :alert => "Access denied."
         end
       else #index
         if not logged_in?
           cas_log_in
         elsif not current_user.is_a?(TamuUser)
-          redirect_to root_path, :alert => "Access denied."
+          return redirect_to root_path, :alert => "Access denied."
         end
+      end
+    end
+
+    def new_tamu_user_only
+      if logged_in? or (not cas_logged_in?)
+          return redirect_to root_path, :alert => "Access denied."
       end
     end
     

@@ -1,0 +1,16 @@
+%h1 Create your profile
+/TODO
+
+= form_tag tamu_users_path,id: 'new_tamu_user_form' do
+
+  = label :tamu_user, :name, 'Name'
+  = text_field :tamu_user, 'name', required: true
+
+  = label :tamu_user, :email, 'Email'
+  = text_field :tamu_user, 'email', required: true, type: 'email'
+
+  = label :tamu_user, :role, 'Role' #TODO: rename this for users?
+  = select :tamu_user, :role, [['Student', 'student'], ['Faculty', 'unapproved_professor']], class: "form-control"
+  %br
+  %br
+  = submit_tag 'Save Changes',  :class=>'btn btn-primary'

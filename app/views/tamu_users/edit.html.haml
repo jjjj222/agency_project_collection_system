@@ -3,9 +3,9 @@
 = form_tag tamu_user_path(@tamu_user), id: 'edit_user_form', :method => :put do
 
   = label :tamu_user, :name, 'Name'
-  = text_field :tamu_user, 'name'
+  = text_field :tamu_user, 'name', required: true
 
   = label :tamu_user, :email, 'Email'
-  = text_field :tamu_user, 'email'
+  = text_field :tamu_user, 'email', required: true, type: 'email'
 
   = submit_tag 'Save Changes', id: 'submit_user_form'

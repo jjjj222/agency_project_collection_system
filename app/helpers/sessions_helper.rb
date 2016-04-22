@@ -1,8 +1,7 @@
 module SessionsHelper
 
-  def log_in(user, type = user.class.name)
-    session[:user_id] = user.id
-    session[:user_type] = type.camelize
+  def logged_in?
+    not current_user_in_session.nil?
   end
 
   def current_user
@@ -13,11 +12,11 @@ module SessionsHelper
     end
   end
 
-  def logged_in?
-    if current_user_in_session.nil? && cas_logged_in?
-      after_cas_logged_in
-    end
-    !current_user_in_session.nil?
+
+
+  def log_in(user, type = user.class.name)
+    session[:user_id] = user.id
+    session[:user_type] = type.camelize
   end
 
   def log_out
@@ -36,31 +35,11 @@ module SessionsHelper
     session[:cas] && (session[:cas][:user] || session[:cas]["user"])
   end
 
-  def cas_log_in
-    render status: 401, text: "Redirecting to SSO..."
-  end
-
-
-  def after_cas_logged_in
-    fix_cas_session
-    netid = session[:cas][:extra_attributes]["tamuEduPersonNetID"]
-    user = TamuUser.find_by(netid: netid)
-    if not user.nil?
-      log_in(user)
-    else
-      flash[:warning] = "Forgetting cas credentials, you are not in the system yet and adding not yet implemented"
-    end
-  end
   def current_user_in_session
     type = session[:user_type]
 
     #todo check type get from session is a valid user type
     @current_user ||= type.constantize.find_by(id: session[:user_id]) if type
-    #if type == "agency"
-    #  @current_user ||= Agency.find_by(id: session[:user_id])
-    #else
-    #  @current_user ||= TamuUser.find_by(id: session[:user_id])
-    #end
   end
 
 end
