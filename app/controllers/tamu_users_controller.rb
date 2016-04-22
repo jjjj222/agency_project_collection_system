@@ -1,7 +1,7 @@
 class TamuUsersController < ApplicationController
     
     before_action :owner_only, :only=>[:edit, :update, :destroy]
-    before_action :tamu_user_only, :only=>[:index, :show]
+    prepend_before_action :tamu_user_only, :only=>[:index, :show]
     
     def tamu_user_params
       params.require(:tamu_user).permit(:name, :email)

@@ -5,7 +5,7 @@ class ApplicationController < CasAuthenticatedController
   include SessionsHelper
   
   # TODO
-  # before_action :require_login
+  before_action :require_login
   
   private
   
