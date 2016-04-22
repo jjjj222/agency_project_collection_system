@@ -11,6 +11,21 @@ class TamuUser < ActiveRecord::Base
   def is_professor?
     role == "professor"
   end
+
+  def self.create_with_cas(cas_hash)
+    netid = cas_hash["user"]
+    parameter = {:netid => netid}
+    parameter[:uin] = cas_hash["extra_attributes"]["tamuEduPersonUIN"]
+
+    parameter[:name] = netid
+    parameter[:email] = "#{netid}@tamu.edu"
+    parameter[:admin] = false
+    parameter[:role] = 'student'
+
+
+    user = TamuUser.create!(parameter)
+    return user
+  end
   
   has_and_belongs_to_many :projects
   

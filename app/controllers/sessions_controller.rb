@@ -2,6 +2,23 @@ class SessionsController < ApplicationController
   
   skip_before_action :require_login
   
+  def tamu_login
+    if session[:cas]
+      netid = session[:cas]["user"]
+
+      user = TamuUser.find_by(netid: netid)
+      if user == nil
+        user = TamuUser.create_with_cas(session[:cas])
+      end
+      log_in(user, "TamuUser")
+
+      redirect_to tamu_user_path(user)
+    else
+      render status: 401, text: "Redirecting to SSO..."
+    end
+    #redirect_to root_path
+  end
+
   #def new
   #end
   def tamu_create
@@ -56,6 +73,7 @@ class SessionsController < ApplicationController
       @current_user = nil
       flash[:success] = 'See you!'
     end
+
     redirect_to root_path
   end
 

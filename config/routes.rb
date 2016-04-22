@@ -3,10 +3,11 @@ Rails.application.routes.draw do
 
   get       'login'     => 'sessions#new'
   post      'login'     => 'sessions#tamu_create'
-  get       'logout'    => 'sessions#destroy'
+  get       'my_logout'    => 'sessions#destroy'
+  get       'tamu_login'     => 'sessions#tamu_login'
 
   get '/auth/:provider/callback', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy'
+  #delete '/logout', to: 'sessions#destroy'
 
   #resource :mypage
   get       'mypage'    => 'mypage#index'
