@@ -43,31 +43,38 @@ RSpec.describe TamuUsersController, type: :controller do
     end
     
     describe "GET #show" do
-        it "assigns the requested tamu user to @tamu_user if logged in" do
-            tamu_user = FactoryGirl.create(:tamu_user, :default)
-            controller.log_in(tamu_user)
-            get :show, id: tamu_user
-            expect(assigns(:tamu_user)).to eq(tamu_user)
+        context "not logged in" do
+          # TODO: the filter will automatically redirect to CAS and log in if it can, so
+          # this spec doesn't really work unless they are logged in as an agency already
+          # it "does not assign the requested tamu user to @tamu_user if not logged in" do
+          #     tamu_user = FactoryGirl.create(:tamu_user, :default)
+          #     get :show, id: tamu_user
+          #     expect(assigns(:tamu_user)).to_not eq(tamu_user)
+          # end
+
+          it "it does not render the :show view if not logged in" do
+              tamu_user = FactoryGirl.create(:tamu_user, :default)
+              get :show, id: tamu_user
+              expect(response).to_not render_template :show
+          end
         end
-        
-        it "it renders the :show view if logged in" do
-            tamu_user = FactoryGirl.create(:tamu_user, :default)
-            controller.log_in(tamu_user)
-            get :show, id: tamu_user
+
+        context "logged in" do
+          before :each do
+            @tamu_user = FactoryGirl.create(:tamu_user, :default)
+            controller.log_in(@tamu_user)
+          end
+          it "assigns the requested tamu user to @tamu_user if logged in" do
+            get :show, id: @tamu_user
+            expect(assigns(:tamu_user)).to eq(@tamu_user)
+          end
+
+          it "it renders the :show view if logged in" do
+            get :show, id: @tamu_user
             expect(response).to render_template :show
+          end
         end
         
-        it "does not assign the requested tamu user to @tamu_user if not logged in" do
-            tamu_user = FactoryGirl.create(:tamu_user, :default)
-            get :show, id: tamu_user
-            expect(assigns(:tamu_user)).to_not eq(tamu_user)
-        end
-        
-        it "it does not render the :show view if not logged in" do
-            tamu_user = FactoryGirl.create(:tamu_user, :default)
-            get :show, id: tamu_user
-            expect(response).to_not render_template :show
-        end
         
         it "redirects to root path if not tamu_user and is not connected to tamu_user" do
           controller.log_out
