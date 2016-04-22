@@ -6,22 +6,18 @@ module SessionsHelper
   end
 
   def current_user
-    type = session[:user_type]
-
-    #todo check type get from session is a valid user type
-    @current_user ||= type.constantize.find_by(id: session[:user_id]) if type
-    #if type == "agency"
-    #  @current_user ||= Agency.find_by(id: session[:user_id])
-    #else
-    #  @current_user ||= TamuUser.find_by(id: session[:user_id])
-    #end
+    if logged_in?
+      current_user_in_session
+    else
+      nil
+    end
   end
 
   def logged_in?
-    if current_user.nil? && cas_logged_in?
+    if current_user_in_session.nil? && cas_logged_in?
       after_cas_logged_in
     end
-    !current_user.nil?
+    !current_user_in_session.nil?
   end
 
   def log_out
@@ -49,6 +45,17 @@ module SessionsHelper
     else
       flash[:warning] = "Forgetting cas credentials, you are not in the system yet and adding not yet implemented"
     end
+  end
+  def current_user_in_session
+    type = session[:user_type]
+
+    #todo check type get from session is a valid user type
+    @current_user ||= type.constantize.find_by(id: session[:user_id]) if type
+    #if type == "agency"
+    #  @current_user ||= Agency.find_by(id: session[:user_id])
+    #else
+    #  @current_user ||= TamuUser.find_by(id: session[:user_id])
+    #end
   end
 
 end

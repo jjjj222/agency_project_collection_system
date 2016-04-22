@@ -4,7 +4,8 @@ class ApplicationController < CasAuthenticatedController
   protect_from_forgery with: :exception
   include SessionsHelper
   
-  before_action :require_login
+  # TODO
+  # before_action :require_login
   
   private
   

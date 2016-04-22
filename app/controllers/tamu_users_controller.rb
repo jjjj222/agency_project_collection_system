@@ -12,7 +12,6 @@ class TamuUsersController < ApplicationController
         #   flash[:notice] = 'Please log in'
         #   redirect_to login_path
         # end
-      ensure_cas_logged_in
         @tamu_users = TamuUser.all
     end
     
@@ -69,7 +68,9 @@ class TamuUsersController < ApplicationController
           redirect_to root_path, :alert => "Access denied."
         end
       else #index
-        unless current_user.is_a?(TamuUser)
+        if not logged_in?
+          cas_log_in
+        elsif not current_user.is_a?(TamuUser)
           redirect_to root_path, :alert => "Access denied."
         end
       end

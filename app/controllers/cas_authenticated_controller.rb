@@ -7,8 +7,12 @@ class CasAuthenticatedController < ActionController::Base
     # user is done in SessionsHelper#logged_in?
     if not logged_in?
       #TODO: handle when logged in as agency
-      render status: 401, text: "Redirecting to SSO..."
+      cas_log_in
     end
+  end
+
+  def cas_log_in
+    render status: 401, text: "Redirecting to SSO..."
   end
 
 end
