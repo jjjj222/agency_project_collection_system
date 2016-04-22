@@ -36,6 +36,11 @@ module SessionsHelper
     session[:cas] && (session[:cas][:user] || session[:cas]["user"])
   end
 
+  def cas_log_in
+    render status: 401, text: "Redirecting to SSO..."
+  end
+
+
   def after_cas_logged_in
     fix_cas_session
     netid = session[:cas][:extra_attributes]["tamuEduPersonNetID"]
