@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
   #get 'sessions/new'
 
-  get       'login'     => 'sessions#new'
-  post      'login'     => 'sessions#tamu_create'
+  #get       'login'     => 'sessions#new'
+  #post      'login'     => 'sessions#tamu_create'
+  get       'my_login'     => 'sessions#new'
+  post      'my_login'     => 'sessions#tamu_create'
   get       'my_logout'    => 'sessions#destroy'
   get       'tamu_login'     => 'sessions#tamu_login'
 

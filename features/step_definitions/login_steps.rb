@@ -14,7 +14,8 @@ end
 
 Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
   user_login = ->(user) {
-    visit login_path
+    #visit login_path
+    visit my_login_path
     fill_in 'Email', with: user.email
     click_button 'Log in as TAMU User'
   }

@@ -11,7 +11,7 @@
 
 %h2 TAMU User
 = link_to "Sign in with NetID", tamu_login_path
-= form_tag login_path, :method => :post do
+= form_tag my_login_path, :method => :post do
 
   = label :session, :email, 'Email'
   = text_field :session, 'email'
