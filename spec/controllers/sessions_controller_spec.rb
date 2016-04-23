@@ -76,14 +76,28 @@ RSpec.describe SessionsController, type: :controller do
   end
 
   describe "GET #auth" do
+    def send_request
+      get :create, provider: 'google_oauth2'
+    end
+    def mock_login(agency)
+      mock_hash = { 'uid' => @agency.uid, 'provider' => @agency.provider,
+                    'info' => {'email' => agency.email, 'name' => agency.name} }
+      allow(request.env).to receive(:[]).and_call_original
+      expect(request.env).to receive(:[]).with('omniauth.auth').and_return(mock_hash)
+    end
+    def mock_fail_login
+      allow(request.env).to receive(:[]).and_call_original
+      expect(request.env).to receive(:[]).with('omniauth.auth').and_raise("Some error")
+    end
+
     context "we have an agency" do
       before :each do
         @agency = FactoryGirl.create(:agency, :default, uid: "12345")
       end
       context "auth succeeeds" do
         before :each do
-         expect(controller).to receive(:get_auth_hash).and_return({ 'uid' => @agency.uid, 'provider' => @agency.provider })
-          get :create, provider: 'google_oauth2'
+          mock_login(@agency)
+          send_request
         end
         it "should set the session user id" do
           expect(session[:user_id]).to eq(@agency.id)
@@ -100,14 +114,35 @@ RSpec.describe SessionsController, type: :controller do
 
       context "auth fails" do
         before :each do
-          expect(controller).to receive(:get_auth_hash).and_raise("Some error")
-          get :create, provider: 'google_oauth2'
+          mock_fail_login
+          send_request
         end
 
         it "should mention the failure" do
           expect(flash[:warning]).to include("error")
         end
         it { expect(controller).not_to be_logged_in }
+      end
+    end
+
+    context "new agency log in" do
+      before :each do
+        @agency = FactoryGirl.build(:agency, :default, uid: "12345")
+        mock_login(@agency)
+      end
+
+      it "should log in" do
+        send_request
+        expect(controller).to be_logged_in
+      end
+
+      it "should redirect the agency's profile" do
+        send_request
+        expect(response).to redirect_to controller.profile_for(controller.current_user)
+      end
+
+      it "should increase the number of agencies by 1" do
+         expect{send_request}.to change(Agency,:count).by(1)
       end
 
     end
