@@ -314,4 +314,60 @@ RSpec.describe TamuUsersController, type: :controller do
       end
     end
 
+    describe "POST #make_admin" do
+      context "not logged in" do
+        before :each do
+          @tamu_user = FactoryGirl.create(:tamu_user, :default, :not_admin)
+        end
+
+        it "should redirect to the log in page" do
+          post :make_admin, id: @tamu_user.id
+          expect(response).to redirect_to my_login_path
+        end
+
+        it "should not make the user an admin" do
+          post :make_admin, id: @tamu_user.id
+          @tamu_user.reload
+          expect(@tamu_user.admin).to eq(false)
+        end
+      end
+
+      context "logged in as nonadmin" do
+        before :each do
+          @tamu_user = FactoryGirl.create(:tamu_user, :default, :not_admin)
+          controller.log_in @tamu_user
+        end
+
+        it "should redirect to the homepage" do
+          post :make_admin, id: @tamu_user.id
+          expect(response).to redirect_to root_path
+        end
+
+        it "should not make the user an admin" do
+          post :make_admin, id: @tamu_user.id
+          @tamu_user.reload
+          expect(@tamu_user.admin).to eq(false)
+        end
+      end
+
+      context "logged in as admin" do
+        before :each do
+          @tamu_user = FactoryGirl.create(:tamu_user, :default, :not_admin)
+          @admin = FactoryGirl.create(:tamu_user, :updated, :admin)
+          controller.log_in @admin
+        end
+
+        it "should redirect to the users index" do
+          post :make_admin, id: @tamu_user.id
+          expect(response).to redirect_to tamu_users_path
+        end
+        it "should make the user an admin" do
+          post :make_admin, id: @tamu_user.id
+          @tamu_user.reload
+          expect(@tamu_user.admin).to eq(true)
+        end
+      end
+
+    end
+
 end

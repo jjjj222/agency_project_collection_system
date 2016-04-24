@@ -6,6 +6,7 @@ class TamuUsersController < ApplicationController
     prepend_before_action :tamu_user_only, :only=>[:index, :show]
     prepend_before_action :new_tamu_user_only, :only => [:new, :create]
     skip_before_action :require_login, :only => [:new, :create]
+    skip_before_action :verify_authenticity_token, :only => [:make_admin]
     
     def tamu_user_params
       params.require(:tamu_user).permit(:name, :email)
@@ -62,7 +63,10 @@ class TamuUsersController < ApplicationController
     end
 
     def make_admin
-
+        @tamu_user = TamuUser.find params[:id]
+        @tamu_user.admin = true
+        @tamu_user.save
+        redirect_to tamu_users_path, notice: "Successfully made #{@tamu_user.name} into an admin"
     end
     
     private

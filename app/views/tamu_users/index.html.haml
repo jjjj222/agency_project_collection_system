@@ -4,12 +4,12 @@
         %table{:border => 1, :width => "70%"}
             %tr{:height => "10px"}
                 %th{:align=> "left"} Name
-            - if @current_user.is_a?(TamuUser) and @current_user.admin?
-                %th{:align=> "left"} Admin Status
+                - if @current_user.is_a?(TamuUser) and @current_user.admin?
+                    %th{:align=> "left"} Admin Status
         
             - TamuUserPresenter.all(@tamu_users) do |tamu_user|
                 %tr{:height => "10px"}
-                    %td= tamu_user.profile #link_to tamu_user.name, tamu_user_path(tamu_user.id)
-                - if @current_user.is_a?(TamuUser) and @current_user.admin?
-                    %td= tamu_user.admin_button
+                    %td= tamu_user.profile
+                    - if @current_user.is_a?(TamuUser) and @current_user.admin?
+                        %td= tamu_user.admin_button
         #footer
