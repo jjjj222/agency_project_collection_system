@@ -137,6 +137,12 @@ th{
   color:#ffffff;
 }
 
+tr:nth-child(even) td { background: #cccccc; }   
+
+/* Cells in odd rows (1,3,5...) are another (excludes header cells)  */ 
+tr:nth-child(odd) td { background: #FEFEFE; }  
+
+
 tr:hover td{
   background-color:#c8c8c7;
 }  
@@ -148,7 +154,7 @@ td{
   border-width:1px 1px 1px 1px;
   text-align:left;
   padding:5px;
-  font-size:12px;
+  font-size:14px;
   font-weight:normal;
   color:#000000;
 }
