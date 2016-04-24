@@ -12,7 +12,7 @@
 %h3 Agency:
 %p#agency= link_to @project.agency.name, agency_path(@project.agency) 
 
-- if @current_user.class.name == "TamuUser" and @current_user.admin?
+- if @current_user.is_a?(TamuUser) and @current_user.admin?
     - if !@project.approved
         = button_to 'Approve Project', approve_project_path(@project),:class=>"btn btn-warning"
     - else
@@ -24,5 +24,5 @@
     = button_to 'Delete', project_path(@project), :method => :delete, :confirm => 'Are you sure?', :id=>"delete", :class=>"btn btn-danger"
 
 %br
-- if @current_user.class.name == "TamuUser"
+- if @current_user.is_a?(TamuUser)
     = button_to 'Back to project list', projects_path,:class=>"btn btn-info"

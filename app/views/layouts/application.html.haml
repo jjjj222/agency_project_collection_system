@@ -16,7 +16,7 @@
           - else
             
            
-            - if @current_user.class.name == "TamuUser"
+            - if @current_user.is_a?(TamuUser)
               
               = link_to "My Page", tamu_user_path(@current_user.id)
               

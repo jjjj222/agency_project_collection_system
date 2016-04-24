@@ -38,7 +38,7 @@
       %h3 Email:
       %p#email=  @tamu_user.email
       
-      -if @current_user.class.name == "TamuUser" and @current_user.admin?
+      -if @current_user.is_a?(TamuUser) and @current_user.admin?
         %h3 Admin Status:
         %p#admin= @tamu_user.admin
       

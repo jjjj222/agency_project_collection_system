@@ -29,7 +29,7 @@
                 %th{:align=> "left"} Status
                 %th{:align=> "left"} Tags
                 %th{:align=> "left"} Agency
-                - if @current_user.class.name == "TamuUser" and @current_user.admin?
+                - if @current_user.is_a?(TamuUser) and @current_user.admin?
                     %th{:align=> "left"} Unapprove Project
         
             - @projects.each do |project|
@@ -39,7 +39,7 @@
                     %td= project.status
                     %td= project.tags.join ", "
                     %td= link_to project.agency.name, agency_path(project.agency)
-                    - if @current_user.class.name == "TamuUser" and @current_user.admin?
+                    - if @current_user.is_a?(TamuUser) and @current_user.admin?
                         %td= button_to 'Unapprove Project', unapprove_project_path(project),:class=>"btn btn-warning"
     #footer
 
