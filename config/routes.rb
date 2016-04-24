@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   match '/projects/:id/unapprove' => 'projects#unapprove', :as => :unapprove_project, via: [:post]
   resources :projects  # The priority is based upon order of creation: first created -> highest priority.
   
+  match '/tamu_users/:id/make_admin' => 'tamu_users#make_admin', as: :make_user_admin, via: [:post]
   resources :tamu_users
   # See how all your routes lay out with "rake routes".
 

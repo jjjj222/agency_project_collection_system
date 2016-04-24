@@ -1,6 +1,7 @@
 class TamuUsersController < ApplicationController
     include TamuUsersHelper
     
+    before_action :admin_only, :only=>[:make_admin]
     before_action :owner_only, :only=>[:edit, :update, :destroy]
     prepend_before_action :tamu_user_only, :only=>[:index, :show]
     prepend_before_action :new_tamu_user_only, :only => [:new, :create]
@@ -58,6 +59,10 @@ class TamuUsersController < ApplicationController
             model_failed_flash @tamu_user
             render action: "edit", id: @tamu_user.id
         end
+    end
+
+    def make_admin
+
     end
     
     private
