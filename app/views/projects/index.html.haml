@@ -32,13 +32,13 @@
                 - if @current_user.is_a?(TamuUser) and @current_user.admin?
                     %th{:align=> "left"} Unapprove Project
         
-            - @projects.each do |project|
+            - ProjectPresenter.all(@projects) do |project|
                 %tr{:height => "10px"}
-                    %td= link_to project.name, project_path(project)
+                    %td= project.profile
                     %td= project.description
                     %td= project.status
-                    %td= project.tags.join ", "
-                    %td= link_to project.agency.name, agency_path(project.agency)
+                    %td= project.tags
+                    %td= project.agency_profile
                     - if @current_user.is_a?(TamuUser) and @current_user.admin?
                         %td= button_to 'Unapprove Project', unapprove_project_path(project),:class=>"btn btn-warning"
     #footer
