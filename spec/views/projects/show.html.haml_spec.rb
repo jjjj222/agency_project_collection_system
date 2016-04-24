@@ -12,7 +12,7 @@ describe 'projects/show.html.haml' do
 
     expect(rendered).to include('Test Project')
     expect(rendered).to include('This is the test project description')
-    expect(rendered).to include('open')
+    expect(rendered).to match(/open/i)
   end
   
   it 'displays a button to unapprove if project is approved' do

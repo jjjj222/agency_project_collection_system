@@ -20,4 +20,8 @@ class ProjectPresenter < PresenterBase
     button_to "Unapprove Project", unapprove_project_path(project), opts
   end
 
+  def edit_button(opts = {})
+    button_to 'Edit', edit_project_path(project), opts.merge(method: :get)
+  end
+
 end
