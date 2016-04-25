@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   match '/unapproved_projects/' => 'projects#unapproved_index', :as => :unapproved_projects_index, via: [:get]
   match '/projects/:id/approve' => 'projects#approve', :as => :approve_project, via: [:post]
   match '/projects/:id/unapprove' => 'projects#unapprove', :as => :unapprove_project, via: [:post]
+  match '/projects/:id/join'    => 'projects#join', as: :join_project, via: [:post]
   resources :projects  # The priority is based upon order of creation: first created -> highest priority.
   
   match '/tamu_users/:id/make_admin' => 'tamu_users#make_admin', as: :make_user_admin, via: [:post]

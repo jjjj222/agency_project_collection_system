@@ -517,4 +517,41 @@ RSpec.describe ProjectsController, type: :controller do
       end
       
     end
+
+    describe "POST #join" do
+      before :each do
+        @agency = FactoryGirl.create(:agency, :default, :approved)
+        @project = FactoryGirl.create(:project, :default, :approved, agency: @agency)
+      end
+
+      it "should redirect if not logged in" do
+        post :join, id: @project.id
+        expect(response).to redirect_to my_login_path
+      end
+
+      it "should redirect if logged in as agency" do
+        controller.log_in @agency
+        post :join, id: @project.id
+        expect(response).to redirect_to root_path
+      end
+
+      context "logged in as user" do
+        before :each do
+          @tamu_user = FactoryGirl.create(:tamu_user, :default)
+          controller.log_in @tamu_user
+        end
+
+        it "should make the project show up in the user's projects" do
+          post :join, id: @project.id
+          expect(@tamu_user.projects).to include(@project)
+        end
+
+        it "should not be duplicated in the user's project list" do
+          @tamu_user.projects << @project
+          expect{post :join, id: @project.id }.not_to change(@tamu_user.projects, :count)
+        end
+      end
+
+
+    end
 end

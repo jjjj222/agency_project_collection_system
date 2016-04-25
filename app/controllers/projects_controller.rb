@@ -3,7 +3,8 @@ class ProjectsController < ApplicationController
     before_action :admin_only, :only=>[:unapproved_index, :unapprove, :approve]
     before_action :agency_only, :only=>[:new, :create, :edit, :update, :destroy]
     before_action :owner_only, :only=>[:edit, :update, :destroy]
-    before_action :tamu_user_only, :only=>[:index, :show]
+    before_action :tamu_user_or_owner_only, :only => [:show]
+    before_action :tamu_user_only, :only=>[:index, :join]
     
     def project_params
         params[:project][:tags] = params[:project][:tags].split(/[\s,]+/)
@@ -84,6 +85,16 @@ class ProjectsController < ApplicationController
         flash[:notice] = "Project '#{@project.name}' unapproved."
         redirect_to projects_path
     end
+
+    def join
+        @project = Project.find(params[:id])
+        if @project.tamu_users.include? current_user
+            return redirect_to project_path(@project), notice: "You've already joined this project"
+        end
+
+        @project.tamu_users << current_user
+        redirect_to project_path(@project), notice: "Successfully joined #{@project.name}!"
+    end
     
     private
 
@@ -99,17 +110,18 @@ class ProjectsController < ApplicationController
             redirect_to root_path, :alert => "Access denied."
         end
     end
+
+    def tamu_user_or_owner_only
+      @project = Project.find(params[:id])
+      unless current_user.is_a?(TamuUser) or @project.agency == current_user
+        redirect_to root_path, :alert => "Access denied."
+      end
+    end
+
     
     def tamu_user_only
-      if params[:id]
-        @project = Project.find(params[:id])
-        unless current_user.is_a?(TamuUser) or @project.agency == current_user
-          redirect_to root_path, :alert => "Access denied."
-        end
-      else 
-        unless current_user.is_a?(TamuUser)
-          redirect_to root_path, :alert => "Access denied."
-        end
+      unless current_user.is_a?(TamuUser)
+        redirect_to root_path, :alert => "Access denied."
       end
     end
 end
