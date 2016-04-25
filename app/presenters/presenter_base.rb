@@ -6,17 +6,18 @@ class PresenterBase
   def self.all(objs, &block)
     objs.map{|obj| self.new(obj) }.each(&block) unless objs.nil?
   end
-
-  #TODO: wtf rails
-  def protect_against_forgery?
-    false
-  end
-
 end
 
 class Class
   def present_obj(name)
     attr_accessor name
     self.class_eval("def initialize(#{name}); @#{name} = #{name}; end")
+    self.class_eval("def object; #{name}; end")
+  end
+
+  def present_with(method, *args)
+    args.each do |attr|
+      self.class_eval("def #{attr}; object.#{attr}.#{method}; end")
+    end
   end
 end

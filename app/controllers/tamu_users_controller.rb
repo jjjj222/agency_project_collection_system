@@ -6,7 +6,6 @@ class TamuUsersController < ApplicationController
     prepend_before_action :tamu_user_only, :only=>[:index, :show]
     prepend_before_action :new_tamu_user_only, :only => [:new, :create]
     skip_before_action :require_login, :only => [:new, :create]
-    skip_before_action :verify_authenticity_token, :only => [:make_admin]
     
     def tamu_user_params
       params.require(:tamu_user).permit(:name, :email)
