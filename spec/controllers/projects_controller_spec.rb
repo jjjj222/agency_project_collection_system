@@ -463,17 +463,31 @@ RSpec.describe ProjectsController, type: :controller do
       
     end
     
-    describe 'DELETE destroy' do
+    describe 'DELETE #destroy' do
       before :each do
         @agency = FactoryGirl.create(:agency, :default, :approved)
         controller.log_in(@agency)
         @project = FactoryGirl.create(:project, :default, :agency => @agency)
+        @tamu_user = FactoryGirl.create(:tamu_user, :default)
+        @project.tamu_users << @tamu_user
       end
       
       it "deletes the project if logged in as agency" do
         expect{
           delete :destroy, id: @project
         }.to change(Project,:count).by(-1)
+      end
+
+      it "reduces the number of projects the agency has by one" do
+        expect{
+          delete :destroy, id: @project
+        }.to change(@agency.projects,:count).by(-1)
+      end
+
+      it "reduces the number of projects the tamu user has by one" do
+        expect{
+          delete :destroy, id: @project
+        }.to change(@tamu_user.projects,:count).by(-1)
       end
         
       it "redirects to project#index if logged in as agency" do
