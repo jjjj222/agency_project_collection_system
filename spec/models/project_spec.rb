@@ -28,7 +28,7 @@ RSpec.describe Project, type: :model do
   end
   
   it "has and belongs to many users" do
-    relation = Project.reflect_on_association(:tamu_user)
+    relation = Project.reflect_on_association(:tamu_users)
     expect(relation.macro).to eq(:has_and_belongs_to_many)
   end
 end
