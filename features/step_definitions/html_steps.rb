@@ -34,7 +34,7 @@ end
 
 Then /^I should see a notice telling me it was succ?essful$/ do
   @notice = find_by_id('notice')
-  @notice.assert_text(:visible, "successfully")
+  @notice.assert_text(:visible, /[sS]uccessfully/)
 end
 
 Then /^(?:|I )should see "([^"]*)"$/ do |text|
