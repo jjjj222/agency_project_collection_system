@@ -10,6 +10,6 @@ When /^(?:|I )follow "([^"]*)"$/ do |link|
     click_link(link)
 end
 
-When /^(?:|I )click(?: the)? "([^"]*)"$/ do |link|
+When /^(?:|I )click(?: on)?(?: the)? "([^"]*)"$/ do |link|
     click_link(link)
 end
