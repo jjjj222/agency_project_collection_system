@@ -22,13 +22,13 @@
           %th{:align=> "left"} Tags
           %th{:align=> "left"} Agency
 
-      - @tamu_user.projects.each do |project|
+      - ProjectPresenter.all(@tamu_user.projects) do |project|
         %tr{:height => "10px"}
-          %td= link_to project.name, project_path(project)
+          %td= project.profile
           %td= project.description
           %td= project.status
-          %td= project.tags.join ", "
-          %td= project.agency.try(:name) #TODO change to name when creation is figured out
+          %td= project.tags
+          %td= project.agency_profile
     
     #my_profile.tab-pane.fade
       %h3 My Profile
