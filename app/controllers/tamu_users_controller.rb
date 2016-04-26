@@ -1,6 +1,8 @@
 class TamuUsersController < ApplicationController
     include TamuUsersHelper
+    include ProjectsHelper
     
+    before_action :admin_only, :only=>[:make_admin, :unapproved_professor_index, :approve_professor, :unapprove_professor]
     before_action :owner_only, :only=>[:edit, :update, :destroy]
     prepend_before_action :tamu_user_only, :only=>[:index, :show]
     prepend_before_action :new_tamu_user_only, :only => [:new, :create]
@@ -17,8 +19,36 @@ class TamuUsersController < ApplicationController
         @tamu_users = TamuUser.all
     end
     
+    def unapproved_professor_index
+        @tamu_users = TamuUser.where(role: "unapproved_professor")
+    end
+    
+    def approve_professor
+        @professor = TamuUser.find(params[:id])
+        @professor.role = "professor";
+        @professor.save
+        if TamuUser.where(role: "unapproved_professor").count > 0
+            flash[:notice] = "TamuUser '#{@professor.name}' approved as professor."
+            redirect_to unapproved_professors_index_path
+        else
+            flash[:notice] = "TamuUser '#{@professor.name}' approved as professor. All professors have been approved."
+            redirect_to tamu_users_path
+        end
+    end
+    
+    def unapprove_professor
+        @professor = TamuUser.find(params[:id])
+        @professor.role = "unapproved_professor";
+        @professor.save
+        flash[:notice] = "Tamu User '#{@professor.name}' unapproved as professor."
+        redirect_to tamu_users_path
+    end
+    
     def show
         @tamu_user = TamuUser.find params[:id]
+        @projects = @tamu_user.projects
+        @projects = sort_projects(@projects, params[:sort])
+        #sort_projects()
     end
     
     def new
@@ -30,7 +60,7 @@ class TamuUsersController < ApplicationController
         @tamu_user = TamuUser.new create_tamu_user_params
         if @tamu_user.save
             log_in(@tamu_user)
-            flash[:notice] = "Profile for #{@tamu_user.name} was successfully created!"
+            flash[:success] = "Profile for #{@tamu_user.name} was successfully created!"
             redirect_to tamu_user_path(@tamu_user)
         else
             model_failed_flash @tamu_user
@@ -41,7 +71,7 @@ class TamuUsersController < ApplicationController
     def destroy
         @tamu_user = TamuUser.find params[:id]
         @tamu_user.destroy
-        flash[:notice] = "TAMU User '#{@tamu_user.name}' deleted."
+        flash[:success] = "TAMU User '#{@tamu_user.name}' deleted."
         redirect_to tamu_users_path
     end
     
@@ -52,12 +82,20 @@ class TamuUsersController < ApplicationController
     def update
         @tamu_user = TamuUser.find params[:id]
         if @tamu_user.update_attributes(tamu_user_params)
-            flash[:notice] = "# Profile was successfully updated."
+            flash[:success] = "# Profile was successfully updated."
             redirect_to tamu_user_path
         else
             model_failed_flash @tamu_user
             render action: "edit", id: @tamu_user.id
         end
+    end
+
+    def make_admin
+        @tamu_user = TamuUser.find params[:id]
+        @tamu_user.admin = true
+        @tamu_user.save
+        flash[:success] = "Successfully made #{@tamu_user.name} into an admin"
+        redirect_to tamu_users_path
     end
     
     private
@@ -90,5 +128,4 @@ class TamuUsersController < ApplicationController
           return redirect_to root_path, :alert => "Access denied."
       end
     end
-    
 end

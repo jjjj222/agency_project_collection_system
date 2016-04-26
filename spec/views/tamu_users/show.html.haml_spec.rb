@@ -15,14 +15,22 @@ describe 'tamu_users/show.html.haml' do
   end
   
   it 'displays a users projects correctly' do
-    assign(:tamu_user, FactoryGirl.build(:tamu_user, :default, :id=>1,
-        :projects => [FactoryGirl.build(:project, :default, :id=>1)]
-        ))
+    agency = FactoryGirl.create(:agency, :default, :approved)
+    @tamu_user = FactoryGirl.build(:tamu_user, :default, :id=>1,
+        :projects => [FactoryGirl.build(:project, :default, id: 1, agency: agency)]
+        )
+    #assign(:tamu_user, FactoryGirl.build(:tamu_user, :default, :id=>1,
+    #    :projects => [FactoryGirl.build(:project, :default, id: 1, agency: agency)]
+    #    ))
+
+    @current_user = @tamu_user
+    @projects = @tamu_user.projects
 
     render
 
     expect(rendered).to include('Test Project')
     expect(rendered).to include('This is the test project description')
-    expect(rendered).to include('open')
+    expect(rendered).to match(/open/i)
+    expect(rendered).to include('Test Agency')
   end
 end

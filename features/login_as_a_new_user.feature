@@ -26,10 +26,10 @@ Scenario: No email
 Scenario: Can leave the default email
     When I fill in Name with "My Name"
     And  I press "Create profile"
-    Then I should see a notice telling me it was successful
+    Then I should see a message telling me it was successful
 
 Scenario:
     When I fill in Name with "My Name"
     And  I fill in Email with "my_other_email@idk.com"
     And  I press "Create profile"
-    Then I should see a notice telling me it was successful
+    Then I should see a message telling me it was successful

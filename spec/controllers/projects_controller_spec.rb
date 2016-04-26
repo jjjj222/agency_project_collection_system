@@ -13,6 +13,28 @@ RSpec.describe ProjectsController, type: :controller do
             get :index
             expect(assigns(:projects)).to eq([project])
         end
+
+        context "asked to sort" do
+          before :each do
+            @a1 = FactoryGirl.create(:agency, :default, :approved, name: "A")
+            @a2 = FactoryGirl.create(:agency, :default, :approved, name: "Z")
+            @p1 = FactoryGirl.create(:project, :default, :approved, name: "Z", agency: @a1)
+            @p2 = FactoryGirl.create(:project, :default, :approved, :old, name: "A", agency: @a2)
+          end
+          it "can sort projects by name" do
+              get :index, sort: :name
+              expect(assigns(:projects)).to eq([@p2, @p1])
+          end
+          it "can sort projects by date" do
+              get :index, sort: :date
+              expect(assigns(:projects)).to eq([@p2, @p1])
+          end
+          it "can sort projects by agency" do
+              get :index, sort: :agency
+              expect(assigns(:projects)).to eq([@p1, @p2])
+          end
+        end
+
         
         it "renders the :index view if logged in as tamu user" do
             tamu_user = FactoryGirl.create(:tamu_user, :default)
@@ -463,17 +485,31 @@ RSpec.describe ProjectsController, type: :controller do
       
     end
     
-    describe 'DELETE destroy' do
+    describe 'DELETE #destroy' do
       before :each do
         @agency = FactoryGirl.create(:agency, :default, :approved)
         controller.log_in(@agency)
         @project = FactoryGirl.create(:project, :default, :agency => @agency)
+        @tamu_user = FactoryGirl.create(:tamu_user, :default)
+        @project.tamu_users << @tamu_user
       end
       
       it "deletes the project if logged in as agency" do
         expect{
           delete :destroy, id: @project
         }.to change(Project,:count).by(-1)
+      end
+
+      it "reduces the number of projects the agency has by one" do
+        expect{
+          delete :destroy, id: @project
+        }.to change(@agency.projects,:count).by(-1)
+      end
+
+      it "reduces the number of projects the tamu user has by one" do
+        expect{
+          delete :destroy, id: @project
+        }.to change(@tamu_user.projects,:count).by(-1)
       end
         
       it "redirects to project#index if logged in as agency" do
@@ -502,5 +538,92 @@ RSpec.describe ProjectsController, type: :controller do
         expect(response).to redirect_to root_path
       end
       
+    end
+
+    describe "POST #join" do
+      before :each do
+        @agency = FactoryGirl.create(:agency, :default, :approved)
+        @project = FactoryGirl.create(:project, :default, :approved, agency: @agency)
+      end
+
+      it "should redirect if not logged in" do
+        post :join, id: @project.id
+        expect(response).to redirect_to my_login_path
+      end
+
+      it "should redirect if logged in as agency" do
+        controller.log_in @agency
+        post :join, id: @project.id
+        expect(response).to redirect_to root_path
+      end
+
+      context "logged in as user" do
+        before :each do
+          @tamu_user = FactoryGirl.create(:tamu_user, :default)
+          controller.log_in @tamu_user
+        end
+
+        it "should make the project show up in the user's projects" do
+          post :join, id: @project.id
+          expect(@tamu_user.projects).to include(@project)
+        end
+
+        it "should not be duplicated in the user's project list" do
+          @tamu_user.projects << @project
+          expect{post :join, id: @project.id }.not_to change(@tamu_user.projects, :count)
+        end
+      end
+
+    end
+
+    describe "POST #drop" do
+      before :each do
+        @agency = FactoryGirl.create(:agency, :default, :approved)
+        @project = FactoryGirl.create(:project, :default, :approved, agency: @agency)
+      end
+
+      it "should redirect if not logged in" do
+        post :drop, id: @project.id
+        expect(response).to redirect_to my_login_path
+      end
+
+      it "should redirect if logged in as agency" do
+        controller.log_in @agency
+        post :drop, id: @project.id
+        expect(response).to redirect_to root_path
+      end
+
+      context "logged in as user" do
+        before :each do
+          @tamu_user = FactoryGirl.create(:tamu_user, :default)
+          controller.log_in @tamu_user
+        end
+
+        it "should make the project not show up in the user's projects" do
+          post :drop, id: @project.id
+          expect(@tamu_user.projects).not_to include(@project)
+        end
+
+        it "should not reduce the number of user's projects if they aren't on it" do
+          expect{post :drop, id: @project.id}.not_to change(@tamu_user.projects, :count)
+        end
+
+        context "working on the project" do
+          before :each do
+            @tamu_user.projects << @project
+          end
+
+          it "should remove the project from the list of user's projects" do
+            post :drop, id: @project.id
+            @tamu_user.reload
+            expect(@tamu_user.projects).not_to include(@project)
+          end
+
+          it "should reduce the number of user's projects by 1" do
+            expect{post :drop, id: @project.id}.to change(@tamu_user.projects, :count).by(-1)
+          end
+        end
+      end
+
     end
 end

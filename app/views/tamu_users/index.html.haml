@@ -4,8 +4,12 @@
         %table{:border => 1, :width => "70%"}
             %tr{:height => "10px"}
                 %th{:align=> "left"} Name
+                - if @current_user.is_a?(TamuUser) and @current_user.admin?
+                    %th{:align=> "left"} Admin Status
         
-            - @tamu_users.each do |tamu_user|
+            - TamuUserPresenter.all(@tamu_users) do |tamu_user|
                 %tr{:height => "10px"}
-                    %td= link_to tamu_user.name, tamu_user_path(tamu_user.id)
+                    %td= tamu_user.profile
+                    - if @current_user.is_a?(TamuUser) and @current_user.admin?
+                        %td= if tamu_user.admin? then "Admin" else button_to "Make Admin", make_user_admin_path(tamu_user.id), confirm: "Are you sure?" end
         #footer

@@ -29,6 +29,7 @@
           %th{:align=> "left"} Description
           %th{:align=> "left"} Status
           %th{:align=> "left"} Tags
+          %th{:align=> "left"} Date
 
         - @agency.projects.each do |project|
           %tr{:height => "10px"}
@@ -36,6 +37,7 @@
             %td= project.description
             %td= project.status
             %td= project.tags.join ", "
+            %td= project.created_at.to_date
         
     #my_profile.tab-pane.fade
       %h3 My Profile

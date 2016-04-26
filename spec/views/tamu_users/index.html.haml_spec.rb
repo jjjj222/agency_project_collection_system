@@ -20,5 +20,27 @@ RSpec.describe "tamu_users/index.html.haml", type: :view do
     # rendered.should include('professor')
     # rendered.should include('email2@tamu.edu')
   end
+
+  context "logged in as admin" do
+    before :each do
+      @admin = FactoryGirl.create(:tamu_user, :default, :admin)
+      @other = FactoryGirl.create(:tamu_user, :updated, :not_admin)
+      # expect(view).to receive(:current_user).and_return(@admin)
+      assign(:current_user, @admin)
+    end
+
+    it "should show a make admin button if there is a nonadmin" do
+      assign(:tamu_users, [@admin, @other])
+      render
+      expect(rendered).to include("Make Admin")
+    end
+    it "should not show a make admin button if there is no nonadmin" do
+      assign(:tamu_users, [@admin])
+      render
+      expect(rendered).not_to include("Make Admin")
+      expect(rendered).to include("Admin")
+    end
+
+  end
  
 end

@@ -23,6 +23,13 @@
     #edit-delete
     = project.edit_button class: "btn btn-primary"
     = button_to 'Delete', project_path(@project), :method => :delete, :confirm => 'Are you sure?', :id=>"delete", :class=>"btn btn-danger"
+- if @current_user.is_a?(TamuUser)
+    - if @current_user.projects.include?(@project)
+        #drop-project
+        = button_to 'Drop Project', drop_project_path(@project)
+    - else
+        #join-project
+        = button_to 'Join Project', join_project_path(@project)
 
 %br
 - if @current_user.is_a?(TamuUser)

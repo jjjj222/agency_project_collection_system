@@ -22,7 +22,7 @@
               
               = link_to "My Page", tamu_user_path(@current_user.id)
               
-              = link_to 'All TAMU users', tamu_users_path
+              = link_to 'All TAMU Users', tamu_users_path
               
               = link_to 'All Agencies', agencies_path
               
@@ -32,11 +32,13 @@
                 = link_to "All Unapproved Agencies", unapproved_agencies_index_path
                 
                 = link_to "All Unapproved Projects", unapproved_projects_index_path
+                
+                = link_to "All Unapproved Faculty", unapproved_professors_index_path
             - else
               
               = link_to "My Page", agency_path(@current_user.id)
 
-            = link_to "Log out", my_logout_path
+            = link_to "Log out", current_user.is_a?(TamuUser) ? '/logout' : my_logout_path
       / .top-header
       #login-as
         - if logged_in?
@@ -47,6 +49,8 @@
           #notice.message!= flash[:notice]
         - elsif flash[:warning]
           #warning.message!= flash[:warning]
+        - elsif flash[:success]
+          #success.message!= flash[:success]
 
         = yield
     #maroon_footer

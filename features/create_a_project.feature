@@ -17,7 +17,7 @@ Scenario:
   When I fill in the "Name" field with "New project"
   And  I fill in the "Description" field with "This is a description"
   And  I press "Save Changes"
-  Then I should see a notice telling me it was successful
+  Then I should see a message telling me it was successful
   And  I should see "New project"
   When I click "My Page"
   Then I should see "New project"
