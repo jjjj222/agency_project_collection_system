@@ -2,7 +2,7 @@ class TamuUsersController < ApplicationController
     include TamuUsersHelper
     include ProjectsHelper
     
-    before_action :admin_only, :only=>[:make_admin]
+    before_action :admin_only, :only=>[:make_admin, :unapproved_professor_index, :approve_professor, :unapprove_professor]
     before_action :owner_only, :only=>[:edit, :update, :destroy]
     prepend_before_action :tamu_user_only, :only=>[:index, :show]
     prepend_before_action :new_tamu_user_only, :only => [:new, :create]
@@ -17,6 +17,31 @@ class TamuUsersController < ApplicationController
 
     def index
         @tamu_users = TamuUser.all
+    end
+    
+    def unapproved_professor_index
+        @tamu_users = TamuUser.where(role: "unapproved_professor")
+    end
+    
+    def approve_professor
+        @professor = TamuUser.find(params[:id])
+        @professor.role = "professor";
+        @professor.save
+        if TamuUser.where(role: "unapproved_professor").count > 0
+            flash[:notice] = "TamuUser '#{@professor.name}' approved as professor."
+            redirect_to unapproved_professors_index_path
+        else
+            flash[:notice] = "TamuUser '#{@professor.name}' approved as professor. All professors have been approved."
+            redirect_to tamu_users_path
+        end
+    end
+    
+    def unapprove_professor
+        @professor = TamuUser.find(params[:id])
+        @professor.role = "unapproved_professor";
+        @professor.save
+        flash[:notice] = "Tamu User '#{@professor.name}' unapproved as professor."
+        redirect_to tamu_users_path
     end
     
     def show

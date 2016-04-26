@@ -20,5 +20,13 @@ module SessionHelpers
   def unapproved_agency
     @unapproved_agency ||= Agency.create!(name: "Test nonprofit", email: "test@testing.org", phone_number: "123-456-7890", approved: false, uid: '12345', provider: 'google_oauth2')
   end
+  
+  def current_faculty
+    @unapproved_faculty ||= TamuUser.create!(name: "Admin Doe", email: "admin@test.org", netid: "adminNetid", role: "professor", admin: false)
+  end
+  
+  def unapproved_faculty
+    @unapproved_faculty ||= TamuUser.create!(name: "Admin Doe", email: "admin@test.org", netid: "adminNetid", role: "unapproved_professor", admin: false)
+  end
 end
 World(SessionHelpers)
