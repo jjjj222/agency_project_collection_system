@@ -1,18 +1,19 @@
-%h2#name Details about #{@project.name}
+- project = ProjectPresenter.new @project
+%h2#name Details about #{project.name}
 
 %h3 Description:
-%p#description= @project.description
+%p#description= project.description
 
 %h3 Tags:
-%p#tags= @project.tags.join(", ")
+%p#tags= project.tags
 
 %h3 Status:
-%p#status= @project.status
+%p#status= project.status
 
 %h3 Agency:
-%p#agency= link_to @project.agency.name, agency_path(@project.agency) 
+%p#agency= project.agency_profile
 
-- if @current_user.class.name == "TamuUser" and @current_user.admin?
+- if @current_user.is_a?(TamuUser) and @current_user.admin?
     - if !@project.approved
         = button_to 'Approve Project', approve_project_path(@project),:class=>"btn btn-warning"
     - else
@@ -20,9 +21,9 @@
         
 - if @current_user == @project.agency
     #edit-delete
-    = button_to 'Edit', edit_project_path(@project), :method => :get, :class=>"btn btn-primary"
+    = project.edit_button class: "btn btn-primary"
     = button_to 'Delete', project_path(@project), :method => :delete, :confirm => 'Are you sure?', :id=>"delete", :class=>"btn btn-danger"
 
 %br
-- if @current_user.class.name == "TamuUser"
+- if @current_user.is_a?(TamuUser)
     = button_to 'Back to project list', projects_path,:class=>"btn btn-info"

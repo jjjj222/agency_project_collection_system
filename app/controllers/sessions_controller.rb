@@ -15,19 +15,14 @@ class SessionsController < ApplicationController
 
   def create
     begin
-      auth_hash = get_auth_hash
+      auth_hash = request.env['omniauth.auth']
 
-      user_type = "Agency" # TAMU Users logged in indirectly by CAS
-
-      user = user_type.constantize.find_by(uid: auth_hash['uid'], provider: auth_hash['provider'])
-      if user == nil
-          user = user_type.constantize.create_with_omniauth(auth_hash)
+      user = Agency.find_by(uid: auth_hash['uid'], provider: auth_hash['provider'])
+      if user.nil?
+          user = Agency.create_with_omniauth(auth_hash)
       end
 
-      #user = find_or_create_by()
-      #user = Agency.from_omniauth(auth_hash)
-      session[:user_id] = user.id
-      session[:user_type] = "Agency"
+      log_in user
       flash[:success] = "Welcome, #{user.name}!"
       redirect_to agency_path(user)
     rescue
@@ -38,16 +33,10 @@ class SessionsController < ApplicationController
 
   def destroy
     if current_user
-      session.delete(:user_id)
-      session.delete(:user_type)
-      @current_user = nil
+      log_out
       flash[:success] = 'See you!'
     end
     redirect_to root_path
-  end
-
-  def get_auth_hash
-    request.env['omniauth.auth']
   end
 
 end

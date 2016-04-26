@@ -17,9 +17,11 @@ Scenario: Login to reuse profile
   Given I am on the homepage
   When  I follow "Login"
   And   I click the "Sign in with Google"
-  And   I should see "New Name"
+  Then  I should see "New Name"
   But   I should not see "Google User"
   And   I should see "new_address@yahoo.com"
   But   I should not see "user@gmail.com"
   And   I should see "Log out"
   And   I should not see "Login"
+  When  I click "Log out"
+  Then  I should see "Login"

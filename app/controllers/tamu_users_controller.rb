@@ -10,9 +10,7 @@ class TamuUsersController < ApplicationController
       params.require(:tamu_user).permit(:name, :email)
     end
     def create_tamu_user_params
-      p = params.require(:tamu_user).permit(:name, :email, :role)
-      p[:netid] = session_netid
-      p
+      params.require(:tamu_user).permit(:name, :email, :role, :netid).merge(netid: session_netid)
     end
 
     def index

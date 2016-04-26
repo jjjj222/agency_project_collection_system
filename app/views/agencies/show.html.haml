@@ -48,7 +48,7 @@
       %h3 <i class="fa fa-phone" aria-hidden="true"></i> Phone number:
       %p#phone_number=  @agency.phone_number
 
-      - if @current_user.class.name == "TamuUser" and @current_user.admin?
+      - if @current_user.is_a?(TamuUser) and @current_user.admin?
         - if !@agency.approved
           = button_to 'Approve Agency', approve_agency_path(@agency)
         - else

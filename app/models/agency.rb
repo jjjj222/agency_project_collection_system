@@ -22,14 +22,11 @@ class Agency < ActiveRecord::Base
     #user.image_url = auth_hash['info']['image']
     #user.url = auth_hash['info']['urls']['Google']
 
-    user = Agency.create!(parameters)
-    return user
+    Agency.create!(parameters)
   end
 
   private
   def self.assign_if_not_nil(hash, attribute, value)
-    if value
-        hash[attribute] = value
-    end
+    hash[attribute] = value unless value.nil?
   end
 end

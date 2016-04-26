@@ -15,7 +15,10 @@
             
             = link_to 'Login', my_login_path
           - else
-            - if @current_user.class.name == "TamuUser"
+
+            
+           
+            - if @current_user.is_a?(TamuUser)
               
               = link_to "My Page", tamu_user_path(@current_user.id)
               
@@ -32,8 +35,8 @@
             - else
               
               = link_to "My Page", agency_path(@current_user.id)
-            = link_to "Log out", logout_path, :id=>'logout-btn'
 
+            = link_to "Log out", my_logout_path
       / .top-header
       #login-as
         - if logged_in?
