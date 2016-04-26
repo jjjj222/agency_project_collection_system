@@ -50,6 +50,12 @@
       
       - if @current_user == @tamu_user
         = link_to 'Edit Profile', edit_tamu_user_path(@tamu_user.id)
+        
+      - if @current_user.is_a?(TamuUser) and @current_user.admin?
+        - if @tamu_user.is_unapproved_professor?
+          = button_to 'Approve as Faculty', approve_professor_path(@tamu_user)
+        - else
+          = button_to 'Unapprove as Faculty', unapprove_professor_path(@tamu_user)
 
     #more.tab-pane.fade
       %h3 More

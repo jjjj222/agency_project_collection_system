@@ -12,7 +12,7 @@
                     %th{:align=> "left"} Name
                     %th{:align=> "left"} Approve Agency
             
-                - @agencies.each do |agency|
+            - @agencies.each do |agency|
                     %tr{:height => "10px"}
                         %td= link_to agency.name, agency_path(agency.id)
                         %td= button_to 'Approve', approve_agency_path(agency)

@@ -19,6 +19,31 @@ class TamuUsersController < ApplicationController
         @tamu_users = TamuUser.all
     end
     
+    def unapproved_professor_index
+        @tamu_users = TamuUser.where(role: "unapproved_professor")
+    end
+    
+    def approve_professor
+        @professor = TamuUser.find(params[:id])
+        @professor.role = "professor";
+        @professor.save
+        if TamuUser.where(role: "unapproved_professor").count > 0
+            flash[:notice] = "TamuUser '#{@professor.name}' approved as professor."
+            redirect_to unapproved_professors_index_path
+        else
+            flash[:notice] = "TamuUser '#{@professor.name}' approved as professor. All professors have been approved."
+            redirect_to tamu_users_path
+        end
+    end
+    
+    def unapprove_professor
+        @agency = TamuUser.find(params[:id])
+        @agency.role = "unapproved_professor";
+        @agency.save
+        flash[:notice] = "Tamu User '#{@agency.name}' unapproved as professor."
+        redirect_to tamu_users_path
+    end
+    
     def show
         @tamu_user = TamuUser.find params[:id]
         @projects = @tamu_user.projects
