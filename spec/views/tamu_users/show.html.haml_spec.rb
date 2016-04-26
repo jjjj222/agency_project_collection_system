@@ -16,9 +16,15 @@ describe 'tamu_users/show.html.haml' do
   
   it 'displays a users projects correctly' do
     agency = FactoryGirl.create(:agency, :default, :approved)
-    assign(:tamu_user, FactoryGirl.build(:tamu_user, :default, :id=>1,
+    @tamu_user = FactoryGirl.build(:tamu_user, :default, :id=>1,
         :projects => [FactoryGirl.build(:project, :default, id: 1, agency: agency)]
-        ))
+        )
+    #assign(:tamu_user, FactoryGirl.build(:tamu_user, :default, :id=>1,
+    #    :projects => [FactoryGirl.build(:project, :default, id: 1, agency: agency)]
+    #    ))
+
+    @current_user = @tamu_user
+    @projects = @tamu_user.projects
 
     render
 

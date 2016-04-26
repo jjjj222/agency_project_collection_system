@@ -1,4 +1,5 @@
 class ProjectsController < ApplicationController
+    include ProjectsHelper
     
     before_action :admin_only, :only=>[:unapproved_index, :unapprove, :approve]
     before_action :agency_only, :only=>[:new, :create, :edit, :update, :destroy]
@@ -13,10 +14,21 @@ class ProjectsController < ApplicationController
     
     def index
         @projects = Project.where(approved: true)
+
+        #if params[:sort] == "name"
+        #    @projects = @projects.order(:name)
+        #elsif params[:sort] == "date"
+        #    @projects = @projects.order(:created_at)
+        #elsif params[:sort] == "agency"
+        #    @projects = @projects.sort_by {|project| project.agency.name}
+        #end
+        @projects = sort_projects(@projects, params[:sort])
     end
-    
+
     def unapproved_index
         @projects = Project.where(approved: false)
+        #sort_projects()
+        @projects = sort_projects(@projects, params[:sort])
     end
    
     def show
@@ -136,5 +148,15 @@ class ProjectsController < ApplicationController
         redirect_to root_path, :alert => "Access denied."
       end
     end
+
+    #def sort_projects
+    #    if params[:sort] == "name"
+    #        @projects = @projects.order(:name)
+    #    elsif params[:sort] == "date"
+    #        @projects = @projects.order(:created_at)
+    #    elsif params[:sort] == "agency"
+    #        @projects = @projects.sort_by {|project| project.agency.name}
+    #    end
+    #end
 end
 

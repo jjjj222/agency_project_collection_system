@@ -6,13 +6,16 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 example_projects = [
+  { name: "ZZZ Project", description: "A completed test project", status: "completed", approved: true, agency_id: "1"},
   { name: "Test Project", description: "A completed test project", status: "completed", approved: true, agency_id: "1"},
   { name: "Test Project 2", description: "BCD", status: "completed", approved: true, agency_id: "2"},
+  { name: "ZZZ Project 3", description: "BCD", status: "open", approved: false, agency_id: "2"},
   { name: "Test Project 3", description: "BCD", status: "open", approved: false, agency_id: "2"},
   { name: "Test Project 4", description: "BCD", status: "in progress", approved: false, agency_id: "3"}
 ]
 
 example_users = [
+  { name: "Admin", email: "admin@tamu.edu", netid: "jjjj222", role: "student", admin: true},
   { name: "John Tamu", email: "john@tamu.edu", netid: "johnsnetid", role: "student", admin: false},
   { name: "Hank Tamu", email: "hank@tamu.edu", netid: "hanksnetid", role: "professor", admin: false},
   { name: "Malini Malini", email: "malini@tamu.edu", netid: "malinisnetid", role: "professor", admin: true}
