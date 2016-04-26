@@ -13,6 +13,28 @@ RSpec.describe ProjectsController, type: :controller do
             get :index
             expect(assigns(:projects)).to eq([project])
         end
+
+        context "asked to sort" do
+          before :each do
+            @a1 = FactoryGirl.create(:agency, :default, :approved, name: "A")
+            @a2 = FactoryGirl.create(:agency, :default, :approved, name: "Z")
+            @p1 = FactoryGirl.create(:project, :default, :approved, name: "Z", agency: @a1)
+            @p2 = FactoryGirl.create(:project, :default, :approved, :old, name: "A", agency: @a2)
+          end
+          it "can sort projects by name" do
+              get :index, sort: :name
+              expect(assigns(:projects)).to eq([@p2, @p1])
+          end
+          it "can sort projects by date" do
+              get :index, sort: :date
+              expect(assigns(:projects)).to eq([@p2, @p1])
+          end
+          it "can sort projects by agency" do
+              get :index, sort: :agency
+              expect(assigns(:projects)).to eq([@p1, @p2])
+          end
+        end
+
         
         it "renders the :index view if logged in as tamu user" do
             tamu_user = FactoryGirl.create(:tamu_user, :default)
