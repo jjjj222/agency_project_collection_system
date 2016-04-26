@@ -129,15 +129,15 @@ class ProjectsController < ApplicationController
     end
     
     def owner_only
-        @project = Project.find(params[:id])
-        unless current_user == @project.agency
+        project = Project.find(params[:id])
+        unless current_user == project.agency
             redirect_to root_path, :alert => "Access denied."
         end
     end
 
     def tamu_user_or_owner_only
-      @project = Project.find(params[:id])
-      unless current_user.is_a?(TamuUser) or @project.agency == current_user
+      project = Project.find(params[:id])
+      unless current_user.is_a?(TamuUser) or project.agency == current_user
         redirect_to root_path, :alert => "Access denied."
       end
     end

@@ -84,16 +84,16 @@ class AgenciesController < ApplicationController
     private
 
     def owner_only
-        @agency = Agency.find params[:id]
-        unless current_user == @agency
+        agency = Agency.find params[:id]
+        unless current_user == agency
             redirect_to root_path, :alert => "Access denied."
         end
     end
     
     def tamu_user_only
       if params[:id]
-        @agency = Agency.find(params[:id])
-        unless current_user.is_a?(TamuUser) or @agency == current_user
+        agency = Agency.find(params[:id])
+        unless current_user.is_a?(TamuUser) or agency == current_user
           redirect_to root_path, :alert => "Access denied."
         end
       else 

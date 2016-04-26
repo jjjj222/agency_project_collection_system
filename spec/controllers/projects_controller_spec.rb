@@ -168,7 +168,7 @@ RSpec.describe ProjectsController, type: :controller do
         end
       
         it "assigns the requested project to @project if logged in as the owning agency" do
-            project = FactoryGirl.create(:project, :default)
+            project = FactoryGirl.create(:project, :default, agency: @agency)
             get :edit, id: project
             expect(assigns(:project)).to eq(project)
         end
@@ -179,19 +179,33 @@ RSpec.describe ProjectsController, type: :controller do
             get :edit, id: @project
             expect(response).to render_template :edit
         end
-        
-        it "does not assign the requested project to @project if not logged in as the owning agency" do
+
+        it "does not assign the requested project to @project if not logged in" do
             controller.log_out
             project = FactoryGirl.create(:project, :default)
             get :edit, id: project
             expect(assigns(:project)).to_not eq(project)
         end
 
-
-        it "it does not render the :edit view if not logged in as the owning agency" do
+        it "it does not render the :edit view if not logged in" do
             controller.log_out
             @project = FactoryGirl.create(:project, :default, :agency => @agency)
             get :edit, id: @project
+            expect(response).to_not render_template :edit
+        end
+
+        it "does not assign the requested project to @project if not logged in as the owning agency" do
+            other_agency = FactoryGirl.create(:agency, :updated, :email)
+            project = FactoryGirl.create(:project, :default, agency: other_agency)
+            get :edit, id: project
+            expect(assigns(:project)).to_not eq(project)
+        end
+
+
+        it "it does not render the :edit view if not logged in as the owning agency" do
+            other_agency = FactoryGirl.create(:agency, :updated, :email)
+            project = FactoryGirl.create(:project, :default, agency: other_agency)
+            get :edit, id: project
             expect(response).to_not render_template :edit
         end
     end

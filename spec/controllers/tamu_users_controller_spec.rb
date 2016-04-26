@@ -83,13 +83,11 @@ RSpec.describe TamuUsersController, type: :controller do
     
     describe "GET #show" do
         context "not logged in" do
-          # TODO: the filter will automatically redirect to CAS and log in if it can, so
-          # this spec doesn't really work unless they are logged in as an tamu_user already
-          # it "does not assign the requested tamu user to @tamu_user if not logged in" do
-          #     tamu_user = FactoryGirl.create(:tamu_user, :default)
-          #     get :show, id: tamu_user
-          #     expect(assigns(:tamu_user)).to_not eq(tamu_user)
-          # end
+          it "does not assign the requested tamu user to @tamu_user if not logged in" do
+              tamu_user = FactoryGirl.create(:tamu_user, :default)
+              get :show, id: tamu_user
+              expect(assigns(:tamu_user)).not_to eq(tamu_user)
+          end
 
           it "it does not render the :show view if not logged in" do
               tamu_user = FactoryGirl.create(:tamu_user, :default)
