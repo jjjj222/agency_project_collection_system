@@ -13,10 +13,20 @@ class ProjectsController < ApplicationController
     
     def index
         @projects = Project.where(approved: true)
+
+        #if params[:sort] == "name"
+        #    @projects = @projects.order(:name)
+        #elsif params[:sort] == "date"
+        #    @projects = @projects.order(:created_at)
+        #elsif params[:sort] == "agency"
+        #    @projects = @projects.sort_by {|project| project.agency.name}
+        #end
+        sort_projects()
     end
-    
+
     def unapproved_index
         @projects = Project.where(approved: false)
+        sort_projects()
     end
    
     def show
@@ -135,6 +145,16 @@ class ProjectsController < ApplicationController
       unless current_user.is_a?(TamuUser)
         redirect_to root_path, :alert => "Access denied."
       end
+    end
+
+    def sort_projects
+        if params[:sort] == "name"
+            @projects = @projects.order(:name)
+        elsif params[:sort] == "date"
+            @projects = @projects.order(:created_at)
+        elsif params[:sort] == "agency"
+            @projects = @projects.sort_by {|project| project.agency.name}
+        end
     end
 end
 

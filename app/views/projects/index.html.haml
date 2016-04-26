@@ -24,12 +24,15 @@
     #right
         %table{:border => 1, :width => "70%"}
             %tr{:height => "10px"}
-                %th{:align=> "left"} Project Name
+                %th{:align=> "left"}
+                    = link_to "Project Name", projects_path(:sort => :name)
                 %th{:align=> "left"} Description
                 %th{:align=> "left"} Status
                 %th{:align=> "left"} Tags
-                %th{:align=> "left"} Agency
-                %th{:align=> "left"} Date
+                %th{:align=> "left"}
+                    = link_to "Agency", projects_path(:sort => :agency)
+                %th{:align=> "left"}
+                    = link_to "Date", projects_path(:sort => :date)
                 - if @current_user.is_a?(TamuUser) and @current_user.admin?
                     %th{:align=> "left"} Unapprove Project
         
