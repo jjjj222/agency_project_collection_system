@@ -76,7 +76,6 @@ RSpec.describe AgenciesController, type: :controller do
             get :unapproved_index
             expect(response).to redirect_to root_path
         end
-        
     end
     
     describe "GET #show" do
