@@ -11,5 +11,5 @@
                 %tr{:height => "10px"}
                     %td= tamu_user.profile
                     - if @current_user.is_a?(TamuUser) and @current_user.admin?
-                        %td= if tamu_user.admin? then "Admin" else button_to "Make Admin", make_user_admin_path(tamu_user.id) end
+                        %td= if tamu_user.admin? then "Admin" else button_to "Make Admin", make_user_admin_path(tamu_user.id), confirm: "Are you sure?" end
         #footer

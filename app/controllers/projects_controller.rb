@@ -43,7 +43,7 @@ class ProjectsController < ApplicationController
     end
    
     def create
-        @project = current_user.projects.build(project_params)
+        @project = current_user.projects.build(project_params.merge(status: "open"))
         
         if @project.save
             flash[:success] = "#{@project.name} was successfully created."
