@@ -37,10 +37,10 @@ class TamuUsersController < ApplicationController
     end
     
     def unapprove_professor
-        @agency = TamuUser.find(params[:id])
-        @agency.role = "unapproved_professor";
-        @agency.save
-        flash[:notice] = "Tamu User '#{@agency.name}' unapproved as professor."
+        @professor = TamuUser.find(params[:id])
+        @professor.role = "unapproved_professor";
+        @professor.save
+        flash[:notice] = "Tamu User '#{@professor.name}' unapproved as professor."
         redirect_to tamu_users_path
     end
     
