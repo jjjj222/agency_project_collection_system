@@ -89,6 +89,57 @@ RSpec.describe TamuUsersController, type: :controller do
         end
         
     end
+    
+    describe 'POST unapprove' do
+      before :each do
+        @tamu_user = FactoryGirl.create(:tamu_user, :default, :professor)
+        @admin = FactoryGirl.create(:tamu_user, :default, :admin)
+        controller.log_in(@admin)
+      end
+
+      it "located the requested @tamu_user if logged in as admin" do
+        post :unapprove_professor, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, :professor)
+        expect(assigns(:tamu_user)).to eq(@tamu_user)
+      end
+
+      it "changes @tamu_user's role field if logged in as admin" do
+        post :unapprove_professor, id: @tamu_user#, agency: FactoryGirl.attributes_for(:agency, :default, :approved)
+        @tamu_user.reload
+        expect(@tamu_user.role).to eq("unapproved_professor")
+      end
+
+      it "redirects to the approved faculty if logged in as admin" do
+        post :approve_professor, id: @tamu_user#, agency: FactoryGirl.attributes_for(:agency, :default)
+        expect(response).to redirect_to tamu_users_path
+      end
+      
+      it "should not locate the requested @tamu_user if logged not in as admin" do
+        controller.log_out
+        post :unapprove_professor, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, :professor)
+        expect(assigns(:tamu_user)).to_not eq(@tamu_user)
+      end
+
+      it "should not change faculty's role field if not logged in as admin" do
+        controller.log_out
+        post :unapprove_professor, id: @tamu_user#, agency: FactoryGirl.attributes_for(:agency, :default, :approved)
+        @tamu_user.reload
+        expect(@tamu_user.role).to_not eq("unapproved_professor")
+      end
+
+      it "should not redirect to the approved faculty if not logged in as admin" do
+        controller.log_out
+        post :approve_professor, id: @tamu_user#, agency: FactoryGirl.attributes_for(:agency, :default)
+        expect(response).to_not redirect_to tamu_users_path
+      end
+      
+      it "redirects to root path if not admin" do
+            controller.current_user.admin = false
+            post :unapprove_professor, id: @tamu_user
+            expect(response).to redirect_to root_path
+      end
+      
+    end
+    
     describe "GET #edit" do
         it "assigns the requested tamu user to @tamu_user if logged in" do
             tamu_user = FactoryGirl.create(:tamu_user, :default)
