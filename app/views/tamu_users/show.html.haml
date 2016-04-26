@@ -20,6 +20,7 @@
           %th{:align=> "left"} Description
           %th{:align=> "left"} Status
           %th{:align=> "left"} Tags
+          %th{:align=> "left"} Date
           %th{:align=> "left"} Agency
 
       - ProjectPresenter.all(@tamu_user.projects) do |project|
@@ -28,6 +29,7 @@
           %td= project.description
           %td= project.status
           %td= project.tags
+          %td= project.date
           %td= project.agency_profile
     
     #my_profile.tab-pane.fade

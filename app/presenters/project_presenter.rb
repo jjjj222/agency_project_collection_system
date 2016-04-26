@@ -8,6 +8,10 @@ class ProjectPresenter < PresenterBase
     project.tags.join ","
   end
 
+  def date
+    project.created_at.to_date
+  end
+
   def profile(opts = {})
     link_to project.name, project_path(project), opts
   end
