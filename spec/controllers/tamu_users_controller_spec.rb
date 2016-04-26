@@ -133,8 +133,8 @@ RSpec.describe TamuUsersController, type: :controller do
       end
 
       it "located the requested @tamu_user if logged in as admin" do
-        post :approve_professor, id: @tamu_user, tamu_user: FactoryGirl.create(:tamu_user, :default, :unapproved_professor)
-        expect(assigns(:tamu_user)).to eq(@tamu_user)
+        post :approve_professor, id: @tamu_user
+        expect(assigns(:professor)).to eq(@tamu_user)
       end
 
       it "changes @tamu_user's role field if logged in as admin" do
