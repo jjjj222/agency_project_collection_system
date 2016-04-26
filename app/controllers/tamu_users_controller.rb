@@ -1,5 +1,6 @@
 class TamuUsersController < ApplicationController
     include TamuUsersHelper
+    include ProjectsHelper
     
     before_action :admin_only, :only=>[:make_admin]
     before_action :owner_only, :only=>[:edit, :update, :destroy]
@@ -20,6 +21,9 @@ class TamuUsersController < ApplicationController
     
     def show
         @tamu_user = TamuUser.find params[:id]
+        @projects = @tamu_user.projects
+        @projects = sort_projects(@projects, params[:sort])
+        #sort_projects()
     end
     
     def new
@@ -99,5 +103,4 @@ class TamuUsersController < ApplicationController
           return redirect_to root_path, :alert => "Access denied."
       end
     end
-    
 end
