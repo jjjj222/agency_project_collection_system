@@ -33,8 +33,7 @@
               
               = link_to "My Page", agency_path(@current_user.id)
             = link_to "Log out", logout_path, :id=>'logout-btn'
-            :javascript
-              test()
+
       / .top-header
       #login-as
         - if logged_in?
