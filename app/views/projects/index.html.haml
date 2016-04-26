@@ -29,6 +29,7 @@
                 %th{:align=> "left"} Status
                 %th{:align=> "left"} Tags
                 %th{:align=> "left"} Agency
+                %th{:align=> "left"} Date
                 - if @current_user.is_a?(TamuUser) and @current_user.admin?
                     %th{:align=> "left"} Unapprove Project
         
@@ -39,6 +40,7 @@
                     %td= project.status
                     %td= project.tags.join ", "
                     %td= link_to project.agency.name, agency_path(project.agency)
+                    %td= project.created_at.to_date
                     - if @current_user.is_a?(TamuUser) and @current_user.admin?
                         %td= button_to 'Unapprove Project', unapprove_project_path(project),:class=>"btn btn-warning"
     #footer

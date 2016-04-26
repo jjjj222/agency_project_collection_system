@@ -7,6 +7,7 @@ FactoryGirl.define do
         description  "This is the test project description";
         status "open";
         tags [""];
+        created_at "2016-04-26 06:19:16"
         approved false;
     }
     
@@ -15,12 +16,14 @@ FactoryGirl.define do
         description  "This is the test project description";
         status "open";
         tags [""];
+        created_at "2016-04-26 06:19:16"
         approved false;
     }
     
     trait(:invalid) {
         description  "This is the test project description";
         status "invlaid";
+        created_at "2016-04-26 06:19:16"
         tags [""];
     }
     
@@ -28,6 +31,7 @@ FactoryGirl.define do
         name  "Test Project updated";
         description  "This is the test project description updated";
         status "completed";
+        created_at "2016-04-26 06:19:16"
         tags "updated";
     }
         
@@ -35,6 +39,7 @@ FactoryGirl.define do
     trait(:description) {description "This is the test project description"}
     trait(:status) {status  "open"}
     trait(:tags) {tags [""]}
+    trait(:date) {created_at "2016-04-26 06:19:16"}
     trait(:approved) {approved true}
     trait(:unapproved) {approved false}  
     trait(:nil_approved) {approved nil}

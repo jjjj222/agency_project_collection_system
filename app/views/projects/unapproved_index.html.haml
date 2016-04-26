@@ -27,6 +27,7 @@
                 %th{:align=> "left"} Status
                 %th{:align=> "left"} Tags
                 %th{:align=> "left"} Agency
+                %th{:align=> "left"} Date
                 %th{:align=> "left"} Approve Project
         
             - @projects.each do |project|
@@ -36,5 +37,6 @@
                     %td= project.status
                     %td= project.tags.join ", "
                     %td= link_to project.agency.name, agency_path(project.agency)
+                    %td= project.created_at.to_date
                     %td= button_to 'Approve', approve_project_path(project)
     #footer

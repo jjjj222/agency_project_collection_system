@@ -17,6 +17,7 @@
         %th{:align=> "left"} Description
         %th{:align=> "left"} Tags
         %th{:align=> "left"} Agency
+        %th{:align=> "left"} Date
   
     - @projects.each do |project|
         %tr{:height => "10px"}
@@ -24,5 +25,6 @@
             %td= project.description
             %td= project.tags.join ", "
             %td= link_to project.agency.name, agency_path(project.agency)
+            %td= project.created_at.to_date
 
 #footer.pageFooter
