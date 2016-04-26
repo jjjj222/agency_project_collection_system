@@ -2,7 +2,7 @@ class TamuUsersController < ApplicationController
     include TamuUsersHelper
     include ProjectsHelper
     
-    before_action :admin_only, :only=>[:make_admin]
+    before_action :admin_only, :only=>[:make_admin, :unapproved_professor_index, :approve_professor, :unapprove_professor]
     before_action :owner_only, :only=>[:edit, :update, :destroy]
     prepend_before_action :tamu_user_only, :only=>[:index, :show]
     prepend_before_action :new_tamu_user_only, :only => [:new, :create]
