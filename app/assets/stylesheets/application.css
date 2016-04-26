@@ -108,6 +108,11 @@ h2.title {
   margin: 1em 0;
   padding: 4px;
 }
+#success {
+  background: #81AFB2;
+  margin: 1em 0;
+  padding: 4px;
+}
 form label {
   display: block;
   line-height: 25px;

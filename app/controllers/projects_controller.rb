@@ -34,7 +34,7 @@ class ProjectsController < ApplicationController
         @project = current_user.projects.build(project_params)
         
         if @project.save
-            flash[:notice] = "#{@project.name} was successfully created."
+            flash[:success] = "#{@project.name} was successfully created."
             redirect_to project_path(@project)
         else
             model_failed_flash @project
@@ -50,7 +50,7 @@ class ProjectsController < ApplicationController
         @project = Project.find(params[:id])
         
         if @project.update_attributes(project_params)
-            flash[:notice] = "#{@project.name} was successfully updated."
+            flash[:success] = "#{@project.name} was successfully updated."
             redirect_to project_path
         else
             model_failed_flash @project
@@ -70,10 +70,10 @@ class ProjectsController < ApplicationController
         @project.save
         
         if Project.where(approved: false).count > 0
-            flash[:notice] = "Project '#{@project.name}' approved."
+            flash[:success] = "Project '#{@project.name}' approved."
             redirect_to unapproved_projects_index_path
         else
-            flash[:notice] = "Project '#{@project.name}' approved. All projects have been approved."
+            flash[:success] = "Project '#{@project.name}' approved. All projects have been approved."
             redirect_to projects_path
         end
     end
@@ -82,7 +82,7 @@ class ProjectsController < ApplicationController
         @project = Project.find(params[:id])
         @project.approved = false;
         @project.save
-        flash[:notice] = "Project '#{@project.name}' unapproved."
+        flash[:success] = "Project '#{@project.name}' unapproved."
         redirect_to projects_path
     end
 
@@ -93,7 +93,8 @@ class ProjectsController < ApplicationController
         end
 
         @project.tamu_users << current_user
-        redirect_to project_path(@project), notice: "Successfully joined #{@project.name}!"
+        flash[:success] =  "Successfully joined #{@project.name}!"
+        redirect_to project_path(@project)
     end
 
     def drop
@@ -103,7 +104,8 @@ class ProjectsController < ApplicationController
         end
 
         @project.tamu_users.delete(current_user)
-        redirect_to project_path(@project), notice: "Successfully dropped #{@project.name}."
+        flash[:success] =  "Successfully dropped #{@project.name}!"
+        redirect_to project_path(@project)
     end
     
     private

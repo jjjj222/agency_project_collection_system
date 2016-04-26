@@ -44,6 +44,8 @@
           #notice.message!= flash[:notice]
         - elsif flash[:warning]
           #warning.message!= flash[:warning]
+        - elsif flash[:success]
+          #success.message!= flash[:success]
 
         = yield
     #maroon_footer

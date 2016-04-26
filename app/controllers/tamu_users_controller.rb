@@ -31,7 +31,7 @@ class TamuUsersController < ApplicationController
         @tamu_user = TamuUser.new create_tamu_user_params
         if @tamu_user.save
             log_in(@tamu_user)
-            flash[:notice] = "Profile for #{@tamu_user.name} was successfully created!"
+            flash[:success] = "Profile for #{@tamu_user.name} was successfully created!"
             redirect_to tamu_user_path(@tamu_user)
         else
             model_failed_flash @tamu_user
@@ -42,7 +42,7 @@ class TamuUsersController < ApplicationController
     def destroy
         @tamu_user = TamuUser.find params[:id]
         @tamu_user.destroy
-        flash[:notice] = "TAMU User '#{@tamu_user.name}' deleted."
+        flash[:success] = "TAMU User '#{@tamu_user.name}' deleted."
         redirect_to tamu_users_path
     end
     
@@ -53,7 +53,7 @@ class TamuUsersController < ApplicationController
     def update
         @tamu_user = TamuUser.find params[:id]
         if @tamu_user.update_attributes(tamu_user_params)
-            flash[:notice] = "# Profile was successfully updated."
+            flash[:success] = "# Profile was successfully updated."
             redirect_to tamu_user_path
         else
             model_failed_flash @tamu_user
@@ -65,7 +65,8 @@ class TamuUsersController < ApplicationController
         @tamu_user = TamuUser.find params[:id]
         @tamu_user.admin = true
         @tamu_user.save
-        redirect_to tamu_users_path, notice: "Successfully made #{@tamu_user.name} into an admin"
+        flash[:success] = "Successfully made #{@tamu_user.name} into an admin"
+        redirect_to tamu_users_path
     end
     
     private

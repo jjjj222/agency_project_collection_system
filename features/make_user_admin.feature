@@ -8,7 +8,7 @@ Scenario:
     And there is another current user
     When I click "All TAMU Users"
     When I press "Make Admin"
-    Then I should see a notice telling me it was successful
+    Then I should see a message telling me it was successful
     And I should not see "Make Admin"
 
 Scenario:

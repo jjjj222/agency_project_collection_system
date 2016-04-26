@@ -13,7 +13,7 @@ Scenario:
     When I click "Test Project"
     Then I should see "some desc"
     When I press "Join Project"
-    Then I should see a notice telling me it was successful
+    Then I should see a message telling me it was successful
     And  I should not see anything with "Join Project"
     And  I should see something with "Drop Project"
     When I click on "My Page"

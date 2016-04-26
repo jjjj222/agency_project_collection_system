@@ -32,9 +32,8 @@ Then /^I should see a notice about invalid (\w+)$/ do |field|
   @notice.assert_text(:visible, Regexp.new(Regexp.escape(field), "i"))
 end
 
-Then /^I should see a notice telling me it was succ?essful$/ do
-  @notice = find_by_id('notice')
-  @notice.assert_text(:visible, /[sS]uccessfully/)
+Then /^I should see a message telling me it was successful$/ do
+  expect(page).to have_selector("#success")
 end
 
 Then /^(?:|I )should see "([^"]*)"$/ do |text|

@@ -11,7 +11,7 @@ Feature: Edit a project
 Scenario:
   When  I select "Open" for project status
   And  I press "Save Changes"
-  Then I should see a notice telling me it was sucessful
+  Then I should see a message telling me it was successful
   And the status should be "open"
 
 Scenario:
@@ -22,18 +22,18 @@ Scenario:
 Scenario:
   When  I fill in the "project_name" field with "New name"
   And  I press "Save Changes"
-  Then I should see a notice telling me it was sucessful
+  Then I should see a message telling me it was successful
   And the name should be "new name"
 
   #there is no sad path for description
 Scenario:
   When  I fill in the "project_description" field with "New desc"
   And  I press "Save Changes"
-  Then I should see a notice telling me it was sucessful
+  Then I should see a message telling me it was successful
   And the description should be "new desc"
   #there is no sad path for tags
 Scenario:
   When  I fill in the "project_tags" field with "new-tag"
   And  I press "Save Changes"
-  Then I should see a notice telling me it was sucessful
+  Then I should see a message telling me it was successful
   And the tags should be "new-tag"

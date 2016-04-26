@@ -11,9 +11,9 @@ Background: I am a user working on a project
     When I click "Test Project"
     Then I should see "some desc"
     When I press "Join Project"
-    Then I should see a notice telling me it was successful
+    Then I should see a message telling me it was successful
 
 Scenario:
     When I press "Drop Project"
     Then I should see something with "Join Project"
-    And I should see a notice telling me it was successful
+    And I should see a message telling me it was successful
