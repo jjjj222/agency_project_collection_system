@@ -41,8 +41,16 @@ Then /^(?:|I )should see "([^"]*)"$/ do |text|
   expect(page).to have_content(text)
 end
 
+Then /^(?:|I )should see something with "([^"]*)"$/ do |text|
+  expect(page).to have_selector("*[value='#{text}']")
+end
+
 Then /^(?:|I )should not see "([^"]*)"$/ do |text|
   expect(page).to have_no_content(text)
+end
+
+Then /^(?:|I )should not see anything with "([^"]*)"$/ do |text|
+  expect(page).not_to have_selector("*[value='#{text}']")
 end
 
 

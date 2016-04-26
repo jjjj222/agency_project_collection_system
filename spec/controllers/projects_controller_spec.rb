@@ -552,6 +552,56 @@ RSpec.describe ProjectsController, type: :controller do
         end
       end
 
+    end
+
+    describe "POST #drop" do
+      before :each do
+        @agency = FactoryGirl.create(:agency, :default, :approved)
+        @project = FactoryGirl.create(:project, :default, :approved, agency: @agency)
+      end
+
+      it "should redirect if not logged in" do
+        post :drop, id: @project.id
+        expect(response).to redirect_to my_login_path
+      end
+
+      it "should redirect if logged in as agency" do
+        controller.log_in @agency
+        post :drop, id: @project.id
+        expect(response).to redirect_to root_path
+      end
+
+      context "logged in as user" do
+        before :each do
+          @tamu_user = FactoryGirl.create(:tamu_user, :default)
+          controller.log_in @tamu_user
+        end
+
+        it "should make the project not show up in the user's projects" do
+          post :drop, id: @project.id
+          expect(@tamu_user.projects).not_to include(@project)
+        end
+
+        it "should not reduce the number of user's projects if they aren't on it" do
+          expect{post :drop, id: @project.id}.not_to change(@tamu_user.projects, :count)
+        end
+
+        context "working on the project" do
+          before :each do
+            @tamu_user.projects << @project
+          end
+
+          it "should remove the project from the list of user's projects" do
+            post :drop, id: @project.id
+            @tamu_user.reload
+            expect(@tamu_user.projects).not_to include(@project)
+          end
+
+          it "should reduce the number of user's projects by 1" do
+            expect{post :drop, id: @project.id}.to change(@tamu_user.projects, :count).by(-1)
+          end
+        end
+      end
 
     end
 end

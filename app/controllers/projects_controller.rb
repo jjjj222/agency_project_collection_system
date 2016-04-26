@@ -4,7 +4,7 @@ class ProjectsController < ApplicationController
     before_action :agency_only, :only=>[:new, :create, :edit, :update, :destroy]
     before_action :owner_only, :only=>[:edit, :update, :destroy]
     before_action :tamu_user_or_owner_only, :only => [:show]
-    before_action :tamu_user_only, :only=>[:index, :join]
+    before_action :tamu_user_only, :only=>[:index, :join, :drop]
     
     def project_params
         params[:project][:tags] = params[:project][:tags].split(/[\s,]+/)
@@ -94,6 +94,16 @@ class ProjectsController < ApplicationController
 
         @project.tamu_users << current_user
         redirect_to project_path(@project), notice: "Successfully joined #{@project.name}!"
+    end
+
+    def drop
+        @project = Project.find(params[:id])
+        if not @project.tamu_users.include? current_user
+            return redirect_to project_path(@project), notice: "You're not working on this project"
+        end
+
+        @project.tamu_users.delete(current_user)
+        redirect_to project_path(@project), notice: "Successfully dropped #{@project.name}."
     end
     
     private
