@@ -7,7 +7,6 @@
 
   %body
     #maroon_top
-      / = image_tag 'csen-logo.png'
       %h1.title TAMU Non-Profit Projects Collect System  
       .top-header
         #a-maroon
@@ -18,20 +17,20 @@
           - else 
             - if @current_user.is_a?(TamuUser)
               
-              = link_to '<i class="fa fa-users" aria-hidden="true"></i> All Users'.html_safe, tamu_user_path(@current_user.id)
+              = link_to '<i class="fa fa-users" aria-hidden="true"></i> Users'.html_safe, tamu_user_path(@current_user.id)
               
-              = link_to '<i class="fa fa-graduation-cap" aria-hidden="true"></i> All TAMU Users'.html_safe, tamu_users_path
+              = link_to '<i class="fa fa-graduation-cap" aria-hidden="true"></i> TAMU Users'.html_safe, tamu_users_path
               
-              = link_to '<i class="fa fa-building" aria-hidden="true"></i> All Agencies'.html_safe, agencies_path
+              = link_to '<i class="fa fa-building" aria-hidden="true"></i> Agencies'.html_safe, agencies_path
               
-              = link_to '<i class="fa fa-sticky-note" aria-hidden="true"></i> All Projects'.html_safe, projects_path
+              = link_to '<i class="fa fa-sticky-note" aria-hidden="true"></i> Projects'.html_safe, projects_path
               - if @current_user.admin?
                 
-                = link_to "All Unapproved Agencies", unapproved_agencies_index_path
+                = link_to "Unapproved Agencies", unapproved_agencies_index_path
                 
-                = link_to "All Unapproved Projects", unapproved_projects_index_path
+                = link_to "Unapproved Projects", unapproved_projects_index_path
                 
-                = link_to "All Unapproved Faculty", unapproved_professors_index_path
+                = link_to "Unapproved Faculty", unapproved_professors_index_path
             - else
               
               = link_to '<i class="fa fa-user" aria-hidden="true"></i> My Page'.html_safe, agency_path(@current_user.id)
