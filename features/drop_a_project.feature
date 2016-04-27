@@ -7,7 +7,7 @@ Background: I am a user working on a project
     Given I am logged in as a tamu user
     And there is a current project
     And I am on the home page
-    And I click on "All Projects"
+    And I click on "Projects"
     When I click "Test Project"
     Then I should see "some desc"
     When I press "Join Project"

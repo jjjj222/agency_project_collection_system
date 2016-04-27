@@ -1,7 +1,8 @@
 class AgenciesController < ApplicationController
     
     before_action :admin_only, :only=>[:unapproved_index, :unapprove, :approve]
-    before_action :tamu_user_only, :only=>[:index, :show]
+    before_action :tamu_user_only, :only=>[:index]
+    before_action :tamu_user_or_owner_only, :only=>[:show]
     
     before_action :owner_only, :only=>[:edit, :update, :destroy]
 
@@ -19,7 +20,7 @@ class AgenciesController < ApplicationController
     
     def show
         @agency = Agency.find params[:id]
-        if !@agency.approved and current_user.is_a?(TamuUser) and !current_user.admin?
+        if user_should_not_see? @agency
           redirect_to agencies_path
         end
     end
@@ -84,23 +85,17 @@ class AgenciesController < ApplicationController
     private
 
     def owner_only
-        @agency = Agency.find params[:id]
-        unless current_user == @agency
+        agency = Agency.find params[:id]
+        unless current_user == agency
             redirect_to root_path, :alert => "Access denied."
         end
     end
     
-    def tamu_user_only
-      if params[:id]
-        @agency = Agency.find(params[:id])
-        unless current_user.is_a?(TamuUser) or @agency == current_user
-          redirect_to root_path, :alert => "Access denied."
+    def tamu_user_or_owner_only
+        agency = Agency.find(params[:id])
+        unless current_user.is_a?(TamuUser) or agency == current_user
+            redirect_to root_path, :alert => "Access denied."
         end
-      else 
-        unless current_user.is_a?(TamuUser)
-          redirect_to root_path, :alert => "Access denied."
-        end
-      end
     end
     
 end

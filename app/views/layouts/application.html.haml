@@ -1,13 +1,14 @@
 %html
   %head
-    %title TAMU Non-Profit Projects Collect System
+    %title TAMU Projects Collectiton System
     = stylesheet_link_tag 'application'
     = javascript_include_tag 'application'
     = csrf_meta_tags
 
   %body
     #maroon_top
-      %h1.title TAMU Non-Profit Projects Collect System  
+
+      %h1.title TAMU Projects Collection System
       .top-header
         #a-maroon
           = link_to '<i class="fa fa-home" aria-hidden="true"></i> Home'.html_safe, root_path
@@ -17,7 +18,7 @@
           - else 
             - if @current_user.is_a?(TamuUser)
               
-              = link_to '<i class="fa fa-users" aria-hidden="true"></i> Users'.html_safe, tamu_user_path(@current_user.id)
+              = link_to '<i class="fa fa-users" aria-hidden="true"></i> My Page'.html_safe, tamu_user_path(@current_user.id)
               
               = link_to '<i class="fa fa-graduation-cap" aria-hidden="true"></i> TAMU Users'.html_safe, tamu_users_path
               

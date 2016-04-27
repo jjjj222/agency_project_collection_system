@@ -4,8 +4,9 @@ class TamuUsersController < ApplicationController
     
     before_action :admin_only, :only=>[:make_admin, :unapproved_professor_index, :approve_professor, :unapprove_professor]
     before_action :owner_only, :only=>[:edit, :update, :destroy]
-    prepend_before_action :tamu_user_only, :only=>[:index, :show]
-    prepend_before_action :new_tamu_user_only, :only => [:new, :create]
+    before_action :tamu_user_only, :only=>[:index]
+    before_action :tamu_user_or_related, :only => [:show]
+    before_action :new_tamu_user_only, :only => [:new, :create]
     skip_before_action :require_login, :only => [:new, :create]
     
     def tamu_user_params
@@ -101,26 +102,17 @@ class TamuUsersController < ApplicationController
     private
 
     def owner_only
-        @tamu_user = TamuUser.find params[:id]
-        unless current_user == @tamu_user
+        tamu_user = TamuUser.find params[:id]
+        unless current_user == tamu_user
             redirect_to root_path, :alert => "Access denied."
         end
     end
-    
-    #will need to modify once we can connect agencies to tamu user to allow agencies to see show if they are connected with that specific tamu user
-    def tamu_user_only
-      if params[:id] #show
-        @tamu_user = TamuUser.find(params[:id])
-        unless current_user.is_a?(TamuUser) or @tamu_user == current_user
-          return redirect_to root_path, :alert => "Access denied."
+
+    def tamu_user_or_related
+        unless current_user.is_a?(TamuUser) ||
+          (current_user.is_a?(Agency) && current_user.related_to_tamu_user?(params[:id]))
+            redirect_to root_path, :alert => "Access denied."
         end
-      else #index
-        if not logged_in?
-          cas_log_in
-        elsif not current_user.is_a?(TamuUser)
-          return redirect_to root_path, :alert => "Access denied."
-        end
-      end
     end
 
     def new_tamu_user_only
