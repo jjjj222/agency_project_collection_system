@@ -17,10 +17,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def cas_log_in
-    render status: 401, text: "Redirecting to SSO..."
-  end
-
   def after_cas_logged_in
     fix_cas_session
     netid = session[:cas][:extra_attributes]["tamuEduPersonNetID"]
@@ -44,9 +40,19 @@ class ApplicationController < ActionController::Base
   private
 
   def admin_only
-    unless current_user.is_a?(TamuUser) and current_user.admin?
+    unless admin_logged_in?
       redirect_to root_path, :alert => "Access denied."
     end
+  end
+
+  def tamu_user_only
+    unless current_user.is_a?(TamuUser)
+      redirect_to root_path, :alert => "Access denied."
+    end
+  end
+
+  def approved_or_admin?(model)
+    model.approved || admin_logged_in?
   end
 
 end

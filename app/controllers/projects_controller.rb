@@ -15,25 +15,17 @@ class ProjectsController < ApplicationController
     def index
         @projects = Project.where(approved: true)
 
-        #if params[:sort] == "name"
-        #    @projects = @projects.order(:name)
-        #elsif params[:sort] == "date"
-        #    @projects = @projects.order(:created_at)
-        #elsif params[:sort] == "agency"
-        #    @projects = @projects.sort_by {|project| project.agency.name}
-        #end
         @projects = sort_projects(@projects, params[:sort])
     end
 
     def unapproved_index
         @projects = Project.where(approved: false)
-        #sort_projects()
         @projects = sort_projects(@projects, params[:sort])
     end
    
     def show
       @project = Project.find(params[:id])
-      if !@project.approved and current_user.is_a?(TamuUser) and !current_user.admin?
+      unless approved_or_admin? @project
         redirect_to projects_path
       end
     end
@@ -141,22 +133,5 @@ class ProjectsController < ApplicationController
         redirect_to root_path, :alert => "Access denied."
       end
     end
-
-    
-    def tamu_user_only
-      unless current_user.is_a?(TamuUser)
-        redirect_to root_path, :alert => "Access denied."
-      end
-    end
-
-    #def sort_projects
-    #    if params[:sort] == "name"
-    #        @projects = @projects.order(:name)
-    #    elsif params[:sort] == "date"
-    #        @projects = @projects.order(:created_at)
-    #    elsif params[:sort] == "agency"
-    #        @projects = @projects.sort_by {|project| project.agency.name}
-    #    end
-    #end
 end
 
