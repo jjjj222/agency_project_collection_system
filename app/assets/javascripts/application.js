@@ -16,7 +16,7 @@
 //= require_tree .
 
 $( document ).ready(function() {
-    $('#logout-btn').click(function(e){
+    $('#logout').click(function(e){
         if (confirm("Are you sure?")){
             return true;
         }else{
