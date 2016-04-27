@@ -142,6 +142,13 @@ th{
   color:#ffffff;
 }
 
+th a {
+  color:#ffffff;
+}
+th a:hover, th a:active{
+  color:grey;
+}
+
 tr:hover td{
   background-color:#c8c8c7;
 }  
