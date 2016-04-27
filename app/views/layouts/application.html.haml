@@ -6,27 +6,24 @@
     = csrf_meta_tags
 
   %body
-    #maroon_top
-      %h1.title TAMU Non-Profit Projects Collect System
+    #maroon_top 
+      %h1.title TAMU Non-Profit Projects Collect System  
       .top-header
         #a-maroon
-          = link_to 'Home', root_path
+          = link_to '<i class="fa fa-home" aria-hidden="true"></i> Home'.html_safe, root_path
           - if !logged_in?
             
-            = link_to 'Login', my_login_path
-          - else
-
-            
-           
+            = link_to '<i class="fa fa-sign-out" aria-hidden="true"></i>Login'.html_safe, my_login_path
+          - else 
             - if @current_user.is_a?(TamuUser)
               
-              = link_to "My Page", tamu_user_path(@current_user.id)
+              = link_to '<i class="fa fa-users" aria-hidden="true"></i> All Users'.html_safe, tamu_user_path(@current_user.id)
               
-              = link_to 'All TAMU Users', tamu_users_path
+              = link_to '<i class="fa fa-graduation-cap" aria-hidden="true"></i> All TAMU Users'.html_safe, tamu_users_path
               
-              = link_to 'All Agencies', agencies_path
+              = link_to '<i class="fa fa-building" aria-hidden="true"></i> All Agencies'.html_safe, agencies_path
               
-              = link_to 'All Projects', projects_path
+              = link_to '<i class="fa fa-sticky-note" aria-hidden="true"></i> All Projects'.html_safe, projects_path
               - if @current_user.admin?
                 
                 = link_to "All Unapproved Agencies", unapproved_agencies_index_path
@@ -36,9 +33,9 @@
                 = link_to "All Unapproved Faculty", unapproved_professors_index_path
             - else
               
-              = link_to "My Page", agency_path(@current_user.id)
-
-            = link_to "Log out", current_user.is_a?(TamuUser) ? '/logout' : my_logout_path
+              = link_to '<i class="fa fa-user" aria-hidden="true"></i> My Page'.html_safe, agency_path(@current_user.id)
+            #logout
+              = link_to '<i class="fa fa-sign-out" aria-hidden="true"></i>Log out'.html_safe, current_user.is_a?(TamuUser) ? '/logout' : my_logout_path
       / .top-header
       #login-as
         - if logged_in?
@@ -54,6 +51,6 @@
 
         = yield
     #maroon_footer
-      Copyright 2016 Texas A&M University 
+      <i class="fa fa-copyright" aria-hidden="true"></i> 2016 Texas A&M University 
       %br
       Developed By:

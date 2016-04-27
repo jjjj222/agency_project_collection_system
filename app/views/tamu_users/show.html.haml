@@ -38,10 +38,10 @@
     
     #my_profile.tab-pane.fade
       %h3 My Profile
-      %h3 Role:
+      %h3 <i class="fa fa-child" aria-hidden="true"></i> Role:
       %p#role= @tamu_user.role.capitalize
 
-      %h3 Email:
+      %h3 <i class="fa fa-envelope" aria-hidden="true"></i> Email:
       %p#email=  @tamu_user.email
       
       -if @current_user.is_a?(TamuUser) and @current_user.admin?

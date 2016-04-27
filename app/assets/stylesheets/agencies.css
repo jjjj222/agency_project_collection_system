@@ -10,3 +10,8 @@
     display:inline;
     margin: 8px 10px;
 }
+
+
+.nav.nav-tabs{
+    width:70%;
+}

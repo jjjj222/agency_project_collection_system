@@ -29,7 +29,7 @@
         = button_to 'Drop Project', drop_project_path(@project)
     - else
         #join-project
-        = button_to 'Join Project', join_project_path(@project)
+        = button_to 'Join Project', join_project_path(@project),:class=>"btn btn-primary"
 
 %br
 - if @current_user.is_a?(TamuUser)
