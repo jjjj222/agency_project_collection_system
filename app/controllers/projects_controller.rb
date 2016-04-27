@@ -9,7 +9,7 @@ class ProjectsController < ApplicationController
     
     def project_params
         params[:project][:tags] = params[:project][:tags].split(/[\s,]+/)
-        params.require(:project).permit(:name, :description, :status, :approved, 'tags': [])
+        params.require(:project).permit(:name, :description, :status, :approved, 'tags'=> [])
     end
     
     def index

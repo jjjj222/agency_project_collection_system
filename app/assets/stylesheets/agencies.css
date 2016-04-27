@@ -1,0 +1,17 @@
+.profile-header{
+    display:inline-block;
+}
+.profile-header h2{
+    /*float:left;*/
+    display:inline;
+}
+#profile-edit{
+    float:right;
+    display:inline;
+    margin: 8px 10px;
+}
+
+
+.nav.nav-tabs{
+    width:70%;
+}

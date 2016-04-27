@@ -14,3 +14,13 @@
 //= require turbolinks
 //= require bootstrap.min
 //= require_tree .
+
+$( document ).ready(function() {
+    $('#logout').click(function(e){
+        if (confirm("Are you sure?")){
+            return true;
+        }else{
+            e.preventDefault();
+        }
+    });
+});

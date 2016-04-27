@@ -20,4 +20,9 @@ class ProjectPresenter < PresenterBase
     link_to project.agency.name, agency_path(project.agency), opts
   end
 
+  def edit_button(opts = {})
+    opts.reverse_merge!(method: :get)
+    button_to "Edit Project", edit_project_path(project), opts
+  end
+
 end
