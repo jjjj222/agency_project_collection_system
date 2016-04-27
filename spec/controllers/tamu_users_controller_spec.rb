@@ -112,13 +112,24 @@ RSpec.describe TamuUsersController, type: :controller do
           end
         end
         
+        context "agency logged in" do
+          before :each do
+            @tamu_user =  FactoryGirl.create(:tamu_user, :default)
+            @agency = FactoryGirl.create(:agency, :default, :approved)
+            controller.log_in(@agency)
+          end
         
-        it "redirects to root path if not tamu_user and is not connected to tamu_user" do
-          controller.log_out
-          @agency = FactoryGirl.create(:agency, :default, :approved)
-          controller.log_in(@agency)
-          get :show, id: FactoryGirl.create(:tamu_user, :default)
-          expect(response).to redirect_to root_path
+          it "redirects to root path if not tamu_user and is not connected to tamu_user" do
+            get :show, id: @tamu_user
+            expect(response).to redirect_to root_path
+          end
+
+          it "renders the show view if connected to tamu_user" do
+            @project = FactoryGirl.create(:project, :default, agency: @agency)
+            @tamu_user.projects << @project
+            get :show, id: @tamu_user
+            expect(response).to render_template :show
+          end
         end
         
     end
