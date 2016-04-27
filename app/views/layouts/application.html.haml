@@ -27,11 +27,11 @@
               = link_to '<i class="fa fa-sticky-note" aria-hidden="true"></i> Projects'.html_safe, projects_path
               - if @current_user.admin?
                 
-                = link_to "Unapproved Agencies", unapproved_agencies_index_path
+                = link_to '<i class="fa fa-exclamation" aria-hidden="true"></i> Unapproved Agencies'.html_safe, unapproved_agencies_index_path
                 
-                = link_to "Unapproved Projects", unapproved_projects_index_path
+                = link_to '<i class="fa fa-exclamation" aria-hidden="true"></i> Unapproved Projects'.html_safe, unapproved_projects_index_path
                 
-                = link_to "Unapproved Faculty", unapproved_professors_index_path
+                = link_to '<i class="fa fa-exclamation" aria-hidden="true"></i> Unapproved Faculty'.html_safe, unapproved_professors_index_path
             - else
               
               = link_to '<i class="fa fa-user" aria-hidden="true"></i> My Page'.html_safe, agency_path(@current_user.id)
