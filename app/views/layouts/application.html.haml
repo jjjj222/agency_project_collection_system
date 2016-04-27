@@ -6,14 +6,15 @@
     = csrf_meta_tags
 
   %body
-    #maroon_top 
+    #maroon_top
+      / = image_tag 'csen-logo.png'
       %h1.title TAMU Non-Profit Projects Collect System  
       .top-header
         #a-maroon
           = link_to '<i class="fa fa-home" aria-hidden="true"></i> Home'.html_safe, root_path
           - if !logged_in?
-            
-            = link_to '<i class="fa fa-sign-out" aria-hidden="true"></i>Login'.html_safe, my_login_path
+            #login
+              = link_to '<i class="fa fa-sign-out" aria-hidden="true"></i>Login'.html_safe, my_login_path
           - else 
             - if @current_user.is_a?(TamuUser)
               

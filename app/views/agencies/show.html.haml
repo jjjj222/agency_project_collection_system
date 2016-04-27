@@ -52,9 +52,9 @@
 
       - if @current_user.is_a?(TamuUser) and @current_user.admin?
         - if !@agency.approved
-          = button_to 'Approve Agency', approve_agency_path(@agency)
+          = button_to 'Approve Agency', approve_agency_path(@agency),:class=>"btn btn-primary"
         - else
-          = button_to 'Unapprove Agency', unapprove_agency_path(@agency)
+          = button_to 'Unapprove Agency', unapprove_agency_path(@agency),:class=>"btn btn-warning"
 
     #more.tab-pane.fade
       %h3 More
