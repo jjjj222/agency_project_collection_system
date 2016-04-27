@@ -8,6 +8,9 @@ module SessionHelpers
   def current_project
     @project ||= Project.create!(name: "Test Project", status: "open", description: "some desc", agency: current_agency, approved: true)
   end
+  def second_project
+    @second_project ||= Project.create!(name: "Other Project", status: "open", description: "different desc", agency: current_agency, approved: true)
+  end
 
   def unapproved_project
     @unapproved_project ||= Project.create!(name: "Test Project", status: "open", description: "some desc", agency: current_agency, approved: false)

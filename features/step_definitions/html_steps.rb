@@ -52,12 +52,15 @@ Then /^(?:|I )should not see anything with "([^"]*)"$/ do |text|
   expect(page).not_to have_selector("*[value='#{text}']")
 end
 
+Then /there should be a list of (.*) sorted by (.*)/ do |name, column|
+  id = underscore_words name
+  key = underscore_words column
 
-#When(/^I click "([^"]*)"$/) do |link|
-#  click_link(link)
-#end
+  list = table_from id
+  expect(sorted_by(key, list))
+end
 
-Then (/^there should be a button "([^"]*)"$/) do |button|
+Then /^there should be a button "([^"]*)"$/ do |button|
   #page.should have_selector(:link_or_button, button)
   expect(page).to have_selector(:link_or_button, button)
 end
