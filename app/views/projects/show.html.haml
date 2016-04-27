@@ -30,6 +30,18 @@
         #join-project
         = button_to 'Join Project', join_project_path(@project)
 
+- if not @project.tamu_users.empty?
+    #tamu_users
+        %table{:border => 1, :width => "70%", :class=>"view_tables"}
+            %tr{height: "10px"}
+            %th{align: "left"} User Name
+            %th{align: "left"} Role
+
+            - TamuUserPresenter.all(@project.tamu_users) do |tamu_user|
+                %tr{height: "10px"}
+                    %td=tamu_user.profile
+                    %td=tamu_user.role
+
 %br
 - if @current_user.is_a?(TamuUser)
     = button_to 'Back to project list', projects_path,:class=>"btn btn-info"
