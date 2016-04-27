@@ -92,6 +92,8 @@ class ProjectsController < ApplicationController
 
     def join
         @project = Project.find(params[:id])
+        redirect_to projects_path and return if not @project.approved
+
         if @project.tamu_users.include? current_user
             return redirect_to project_path(@project), notice: "You've already joined this project"
         end
@@ -103,6 +105,8 @@ class ProjectsController < ApplicationController
 
     def drop
         @project = Project.find(params[:id])
+        redirect_to projects_path and return if not @project.approved
+
         if not @project.tamu_users.include? current_user
             return redirect_to project_path(@project), notice: "You're not working on this project"
         end

@@ -586,6 +586,22 @@ RSpec.describe ProjectsController, type: :controller do
           @tamu_user.projects << @project
           expect{post :join, id: @project.id }.not_to change(@tamu_user.projects, :count)
         end
+
+        it "should redirect to projects page if unapproved" do
+          @tamu_user.admin = false
+          @project.approved = false
+          @tamu_user.save
+          @project.save
+          post :join, id: @project.id
+          expect(response).to redirect_to projects_path
+        end
+
+        it "should redirect to projects page if unapproved even if admin" do
+          @project.approved = false
+          @project.save
+          post :join, id: @project.id
+          expect(response).to redirect_to projects_path
+        end
       end
 
     end
@@ -620,6 +636,22 @@ RSpec.describe ProjectsController, type: :controller do
 
         it "should not reduce the number of user's projects if they aren't on it" do
           expect{post :drop, id: @project.id}.not_to change(@tamu_user.projects, :count)
+        end
+
+        it "should redirect to projects page if unapproved" do
+          @tamu_user.admin = false
+          @project.approved = false
+          @tamu_user.save
+          @project.save
+          post :drop, id: @project.id
+          expect(response).to redirect_to projects_path
+        end
+
+        it "should redirect to projects page if unapproved even if admin" do
+          @project.approved = false
+          @project.save
+          post :drop, id: @project.id
+          expect(response).to redirect_to projects_path
         end
 
         context "working on the project" do
