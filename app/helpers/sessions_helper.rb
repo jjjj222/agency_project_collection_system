@@ -4,6 +4,10 @@ module SessionsHelper
     not current_user_in_session.nil?
   end
 
+  def admin_logged_in?
+    current_user.is_a?(TamuUser) && current_user.admin?
+  end
+
   def current_user
     if logged_in?
       current_user_in_session

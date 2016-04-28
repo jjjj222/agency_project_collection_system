@@ -6,12 +6,12 @@ Feature: Make other users admins
 Scenario:
     Given I am logged in as an admin
     And there is another current user
-    When I click "All TAMU Users"
+    When I click "TAMU Users"
     When I press "Make Admin"
     Then I should see a message telling me it was successful
     And I should not see "Make Admin"
 
 Scenario:
     Given I am logged in as a TAMU User
-    When I click "All TAMU Users"
+    When I click "TAMU Users"
     And I should not see "Make Admin"

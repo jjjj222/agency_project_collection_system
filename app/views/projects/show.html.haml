@@ -1,26 +1,33 @@
-%h2#name Details about #{@project.name}
+- project = ProjectPresenter.new @project
+%h2#name Details about #{project.name}
 
 %h3 Description:
-%p#description= @project.description
+%p#description= project.description
 
 %h3 Tags:
-%p#tags= @project.tags.join(", ")
+%p#tags= project.tags
 
 %h3 Status:
-%p#status= @project.status
+%p#status= project.status
 
 %h3 Agency:
-%p#agency= link_to @project.agency.name, agency_path(@project.agency) 
+%p#agency= project.agency_profile        
+- if not @project.tamu_users.empty?
+    %h3 Contributers:
+    #tamu_users
+        %table{:border => 1, :width => "70%", :class=>"view_tables"}
+            %tr{height: "10px"}
+            %th{align: "left"} User Name
+            %th{align: "left"} Role
 
-- if @current_user.is_a?(TamuUser) and @current_user.admin?
-    - if !@project.approved
-        = button_to 'Approve Project', approve_project_path(@project),:class=>"btn btn-warning"
-    - else
-        = button_to 'Unapprove Project', unapprove_project_path(@project),:class=>"btn btn-warning"
+            - TamuUserPresenter.all(@project.tamu_users) do |tamu_user|
+                %tr{height: "10px"}
+                    %td=tamu_user.profile
+                    %td=tamu_user.role
         
 - if @current_user == @project.agency
     #edit-delete
-    = button_to 'Edit', edit_project_path(@project), :method => :get, :class=>"btn btn-primary"
+    = project.edit_button class: "btn btn-primary"
     = button_to 'Delete', project_path(@project), :method => :delete, :confirm => 'Are you sure?', :id=>"delete", :class=>"btn btn-danger"
 - if @current_user.is_a?(TamuUser)
     - if @current_user.projects.include?(@project)
@@ -28,7 +35,13 @@
         = button_to 'Drop Project', drop_project_path(@project)
     - else
         #join-project
-        = button_to 'Join Project', join_project_path(@project)
+        = button_to 'Join Project', join_project_path(@project),:class=>"btn btn-primary"
+
+- if @current_user.is_a?(TamuUser) and @current_user.admin?
+    - if !@project.approved
+        = button_to 'Approve Project', approve_project_path(@project),:class=>"btn btn-warning"
+    - else
+        = button_to 'Unapprove Project', unapprove_project_path(@project),:class=>"btn btn-warning"
 
 %br
 - if @current_user.is_a?(TamuUser)

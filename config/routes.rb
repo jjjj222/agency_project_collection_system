@@ -28,6 +28,9 @@ Rails.application.routes.draw do
   resources :projects  # The priority is based upon order of creation: first created -> highest priority.
   
   match '/tamu_users/:id/make_admin' => 'tamu_users#make_admin', as: :make_user_admin, via: [:post]
+  match '/unapproved_professors/' => 'tamu_users#unapproved_professor_index', :as => :unapproved_professors_index, via: [:get]
+  match '/tamu_users/:id/approve_professor' => 'tamu_users#approve_professor', :as => :approve_professor, via: [:post]
+  match '/tamu_users/:id/unapprove_professor' => 'tamu_users#unapprove_professor', :as => :unapprove_professor, via: [:post]
   resources :tamu_users
   # See how all your routes lay out with "rake routes".
 

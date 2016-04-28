@@ -9,7 +9,7 @@ class ProjectsController < ApplicationController
     
     def project_params
         params[:project][:tags] = params[:project][:tags].split(/[\s,]+/)
-        params.require(:project).permit(:name, :description, :status, :approved, 'tags': [])
+        params.require(:project).permit(:name, :description, :status, :approved, 'tags'=> [])
     end
     
     def index
@@ -32,18 +32,17 @@ class ProjectsController < ApplicationController
         #elsif params[:sort] == "agency"
         #    @projects = @projects.sort_by {|project| project.agency.name}
         #end
-        @projects = sort_projects(@projects, params[:sort])
+        @projects = sort_projects(@projects, params[:sort], params[:reverse])
     end
 
     def unapproved_index
         @projects = Project.where(approved: false)
-        #sort_projects()
         @projects = sort_projects(@projects, params[:sort])
     end
    
     def show
       @project = Project.find(params[:id])
-      if !@project.approved and current_user.is_a?(TamuUser) and !current_user.admin?
+      if user_should_not_see? @project
         redirect_to projects_path
       end
     end
@@ -53,7 +52,7 @@ class ProjectsController < ApplicationController
     end
    
     def create
-        @project = current_user.projects.build(project_params)
+        @project = current_user.projects.build(project_params.merge(status: "open"))
         
         if @project.save
             flash[:success] = "#{@project.name} was successfully created."
@@ -110,6 +109,8 @@ class ProjectsController < ApplicationController
 
     def join
         @project = Project.find(params[:id])
+        redirect_to projects_path and return if not @project.approved
+
         if @project.tamu_users.include? current_user
             return redirect_to project_path(@project), notice: "You've already joined this project"
         end
@@ -121,6 +122,8 @@ class ProjectsController < ApplicationController
 
     def drop
         @project = Project.find(params[:id])
+        redirect_to projects_path and return if not @project.approved
+
         if not @project.tamu_users.include? current_user
             return redirect_to project_path(@project), notice: "You're not working on this project"
         end
@@ -139,34 +142,17 @@ class ProjectsController < ApplicationController
     end
     
     def owner_only
-        @project = Project.find(params[:id])
-        unless current_user == @project.agency
+        project = Project.find(params[:id])
+        unless current_user == project.agency
             redirect_to root_path, :alert => "Access denied."
         end
     end
 
     def tamu_user_or_owner_only
-      @project = Project.find(params[:id])
-      unless current_user.is_a?(TamuUser) or @project.agency == current_user
+      project = Project.find(params[:id])
+      unless current_user.is_a?(TamuUser) or project.agency == current_user
         redirect_to root_path, :alert => "Access denied."
       end
     end
-
-    
-    def tamu_user_only
-      unless current_user.is_a?(TamuUser)
-        redirect_to root_path, :alert => "Access denied."
-      end
-    end
-
-    #def sort_projects
-    #    if params[:sort] == "name"
-    #        @projects = @projects.order(:name)
-    #    elsif params[:sort] == "date"
-    #        @projects = @projects.order(:created_at)
-    #    elsif params[:sort] == "agency"
-    #        @projects = @projects.sort_by {|project| project.agency.name}
-    #    end
-    #end
 end
 

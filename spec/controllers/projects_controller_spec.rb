@@ -13,6 +13,43 @@ RSpec.describe ProjectsController, type: :controller do
             get :index
             expect(assigns(:projects)).to eq([project])
         end
+
+        context "asked to sort" do
+          before :each do
+            @a1 = FactoryGirl.create(:agency, :default, :approved, name: "A")
+            @a2 = FactoryGirl.create(:agency, :default, :approved, name: "Z")
+            @p1 = FactoryGirl.create(:project, :default, :approved, name: "Z", agency: @a1)
+            @p2 = FactoryGirl.create(:project, :default, :approved, :old, name: "A", agency: @a2)
+          end
+          it "can sort projects by name" do
+              get :index, sort: :name
+              expect(assigns(:projects)).to eq([@p2, @p1])
+          end
+          it "can sort projects by date" do
+              get :index, sort: :date
+              expect(assigns(:projects)).to eq([@p2, @p1])
+          end
+          it "can sort projects by agency" do
+              get :index, sort: :agency
+              expect(assigns(:projects)).to eq([@p1, @p2])
+          end
+
+          context "in reverse order" do
+            it "can sort projects by name" do
+                get :index, sort: :name, reverse: true
+                expect(assigns(:projects)).to eq([@p1, @p2])
+            end
+            it "can sort projects by date" do
+                get :index, sort: :date, reverse: true
+                expect(assigns(:projects)).to eq([@p1, @p2])
+            end
+            it "can sort projects by agency" do
+                get :index, sort: :agency, reverse: true
+                expect(assigns(:projects)).to eq([@p2, @p1])
+            end
+          end
+        end
+
         
         it "renders the :index view if logged in as tamu user" do
             tamu_user = FactoryGirl.create(:tamu_user, :default)
@@ -146,7 +183,7 @@ RSpec.describe ProjectsController, type: :controller do
         end
       
         it "assigns the requested project to @project if logged in as the owning agency" do
-            project = FactoryGirl.create(:project, :default)
+            project = FactoryGirl.create(:project, :default, agency: @agency)
             get :edit, id: project
             expect(assigns(:project)).to eq(project)
         end
@@ -157,19 +194,33 @@ RSpec.describe ProjectsController, type: :controller do
             get :edit, id: @project
             expect(response).to render_template :edit
         end
-        
-        it "does not assign the requested project to @project if not logged in as the owning agency" do
+
+        it "does not assign the requested project to @project if not logged in" do
             controller.log_out
             project = FactoryGirl.create(:project, :default)
             get :edit, id: project
             expect(assigns(:project)).to_not eq(project)
         end
 
-
-        it "it does not render the :edit view if not logged in as the owning agency" do
+        it "it does not render the :edit view if not logged in" do
             controller.log_out
             @project = FactoryGirl.create(:project, :default, :agency => @agency)
             get :edit, id: @project
+            expect(response).to_not render_template :edit
+        end
+
+        it "does not assign the requested project to @project if not logged in as the owning agency" do
+            other_agency = FactoryGirl.create(:agency, :updated, :email)
+            project = FactoryGirl.create(:project, :default, agency: other_agency)
+            get :edit, id: project
+            expect(assigns(:project)).to_not eq(project)
+        end
+
+
+        it "it does not render the :edit view if not logged in as the owning agency" do
+            other_agency = FactoryGirl.create(:agency, :updated, :email)
+            project = FactoryGirl.create(:project, :default, agency: other_agency)
+            get :edit, id: project
             expect(response).to_not render_template :edit
         end
     end
@@ -550,6 +601,22 @@ RSpec.describe ProjectsController, type: :controller do
           @tamu_user.projects << @project
           expect{post :join, id: @project.id }.not_to change(@tamu_user.projects, :count)
         end
+
+        it "should redirect to projects page if unapproved" do
+          @tamu_user.admin = false
+          @project.approved = false
+          @tamu_user.save
+          @project.save
+          post :join, id: @project.id
+          expect(response).to redirect_to projects_path
+        end
+
+        it "should redirect to projects page if unapproved even if admin" do
+          @project.approved = false
+          @project.save
+          post :join, id: @project.id
+          expect(response).to redirect_to projects_path
+        end
       end
 
     end
@@ -584,6 +651,22 @@ RSpec.describe ProjectsController, type: :controller do
 
         it "should not reduce the number of user's projects if they aren't on it" do
           expect{post :drop, id: @project.id}.not_to change(@tamu_user.projects, :count)
+        end
+
+        it "should redirect to projects page if unapproved" do
+          @tamu_user.admin = false
+          @project.approved = false
+          @tamu_user.save
+          @project.save
+          post :drop, id: @project.id
+          expect(response).to redirect_to projects_path
+        end
+
+        it "should redirect to projects page if unapproved even if admin" do
+          @project.approved = false
+          @project.save
+          post :drop, id: @project.id
+          expect(response).to redirect_to projects_path
         end
 
         context "working on the project" do

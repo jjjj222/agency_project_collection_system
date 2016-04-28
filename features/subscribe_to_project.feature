@@ -7,7 +7,7 @@ Background:
     Given I am logged in as a tamu user
     And there is a current project
     And I am on the home page
-    And I click on "All Projects"
+    And I click on "Projects"
 
 Scenario:
     When I click "Test Project"

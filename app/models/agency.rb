@@ -1,5 +1,6 @@
 class Agency < ActiveRecord::Base
   has_many :projects
+  has_many :tamu_users, through: :projects
 
   validates :name, presence: true
   validates :email, email_format: { message: "doesn't look like an email address" }, presence: true
@@ -23,6 +24,10 @@ class Agency < ActiveRecord::Base
     #user.url = auth_hash['info']['urls']['Google']
 
     Agency.create!(parameters)
+  end
+
+  def related_to_tamu_user?(id)
+    tamu_users.where(id: id).any?
   end
 
   private
