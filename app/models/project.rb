@@ -4,6 +4,10 @@ class Project < ActiveRecord::Base
     ["completed","in progress","cancelled","open"]
   end
 
+  def agency_name
+    agency.name
+  end
+
   belongs_to :agency
   has_and_belongs_to_many :tamu_users
 

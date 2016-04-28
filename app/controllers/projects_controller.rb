@@ -15,6 +15,16 @@ class ProjectsController < ApplicationController
     def index
         @projects = Project.where(approved: true)
 
+        #byebug
+
+        @search = ""
+        if params[:search] && params[:search][:value] != ""
+            @search_value = params[:search][:value]
+            @search_type = params[:search][:type]
+
+            @projects = @projects.select {|project| project.send(@search_type) =~ /#{@search_value}/i}
+        end
+        #byebug
         #if params[:sort] == "name"
         #    @projects = @projects.order(:name)
         #elsif params[:sort] == "date"
