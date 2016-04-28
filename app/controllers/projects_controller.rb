@@ -22,14 +22,6 @@ class ProjectsController < ApplicationController
 
             @projects = @projects.select {|project| project.send(@search_type) =~ /#{@search_value}/i}
         end
-        #byebug
-        #if params[:sort] == "name"
-        #    @projects = @projects.order(:name)
-        #elsif params[:sort] == "date"
-        #    @projects = @projects.order(:created_at)
-        #elsif params[:sort] == "agency"
-        #    @projects = @projects.sort_by {|project| project.agency.name}
-        #end
         @projects = sort_projects(@projects, params[:sort], params[:reverse])
     end
 

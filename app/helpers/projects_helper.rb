@@ -1,10 +1,11 @@
 module ProjectsHelper
     def sort_projects(projects, sort, reverse = false)
-        if sort == "name"
+        case sort
+        when "name"
             projects = projects.order(:name)
-        elsif sort == "date"
+        when "date"
             projects = projects.order(:created_at)
-        elsif sort == "agency"
+        when "agency"
             projects = projects.sort_by {|project| project.agency.name}
         end
 
