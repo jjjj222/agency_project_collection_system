@@ -48,7 +48,7 @@ class TamuUsersController < ApplicationController
     def show
         @tamu_user = TamuUser.find params[:id]
         @projects = @tamu_user.projects
-        @projects = sort_projects(@projects, params[:sort])
+        @projects = sort_projects(@projects, params[:sort], params[:reverse])
         #sort_projects()
     end
     

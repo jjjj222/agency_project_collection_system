@@ -15,7 +15,7 @@ class ProjectsController < ApplicationController
     def index
         @projects = Project.where(approved: true)
 
-        @projects = sort_projects(@projects, params[:sort])
+        @projects = sort_projects(@projects, params[:sort], params[:reverse])
     end
 
     def unapproved_index

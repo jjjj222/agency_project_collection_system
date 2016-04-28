@@ -1,4 +1,5 @@
 class ProjectPresenter < PresenterBase
+
   present_obj :project
 
   delegate :name, :description, to: :project
@@ -12,8 +13,8 @@ class ProjectPresenter < PresenterBase
     project.created_at.to_date
   end
 
-  def profile(opts = {})
-    link_to project.name, project_path(project), opts
+  def profile(name = project.name, opts = {})
+    link_to name, project_path(project.id, opts[:params]), opts[:style]
   end
 
   def agency_profile(opts = {})

@@ -33,6 +33,21 @@ RSpec.describe ProjectsController, type: :controller do
               get :index, sort: :agency
               expect(assigns(:projects)).to eq([@p1, @p2])
           end
+
+          context "in reverse order" do
+            it "can sort projects by name" do
+                get :index, sort: :name, reverse: true
+                expect(assigns(:projects)).to eq([@p1, @p2])
+            end
+            it "can sort projects by date" do
+                get :index, sort: :date, reverse: true
+                expect(assigns(:projects)).to eq([@p1, @p2])
+            end
+            it "can sort projects by agency" do
+                get :index, sort: :agency, reverse: true
+                expect(assigns(:projects)).to eq([@p2, @p1])
+            end
+          end
         end
 
         
