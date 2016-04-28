@@ -9,6 +9,8 @@ example_projects = [
   { name: "ZZZ Project", description: "A completed test project", status: "completed", approved: true, agency_id: "1"},
   { name: "Test Project", description: "A completed test project", status: "completed", approved: true, agency_id: "1"},
   { name: "Test Project 2", description: "BCD", status: "completed", approved: true, agency_id: "2"},
+  { name: "Test Project 5", description: "123", status: "completed", tags: ['abc', 'def'], approved: true, agency_id: "2"},
+  { name: "Open Project 6", description: "BCD", status: "open", approved: true, agency_id: "2"},
   { name: "ZZZ Project 3", description: "BCD", status: "open", approved: false, agency_id: "2"},
   { name: "Test Project 3", description: "BCD", status: "open", approved: false, agency_id: "2"},
   { name: "Test Project 4", description: "BCD", status: "in progress", approved: false, agency_id: "3"}

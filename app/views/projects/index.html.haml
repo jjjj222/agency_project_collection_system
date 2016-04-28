@@ -13,7 +13,10 @@
             = text_field :search, "value", value: @search_value
             %select{ :name => "search[type]", id: 'search_type' }
                 %option{:value => "name", selected: @search_type == "name" }= "Name"
-                %option{:value => "agency_name", selected: @search_type == "agency_name" }= "Agency" 
+                %option{:value => "description", selected: @search_type == "description" }= "Description"
+                %option{:value => "status", selected: @search_type == "status" }= "Status"
+                %option{:value => "tags", selected: @search_type == "tags" }= "Tags"
+                %option{:value => "agency_name", selected: @search_type == "agency_name" }= "Agency"
             -#= text_field :search, "type"
             -#= text_field "search['type']"
             -#Include:
