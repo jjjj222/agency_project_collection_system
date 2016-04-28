@@ -15,8 +15,6 @@ class ProjectsController < ApplicationController
     def index
         @projects = Project.where(approved: true)
 
-        #byebug
-
         @search = ""
         if params[:search] && params[:search][:value] != ""
             @search_value = params[:search][:value]

@@ -53,6 +53,9 @@ Then /^(?:|I )should not see anything with "([^"]*)"$/ do |text|
 end
 
 
+Then /Dump Page$/ do
+  puts page.body
+end
 #When(/^I click "([^"]*)"$/) do |link|
 #  click_link(link)
 #end

@@ -11,7 +11,7 @@
         -#%button{:type => "button",:class=>"btn btn-primary"} Search
         = form_tag projects_path, :method => :get do
             = text_field :search, "value", value: @search_value
-            %select{ :name => "search[type]" }
+            %select{ :name => "search[type]", id: 'search_type' }
                 %option{:value => "name", selected: @search_type == "name" }= "Name"
                 %option{:value => "agency_name", selected: @search_type == "agency_name" }= "Agency" 
             -#= text_field :search, "type"
