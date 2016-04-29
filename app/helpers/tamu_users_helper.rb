@@ -1,8 +1,4 @@
 module TamuUsersHelper
-  def session_netid
-    fix_cas_session
-    session[:cas][:user] #TODO: could also ask :extra_attributes['tamuEduPersonNetID']
-  end
 
   def new_tamu_user_skeleton
     netid = session_netid

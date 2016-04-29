@@ -46,7 +46,7 @@
       
       -if @current_user.is_a?(TamuUser) and @current_user.admin?
         %h3 Admin Status:
-        %p#admin= tamu_user.admin?
+        %p#admin= toggle_admin_button(@current_user, tamu_user)
       
       - if @current_user == @tamu_user
         = tamu_user.edit_link

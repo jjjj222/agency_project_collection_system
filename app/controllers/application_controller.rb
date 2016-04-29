@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
 
   def after_cas_logged_in
     fix_cas_session
-    netid = session[:cas][:extra_attributes]["tamuEduPersonNetID"]
+    netid = session_netid
     user = TamuUser.find_by(netid: netid)
     if not user.nil?
       log_in(user)
