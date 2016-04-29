@@ -46,6 +46,27 @@ class TamuUsersController < ApplicationController
         redirect_to tamu_users_path
     end
     
+    def block_user
+        @tamu_user = TamuUser.find(params[:id])
+        @tamu_user.blocked = true;
+        @tamu_user.save
+        redirect_to tamu_user_path(@tamu_user)
+        # if TamuUser.where(role: "unapproved_professor").count > 0
+        #     flash[:success] = "TamuUser '#{@professor.name}' approved as professor."
+        #     redirect_to unapproved_professors_index_path
+        # else
+        #     flash[:success] = "TamuUser '#{@professor.name}' approved as professor. All professors have been approved."
+        #     redirect_to tamu_users_path
+        # end
+    end
+    
+    def unblock_user
+        @tamu_user = TamuUser.find(params[:id])
+        @tamu_user.blocked = false;
+        @tamu_user.save
+        redirect_to tamu_user_path(@tamu_user)
+    end
+    
     def show
         @tamu_user = TamuUser.find params[:id]
         @projects = @tamu_user.projects

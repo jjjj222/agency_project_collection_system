@@ -195,7 +195,6 @@ RSpec.describe TamuUsersController, type: :controller do
             post :approve_professor, id: @tamu_user
             expect(response).to redirect_to root_path
       end
-      
     end
     
     describe 'POST unapprove_professor' do
@@ -245,8 +244,73 @@ RSpec.describe TamuUsersController, type: :controller do
             post :unapprove_professor, id: @tamu_user
             expect(response).to redirect_to root_path
       end
-      
     end
+    
+    
+    describe 'POST block_user' do
+      before :each do
+        @tamu_user = FactoryGirl.create(:tamu_user, :default)
+        @admin = FactoryGirl.create(:tamu_user, :default, :admin)
+        controller.log_in(@admin)
+      end
+
+      it "located the requested @tamu_user if logged in as admin" do
+        post :block_user, id: @tamu_user
+        expect(assigns(:tamu_user)).to eq(@tamu_user)
+      end
+
+      it "changes @tamu_user's blocked field if logged in as admin" do
+        post :block_user, id: @tamu_user#, agency: FactoryGirl.attributes_for(:agency, :default, :approved)
+        @tamu_user.reload
+        expect(@tamu_user.blocked).to eq(true)
+      end
+      
+      it "should not locate the requested @tamu_user if not logged in" do
+        controller.log_out
+        post :block_user, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default)
+        expect(assigns(:tamu_user)).to_not eq(@tamu_user)
+      end
+
+      it "does not changes @tamu_user's blocked field if not logged in" do
+        controller.log_out
+        post :block_user, id: @tamu_user#, agency: FactoryGirl.attributes_for(:agency, :default, :approved)
+        @tamu_user.reload
+        expect(@tamu_user.blocked).to eq(false)
+      end
+    end
+    
+    describe 'POST unblock_user' do
+      before :each do
+        @tamu_user = FactoryGirl.create(:tamu_user, :default, :blocked)
+        @admin = FactoryGirl.create(:tamu_user, :default, :admin)
+        controller.log_in(@admin)
+      end
+
+      it "located the requested @tamu_user if logged in as admin" do
+        post :unblock_user, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, :blocked)
+        expect(assigns(:tamu_user)).to eq(@tamu_user)
+      end
+
+      it "changes @tamu_user's blocked field if logged in as admin" do
+        post :unblock_user, id: @tamu_user#, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, :professor)
+        @tamu_user.reload
+        expect(@tamu_user.blocked).to eq(false)
+      end
+      
+      it "should not locate the requested @tamu_user if logged not in as admin" do
+        controller.log_out
+        post :unblock_user, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, :blocked)
+        expect(assigns(:tamu_user)).to_not eq(@tamu_user)
+      end
+
+      it "should not change @tamu_user's blocked field if not logged in as admin" do
+        controller.log_out
+        post :unblock_user, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, :blocked)
+        @tamu_user.reload
+        expect(@tamu_user.blocked).to eq(true)
+      end
+    end
+    
     
     describe "GET #edit" do
         it "assigns the requested tamu user to @tamu_user if logged in" do
