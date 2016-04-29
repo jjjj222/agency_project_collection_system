@@ -10,5 +10,6 @@ Feature: Approving an unapproved project
     
   Scenario:
     When I press "Approve Project"
+    Then I should see a message telling me it was successful
     And I go to the show project page for the current project
     Then there should be a button "Unapprove Project"

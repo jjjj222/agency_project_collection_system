@@ -15,6 +15,7 @@ Scenario:
   When  I fill in the "Name" field with "123"
   And   I press "submit_agency_form"
   Then  the name should be "123"
+  And   I should see a message telling me it was successful
 
 Scenario:
   When  I fill in the "Name" field with ""

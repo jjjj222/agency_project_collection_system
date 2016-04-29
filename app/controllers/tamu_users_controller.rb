@@ -30,10 +30,10 @@ class TamuUsersController < ApplicationController
         @professor.role = "professor";
         @professor.save
         if TamuUser.where(role: "unapproved_professor").count > 0
-            flash[:notice] = "TamuUser '#{@professor.name}' approved as professor."
+            flash[:success] = "TamuUser '#{@professor.name}' approved as professor."
             redirect_to unapproved_professors_index_path
         else
-            flash[:notice] = "TamuUser '#{@professor.name}' approved as professor. All professors have been approved."
+            flash[:success] = "TamuUser '#{@professor.name}' approved as professor. All professors have been approved."
             redirect_to tamu_users_path
         end
     end
@@ -42,7 +42,7 @@ class TamuUsersController < ApplicationController
         @professor = TamuUser.find(params[:id])
         @professor.role = "unapproved_professor";
         @professor.save
-        flash[:notice] = "Tamu User '#{@professor.name}' unapproved as professor."
+        flash[:success] = "Tamu User '#{@professor.name}' unapproved as professor."
         redirect_to tamu_users_path
     end
     
