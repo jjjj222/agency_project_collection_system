@@ -29,14 +29,18 @@ Scenario: Search by project name
 
 Scenario: Search by Agency name
   Given I am on the projects page
-  Then  I should see "A project"
-  Then  I should see "just a project"
-  Then  I should see "abc"
-  Then  I should see "AAA BBB"
-  Then  I should see "Another project"
-  Then  I should see "Another name"
-  When  I fill in search_value with "AAA"
-  Then I select "Agency" for search_type
+  When  I fill in search_value with "aaa"
+  Then  I select "Agency" for search_type
   And   I press "Search"
   Then  I should see "A project"
+  Then  I should see "Another name"
   Then  I should not see "Another project"
+
+Scenario: Search by tags
+  Given I am on the projects page
+  When  I fill in search_value with "bcd"
+  Then  I select "Tags" for search_type
+  And   I press "Search"
+  Then  I should see "Another project"
+  Then  I should see "Another name"
+  Then  I should not see "A project"
