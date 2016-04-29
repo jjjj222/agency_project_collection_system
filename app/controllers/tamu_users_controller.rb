@@ -7,6 +7,7 @@ class TamuUsersController < ApplicationController
     before_action :tamu_user_only, :only=>[:index]
     before_action :tamu_user_or_related, :only => [:show]
     before_action :new_tamu_user_only, :only => [:new, :create]
+    before_action :master_admin_only, :only => [:demote_admin]
     skip_before_action :require_login, :only => [:new, :create]
     
     def tamu_user_params
@@ -29,10 +30,10 @@ class TamuUsersController < ApplicationController
         @professor.role = "professor";
         @professor.save
         if TamuUser.where(role: "unapproved_professor").count > 0
-            flash[:notice] = "TamuUser '#{@professor.name}' approved as professor."
+            flash[:success] = "TamuUser '#{@professor.name}' approved as professor."
             redirect_to unapproved_professors_index_path
         else
-            flash[:notice] = "TamuUser '#{@professor.name}' approved as professor. All professors have been approved."
+            flash[:success] = "TamuUser '#{@professor.name}' approved as professor. All professors have been approved."
             redirect_to tamu_users_path
         end
     end
@@ -41,15 +42,14 @@ class TamuUsersController < ApplicationController
         @professor = TamuUser.find(params[:id])
         @professor.role = "unapproved_professor";
         @professor.save
-        flash[:notice] = "Tamu User '#{@professor.name}' unapproved as professor."
+        flash[:success] = "Tamu User '#{@professor.name}' unapproved as professor."
         redirect_to tamu_users_path
     end
     
     def show
         @tamu_user = TamuUser.find params[:id]
         @projects = @tamu_user.projects
-        @projects = sort_projects(@projects, params[:sort])
-        #sort_projects()
+        @projects = sort_projects(@projects, params[:sort], params[:reverse])
     end
     
     def new
@@ -96,6 +96,18 @@ class TamuUsersController < ApplicationController
         @tamu_user.admin = true
         @tamu_user.save
         flash[:success] = "Successfully made #{@tamu_user.name} into an admin"
+        redirect_to tamu_users_path
+    end
+
+    def demote_admin
+        @tamu_user = TamuUser.find params[:id]
+        if @tamu_user == current_user
+          redirect_to tamu_users_path, notice: "You can't demote yourself" and return
+        end
+        @tamu_user.master_admin = false
+        @tamu_user.admin = false
+        @tamu_user.save
+        flash[:success] = "#{@tamu_user.name} no longer an admin"
         redirect_to tamu_users_path
     end
     

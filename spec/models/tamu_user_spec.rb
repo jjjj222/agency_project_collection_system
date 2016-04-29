@@ -66,4 +66,19 @@ RSpec.describe TamuUser, type: :model do
     expect(user).to_not be_is_student
   end
 
+  it "should fail to validate nil admin" do
+    user = FactoryGirl.build(:tamu_user, :default, admin: nil)
+    expect(user).not_to be_valid
+  end
+
+  it "should fail to validate nil master_admin" do
+    user = FactoryGirl.build(:tamu_user, :default, master_admin: nil)
+    expect(user).not_to be_valid
+  end
+
+  it "should fail to validate master_admin when not admin" do
+    user = FactoryGirl.build(:tamu_user, :default, master_admin: true, admin: false)
+    expect(user).not_to be_valid
+  end
+
 end

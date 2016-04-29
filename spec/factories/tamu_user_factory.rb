@@ -18,6 +18,14 @@ FactoryGirl.define do
     trait (:invalid) {
       email "not_an_email"
     }
+    trait(:master_admin) { master_admin true; admin true }
+
+    factory :tamu_users do
+      sequence(:name) { |n| "John Smith the #{n.ordinalize}" }
+      sequence(:netid) { |n| "john#{n}" }
+      sequence(:email) { |n| "john#{n}@tamu.edu" }
+      sequence(:role) { |n| TamuUser.all_roles[n % TamuUser.all_roles.length] }
+    end
   end
 
 end

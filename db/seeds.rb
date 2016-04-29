@@ -9,16 +9,18 @@ example_projects = [
   { name: "ZZZ Project", description: "A completed test project", status: "completed", approved: true, agency_id: "1"},
   { name: "Test Project", description: "A completed test project", status: "completed", approved: true, agency_id: "1"},
   { name: "Test Project 2", description: "BCD", status: "completed", approved: true, agency_id: "2"},
+  { name: "Test Project 5", description: "123", status: "completed", tags: ['abc', 'def'], approved: true, agency_id: "2"},
+  { name: "Open Project 6", description: "BCD", status: "open", approved: true, agency_id: "2"},
   { name: "ZZZ Project 3", description: "BCD", status: "open", approved: false, agency_id: "2"},
   { name: "Test Project 3", description: "BCD", status: "open", approved: false, agency_id: "2"},
   { name: "Test Project 4", description: "BCD", status: "in progress", approved: false, agency_id: "3"}
 ]
 
 example_users = [
-  { name: "Admin", email: "admin@tamu.edu", netid: "jjjj222", role: "student", admin: true},
+  { name: "Admin", email: "admin@tamu.edu", netid: "jjjj222", role: "student", admin: true, master_admin: false},
   { name: "John Tamu", email: "john@tamu.edu", netid: "johnsnetid", role: "student", admin: false},
   { name: "Hank Tamu", email: "hank@tamu.edu", netid: "hanksnetid", role: "professor", admin: false},
-  { name: "Malini Malini", email: "malini@tamu.edu", netid: "malinisnetid", role: "professor", admin: true}
+  { name: "Malini Malini", email: "malini@tamu.edu", netid: "malinisnetid", role: "professor", admin: true, master_admin: true}
 ]
 
 example_agencies = [
@@ -29,6 +31,7 @@ example_agencies = [
 
 # Fake admin. Netids must be 3-20 characters, so even if somehow added to production, should not be usable
 fake_admin  = { name: "Admin", email: "admin@fake.org", netid: "ad", role: "professor", admin: true }
+fake_master_admin  = { name: "Master Admin", email: "admin@fake.org", netid: "ma", role: "professor", admin: true, master_admin: true }
 
 
 example_projects.each do |proj|
@@ -46,4 +49,5 @@ end
 case Rails.env
 when "development"
   TamuUser.create!(fake_admin)
+  TamuUser.create!(fake_master_admin)
 end

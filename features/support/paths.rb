@@ -20,6 +20,9 @@ module NavigationHelpers
     when /^home\s?page/
       root_path
 
+    when /^projects\s?page/
+      projects_path
+
     when /^(\w+) (.+) page$/i
       eval (controller_action_name action: $1, controller: $2)
 

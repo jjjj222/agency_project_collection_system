@@ -44,6 +44,15 @@ FactoryGirl.define do
     trait(:approved) {approved true}
     trait(:unapproved) {approved false}  
     trait(:nil_approved) {approved nil}
+
+    factory(:projects) do
+      sequence(:name) { |n| "Project #{n}" }
+      sequence(:description) { |n| "description #{n}" }
+      sequence(:status) { |n| Project.all_statuses[n % Project.all_statuses.length] }
+      sequence(:approved) { |n| n.even? }
+      sequence(:created_at) { |n| n.even? ? n.days.ago : n.hours.ago }
+      sequence(:tags) { |n| ["tag#{n%10}"] }
+    end
   end
   
 end

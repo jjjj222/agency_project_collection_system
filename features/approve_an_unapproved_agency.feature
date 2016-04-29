@@ -10,5 +10,6 @@ Background:
   
 Scenario:
   When I press "Approve Agency"
+  Then I should see a message telling me it was successful
   And I go to the show agency page for the unapproved agency
   Then there should be a button "Unapprove Agency"

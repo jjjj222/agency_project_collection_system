@@ -1,6 +1,7 @@
 / %link{:href => "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", :rel => "stylesheet"}
 /   %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"}
 /   %script{:src => "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"}
+- tamu_user = TamuUserPresenter.new @tamu_user
 
 .container
   %h2#name= @tamu_user.name
@@ -17,16 +18,15 @@
       %table{:border => 1, :width => "70%", :class=>"view_tables"}
         %tr{:height => "10px"}
           %th{:align=> "left"}
-            = link_to "Project Name", tamu_user_path(@current_user, :sort => :name)
+            = tamu_user.profile "Project Name", params: sort_params(params, :name)
           %th{:align=> "left"} Description
           %th{:align=> "left"} Status
           %th{:align=> "left"} Tags
           %th{:align=> "left"}
-            = link_to "Date", tamu_user_path(@current_user, :sort => :date)
+            = tamu_user.profile "Date", params: sort_params(params, :date)
           %th{:align=> "left"}
-            = link_to "Agency", tamu_user_path(@current_user, :sort => :agency)
+            = tamu_user.profile "Agency", params: sort_params(params, :agency)
 
-        -#- ProjectPresenter.all(@tamu_user.projects) do |project|
         - ProjectPresenter.all(@projects) do |project|
           %tr{:height => "10px"}
             %td= project.profile
@@ -39,17 +39,17 @@
     #my_profile.tab-pane.fade
       %h3 My Profile
       %h3 <i class="fa fa-child" aria-hidden="true"></i> Role:
-      %p#role= @tamu_user.role.capitalize
+      %p#role= tamu_user.role
 
       %h3 <i class="fa fa-envelope" aria-hidden="true"></i> Email:
-      %p#email=  @tamu_user.email
+      %p#email= tamu_user.email
       
       -if @current_user.is_a?(TamuUser) and @current_user.admin?
         %h3 Admin Status:
-        %p#admin= @tamu_user.admin
+        %p#admin= toggle_admin_button(@current_user, tamu_user)
       
       - if @current_user == @tamu_user
-        = link_to 'Edit Profile', edit_tamu_user_path(@tamu_user.id)
+        = tamu_user.edit_link
         
       - if @current_user.is_a?(TamuUser) and @current_user.admin?
         - if @tamu_user.is_unapproved_professor?
