@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160429141634) do
+ActiveRecord::Schema.define(version: 20160429201121) do
 
   create_table "agencies", force: :cascade do |t|
     t.string   "name"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20160429141634) do
     t.boolean  "admin",        default: false
     t.string   "netid"
     t.boolean  "master_admin", default: false
+    t.boolean  "blocked",      default: false
   end
 
 end
