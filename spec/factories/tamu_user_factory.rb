@@ -1,7 +1,7 @@
 FactoryGirl.define do
   
   factory :tamu_user do
-    trait(:default) { name "John Smith"; role "student"; email "test@tamu.edu"; netid "testnetid"; admin true}
+    trait(:default) { name "John Smith"; role "student"; email "test@tamu.edu"; netid "testnetid"; admin true; blocked false}
     trait(:name) { name "John Smith" }
     trait(:student) {role "student"}
     trait(:professor) {role  "professor"}
@@ -9,6 +9,8 @@ FactoryGirl.define do
     trait(:email) {email "test@tamu.edu"}
     trait(:admin) {admin true}
     trait(:not_admin) {admin false}
+    trait(:blocked) {blocked true}
+    trait(:not_blocked) {blocked false}
     trait (:updated) { 
       name "Updated Smith"
       role "professor"

@@ -12,7 +12,8 @@ Background: A agency with google account
 Scenario: Login to create profile
   Given I am on the homepage
   When  I follow "Login"
-  And   I click the "Sign in with Google"
+  #And   I click the "Sign in with Google"
+  And   I click the "google_login"
   And   I should see "Google User"
   And   I should see "user@gmail.com"
   And   I should see "Log out"

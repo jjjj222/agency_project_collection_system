@@ -16,6 +16,10 @@ class TamuUser < ActiveRecord::Base
     role == "unapproved_professor"
   end
   
+  def is_blocked?
+    blocked == true
+  end
+  
   has_and_belongs_to_many :projects
   
   validates :name, presence: true
