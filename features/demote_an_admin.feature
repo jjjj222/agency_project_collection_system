@@ -1,4 +1,4 @@
-Feature: Demote regular admins 
+Feature: Demote regular admins
   As a master admin
   I want to be able to remove admin status from an admin
   So that we can prevent wrongdoing
@@ -10,8 +10,8 @@ Scenario:
     When I click "TAMU Users"
     When I press the 1st "Remove Admin"
     Then I should see a notice saying "You can't demote yourself"
-    And I should not see "Remove Admin"
-    But I should not see "Add Admin"
+    When I press the 2nd "Remove Admin"
+    Then I should see a message telling me it was successful
 
 Scenario:
     Given I am logged in as a TAMU User
