@@ -617,6 +617,15 @@ RSpec.describe ProjectsController, type: :controller do
           post :join, id: @project.id
           expect(response).to redirect_to projects_path
         end
+
+        it "should redirect to the project path if completed" do
+          @project.status = "completed"
+          @project.save
+          post :join, id: @project.id
+          expect(response).to redirect_to project_path(@project)
+        end
+
+
       end
 
     end
@@ -667,6 +676,13 @@ RSpec.describe ProjectsController, type: :controller do
           @project.save
           post :drop, id: @project.id
           expect(response).to redirect_to projects_path
+        end
+
+        it "should redirect to the project path if completed" do
+          @project.status = "completed"
+          @project.save
+          post :drop, id: @project.id
+          expect(response).to redirect_to project_path(@project)
         end
 
         context "working on the project" do

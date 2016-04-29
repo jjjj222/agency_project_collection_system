@@ -16,4 +16,8 @@ class Project < ActiveRecord::Base
   validates :approved, :inclusion => {:in => [true, false]}
   #validates_inclusion_of :approved, :in => [true, false]
   serialize :tags, Array
+
+  def completed?
+    status == "completed"
+  end
 end

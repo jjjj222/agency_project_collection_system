@@ -2,7 +2,7 @@ class ProjectPresenter < PresenterBase
 
   present_obj :project
 
-  delegate :name, :description, to: :project
+  delegate :name, :description, :completed?, to: :project
   present_with :capitalize, :status
 
   def tags
