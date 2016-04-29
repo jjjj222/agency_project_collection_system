@@ -48,8 +48,10 @@ class TamuUsersController < ApplicationController
     
     def block_user
         @tamu_user = TamuUser.find(params[:id])
-        @tamu_user.blocked = true;
-        @tamu_user.save
+        if !@tamu_user.admin?
+            @tamu_user.blocked = true;
+            @tamu_user.save
+        end
         redirect_to tamu_user_path(@tamu_user)
         # if TamuUser.where(role: "unapproved_professor").count > 0
         #     flash[:success] = "TamuUser '#{@professor.name}' approved as professor."

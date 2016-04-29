@@ -249,7 +249,7 @@ RSpec.describe TamuUsersController, type: :controller do
     
     describe 'POST block_user' do
       before :each do
-        @tamu_user = FactoryGirl.create(:tamu_user, :default)
+        @tamu_user = FactoryGirl.create(:tamu_user, :default, :not_admin)
         @admin = FactoryGirl.create(:tamu_user, :default, :admin)
         controller.log_in(@admin)
       end
@@ -263,6 +263,13 @@ RSpec.describe TamuUsersController, type: :controller do
         post :block_user, id: @tamu_user#, agency: FactoryGirl.attributes_for(:agency, :default, :approved)
         @tamu_user.reload
         expect(@tamu_user.blocked).to eq(true)
+      end
+      
+      it "does not changes @tamu_user's blocked field if logged in as admin and tamu_user is admin" do
+        @tamu_user.admin = true
+        @tamu_user.save
+        post :block_user, id: @tamu_user#, agency: FactoryGirl.attributes_for(:agency, :default, :approved)
+        expect(@tamu_user.reload).not_to be_blocked
       end
       
       it "should not locate the requested @tamu_user if not logged in" do
