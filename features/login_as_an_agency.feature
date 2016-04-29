@@ -16,7 +16,8 @@ Background: A agency with google account
 Scenario: Login to reuse profile
   Given I am on the homepage
   When  I follow "Login"
-  And   I click the "Sign in with Google"
+  #And   I click the "Sign in with Google"
+  And   I click the "google_login"
   Then  I should see "New Name"
   But   I should not see "Google User"
   And   I should see "new_address@yahoo.com"
