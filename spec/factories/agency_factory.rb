@@ -24,5 +24,12 @@ FactoryGirl.define do
     trait (:updated) {
       name "New Agency"
     }
+
+    factory :agencies do
+      sequence(:name) { |n| "Nonprofit ##{n}" }
+      sequence(:email) { |n| "email#{n}@nonprofit.org" }
+      sequence(:approved) { |n| n.even? }
+      provider "google_oauth2"
+    end
   end
 end

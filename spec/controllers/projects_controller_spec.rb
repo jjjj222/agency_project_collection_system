@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
+    def sorted_by(list, method)
+      list.each_cons(2).all? {|a,b| a.send(method) <=> b.send(method) }
+    end
+    def reverse_sorted_by(list, method)
+      sorted_by list.reverse, method
+    end
+
     describe "GET #index" do
       
         before :each do
@@ -16,37 +23,41 @@ RSpec.describe ProjectsController, type: :controller do
 
         context "asked to sort" do
           before :each do
-            @a1 = FactoryGirl.create(:agency, :default, :approved, name: "A")
-            @a2 = FactoryGirl.create(:agency, :default, :approved, name: "Z")
-            @p1 = FactoryGirl.create(:project, :default, :approved, name: "Z", agency: @a1)
-            @p2 = FactoryGirl.create(:project, :default, :approved, :old, name: "A", agency: @a2)
+            a1 = FactoryGirl.create(:agency, :default, :approved, name: "A")
+            a2 = FactoryGirl.create(:agency, :default, :approved, name: "Z")
+            p1 = FactoryGirl.create(:project, :default, :approved, name: "Z", agency: a1)
+            p2 = FactoryGirl.create(:project, :default, :approved, :old, name: "A", agency: a2)
+            FactoryGirl.create_list(:projects, 10).each do |proj|
+              proj.agency = proj.id.even? ? a1 : a2
+              proj.save
+            end
           end
           it "can sort projects by name" do
               get :index, sort: :name
-              expect(assigns(:projects)).to eq([@p2, @p1])
+              expect(sorted_by(assigns(:projects), :name))
           end
           it "can sort projects by date" do
               get :index, sort: :date
-              expect(assigns(:projects)).to eq([@p2, @p1])
+              expect(sorted_by(assigns(:projects), :created_at))
           end
           it "can sort projects by agency" do
               get :index, sort: :agency
-              expect(assigns(:projects)).to eq([@p1, @p2])
+              expect(sorted_by(assigns(:projects), :agency))
           end
 
           context "in reverse order" do
-            it "can sort projects by name" do
-                get :index, sort: :name, reverse: true
-                expect(assigns(:projects)).to eq([@p1, @p2])
-            end
-            it "can sort projects by date" do
-                get :index, sort: :date, reverse: true
-                expect(assigns(:projects)).to eq([@p1, @p2])
-            end
-            it "can sort projects by agency" do
-                get :index, sort: :agency, reverse: true
-                expect(assigns(:projects)).to eq([@p2, @p1])
-            end
+          it "can sort projects by name" do
+              get :index, sort: :name, reverse: true
+              expect(reverse_sorted_by(assigns(:projects), :name))
+          end
+          it "can sort projects by date" do
+              get :index, sort: :date, reverse: true
+              expect(reverse_sorted_by(assigns(:projects), :created_at))
+          end
+          it "can sort projects by agency" do
+              get :index, sort: :agency, reverse: true
+              expect(reverse_sorted_by(assigns(:projects), :agency))
+          end
           end
         end
 
