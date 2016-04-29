@@ -19,6 +19,11 @@ When /^I press "([^"]+)"$/i do |item_name|
   click_button(item_name)
 end
 
+When /^I press the (\d+)(?:st|nd|rd|th) "([^"]+)"$/i do |n, item_name|
+  buttons = page.all(:button, item_name)
+  buttons[n.to_i-1].click
+end
+
 Then /^the (.*) should be "([^"]*)"$/i do |item_name, data|
   find_by_id(underscore_words item_name).assert_text(:visible, Regexp.new(Regexp.escape(data), "i"))
 end
@@ -26,6 +31,11 @@ end
 Then /^I should see a notice about invalid (\w+)$/ do |field|
   @notice = find_by_id('notice')
   @notice.assert_text(:visible, Regexp.new(Regexp.escape(field), "i"))
+end
+
+Then /^I should see a notice saying "([^"]*)"$/ do |message|
+  @notice = find_by_id('notice')
+  @notice.assert_text(:visible, message)
 end
 
 Then /^I should see a message telling me it was successful$/ do

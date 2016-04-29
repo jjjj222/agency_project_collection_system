@@ -24,4 +24,6 @@ class TamuUser < ActiveRecord::Base
   validates :role, :inclusion => { :in => TamuUser.all_roles }, presence: true
   #validates :admin, :inclusion => {:in => [true, false]}, presence: true
   validates :admin, :inclusion => {:in => [true, false]}
+  validates :master_admin, inclusion: [true, false]
+  validates :master_admin, exclusion: [true], if: 'not admin?'
 end

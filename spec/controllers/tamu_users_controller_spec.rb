@@ -529,4 +529,86 @@ RSpec.describe TamuUsersController, type: :controller do
 
     end
 
+    describe "POST #demote_admin" do
+      before :each do
+        @tamu_user = FactoryGirl.create(:tamu_user, :default, :not_admin)
+        @admin = FactoryGirl.create(:tamu_user, :updated, :admin)
+      end
+      def execute
+        post :demote_admin, id: @admin.id
+      end
+
+      context "not logged in" do
+
+        it "should redirect to the log in page" do
+          post :demote_admin, id: @admin.id
+          expect(response).to redirect_to my_login_path
+        end
+
+        it "should not change the admin" do
+          expect{execute}.not_to change{@admin.reload}
+        end
+      end
+
+      context "logged in as nonadmin" do
+        before :each do
+          controller.log_in @tamu_user
+        end
+
+        it "should redirect to the homepage" do
+          execute
+          expect(response).to redirect_to root_path
+        end
+
+        it "should not change the admin" do
+          expect{execute}.not_to change{@admin.reload}
+        end
+      end
+
+      context "logged in as admin" do
+        before :each do
+          controller.log_in @admin
+        end
+
+        it "should redirect to the homepage" do
+          execute
+          expect(response).to redirect_to root_path
+        end
+        it "should not change the admin" do
+          expect{execute}.not_to change{@admin.reload}
+        end
+      end
+
+      context "logged in as master admin" do
+        before :each do
+          @master_admin = FactoryGirl.create(:tamu_users, :master_admin)
+          controller.log_in @master_admin
+        end
+
+        it "should redirect to the users index" do
+          execute
+          expect(response).to redirect_to tamu_users_path
+        end
+        it "should make the user not an admin" do
+          execute
+          expect(@admin.reload).not_to be_admin
+        end
+
+        it "can demote another master admin" do
+          @other_master_admin = FactoryGirl.create(:tamu_users, :master_admin)
+          post :demote_admin, id: @other_master_admin.id
+          expect(response).to redirect_to tamu_users_path
+          expect(@other_master_admin.reload).not_to be_admin
+          expect(@other_master_admin.reload).not_to be_master_admin
+        end
+
+        it "you can't demote yourself" do
+          post :demote_admin, id: @master_admin.id
+          expect(response).to redirect_to tamu_users_path
+          expect(@master_admin.reload).to be_admin
+          expect(@master_admin.reload).to be_master_admin
+        end
+      end
+    end
+
 end
