@@ -42,6 +42,8 @@ Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
 
   when "admin"
     user_login.call(current_admin)
+  when "master_admin"
+    user_login.call(current_master_admin)
   when "tamu_user"
     user_login.call(current_user)
   when "agency"

@@ -45,6 +45,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def master_admin_only
+    unless admin_logged_in? and current_user.master_admin?
+      redirect_to root_path, :alert => "Access denied."
+    end
+  end
+
   def tamu_user_only
     unless current_user.is_a?(TamuUser)
       redirect_to root_path, :alert => "Access denied."

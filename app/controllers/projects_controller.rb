@@ -15,7 +15,27 @@ class ProjectsController < ApplicationController
     def index
         @projects = Project.where(approved: true)
 
-        @projects = sort_projects(@projects, params[:sort])
+        #session[:search] = nil
+        #@search = ""
+        if params[:search]
+            session[:search] = params[:search]
+        end
+
+        if session[:search] && session[:search]['value'] != ""
+            @search_value = session[:search]['value']
+            @search_type = session[:search]['type']
+
+            @projects = @projects.select do |project|
+                if @search_type == "tags"
+                    project.tags.include? @search_value
+                else
+                    project.send(@search_type) =~ /#{@search_value}/i
+                end
+            end
+        end
+        #byebug
+
+        @projects = sort_projects(@projects, params[:sort], params[:reverse])
     end
 
     def unapproved_index
@@ -92,7 +112,8 @@ class ProjectsController < ApplicationController
 
     def join
         @project = Project.find(params[:id])
-        redirect_to projects_path and return if not @project.approved
+        redirect_to projects_path and return unless @project.approved
+        redirect_to project_path(@project) and return if @project.completed?
 
         if @project.tamu_users.include? current_user
             return redirect_to project_path(@project), notice: "You've already joined this project"
@@ -105,7 +126,8 @@ class ProjectsController < ApplicationController
 
     def drop
         @project = Project.find(params[:id])
-        redirect_to projects_path and return if not @project.approved
+        redirect_to projects_path and return unless @project.approved
+        redirect_to project_path(@project) and return if @project.completed?
 
         if not @project.tamu_users.include? current_user
             return redirect_to project_path(@project), notice: "You're not working on this project"

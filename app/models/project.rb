@@ -4,6 +4,10 @@ class Project < ActiveRecord::Base
     ["completed","in progress","cancelled","open"]
   end
 
+  def agency_name
+    agency.name
+  end
+
   belongs_to :agency
   has_and_belongs_to_many :tamu_users
 
@@ -12,4 +16,8 @@ class Project < ActiveRecord::Base
   validates :approved, :inclusion => {:in => [true, false]}
   #validates_inclusion_of :approved, :in => [true, false]
   serialize :tags, Array
+
+  def completed?
+    status == "completed"
+  end
 end

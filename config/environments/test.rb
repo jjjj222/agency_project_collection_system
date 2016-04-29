@@ -42,6 +42,7 @@ Rails.application.configure do
 
   config.rack_cas.fake = true
   config.rack_cas.fake_attributes = {
+    'masteradminNetid' => { 'tamuEduPersonNetID' => 'masteradminNetid', 'tamuEduPersonUIN' => '222002333', 'uid'=>'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'},
     'adminNetid' => { 'tamuEduPersonNetID' => 'adminNetid', 'tamuEduPersonUIN' => '111002333', 'uid'=>'ffffffffffffffffffffffffffffffff'},
     'testNetid'  => { 'tamuEduPersonNetID' => 'testNetid',  'tamuEduPersonUIN' => '111002444', 'uid'=>'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'}
   }

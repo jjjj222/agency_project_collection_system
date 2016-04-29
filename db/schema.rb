@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160419233142) do
+ActiveRecord::Schema.define(version: 20160429141634) do
 
   create_table "agencies", force: :cascade do |t|
     t.string   "name"
@@ -45,11 +45,12 @@ ActiveRecord::Schema.define(version: 20160419233142) do
   create_table "tamu_users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.string   "role"
-    t.boolean  "admin",      default: false
+    t.boolean  "admin",        default: false
     t.string   "netid"
+    t.boolean  "master_admin", default: false
   end
 
 end
