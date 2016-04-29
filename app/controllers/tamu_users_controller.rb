@@ -7,6 +7,7 @@ class TamuUsersController < ApplicationController
     before_action :tamu_user_only, :only=>[:index]
     before_action :tamu_user_or_related, :only => [:show]
     before_action :new_tamu_user_only, :only => [:new, :create]
+    before_action :master_admin_only, :only => [:demote_admin]
     skip_before_action :require_login, :only => [:new, :create]
     
     def tamu_user_params
@@ -95,6 +96,18 @@ class TamuUsersController < ApplicationController
         @tamu_user.admin = true
         @tamu_user.save
         flash[:success] = "Successfully made #{@tamu_user.name} into an admin"
+        redirect_to tamu_users_path
+    end
+
+    def demote_admin
+        @tamu_user = TamuUser.find params[:id]
+        if @tamu_user == current_user
+          redirect_to tamu_users_path, notice: "You can't demote yourself" and return
+        end
+        @tamu_user.master_admin = false
+        @tamu_user.admin = false
+        @tamu_user.save
+        flash[:success] = "#{@tamu_user.name} no longer an admin"
         redirect_to tamu_users_path
     end
     

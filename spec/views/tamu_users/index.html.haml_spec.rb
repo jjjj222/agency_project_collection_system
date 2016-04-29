@@ -19,6 +19,9 @@ RSpec.describe "tamu_users/index.html.haml", type: :view do
     expect(rendered).to include('Name Two')
     # rendered.should include('professor')
     # rendered.should include('email2@tamu.edu')
+
+    expect(rendered).not_to include("Make Admin")
+    expect(rendered).not_to include("Remove Admin")
   end
 
   context "logged in as admin" do
@@ -33,14 +36,40 @@ RSpec.describe "tamu_users/index.html.haml", type: :view do
       assign(:tamu_users, [@admin, @other])
       render
       expect(rendered).to include("Make Admin")
+      expect(rendered).not_to include("Remove Admin")
     end
     it "should not show a make admin button if there is no nonadmin" do
       assign(:tamu_users, [@admin])
       render
       expect(rendered).not_to include("Make Admin")
       expect(rendered).to include("Admin")
+      expect(rendered).not_to include("Remove Admin")
     end
 
   end
- 
+
+  context "logged in as master admin" do
+    before :each do
+      @master_admin = FactoryGirl.create(:tamu_users, :master_admin)
+      @admin = FactoryGirl.create(:tamu_user, :default, :admin)
+      @other = FactoryGirl.create(:tamu_user, :updated, :not_admin)
+      # expect(view).to receive(:current_user).and_return(@admin)
+      assign(:current_user, @master_admin)
+    end
+
+    it "should show a make admin button if there is a nonadmin" do
+      assign(:tamu_users, [@other])
+      render
+      expect(rendered).to include("Make Admin")
+      expect(rendered).not_to include("Remove Admin")
+    end
+    it "should show a remove admin button if there is a admin" do
+      assign(:tamu_users, [@admin, @master_admin])
+      render
+      expect(rendered).not_to include("Make Admin")
+      expect(rendered).to include("Remove Admin")
+    end
+
+  end
+
 end
