@@ -8,17 +8,11 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
-  #resource :mypage
-  get       'mypage'    => 'mypage#index'
-
   # get 'tamu_users/index'
 
   get 'welcome/index'
   #get 'welcome/login'
   #get 'welcome/signup'
-
-  # get 'tamu_users/my_page'
-  #get 'tamu_users/my_page/projects'
 
   match '/unapproved_projects/' => 'projects#unapproved_index', :as => :unapproved_projects_index, via: [:get]
   match '/projects/:id/approve' => 'projects#approve', :as => :approve_project, via: [:post]

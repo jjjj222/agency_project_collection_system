@@ -23,9 +23,6 @@ module NavigationHelpers
     when /^projects\s?page/
       projects_path
 
-    when /^(\w+) (.+) page$/i
-      eval (controller_action_name action: $1, controller: $2)
-
     when /^(\w+) (.+) page for (?:the) (.*)$/i
       controller_action_path action: $1, controller: $2, param: $3
 
