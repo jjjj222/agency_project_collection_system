@@ -472,7 +472,23 @@ RSpec.describe TamuUsersController, type: :controller do
         controller.log_out
         expect{
           delete :destroy, id: @tamu_user        
-        }.to change(TamuUser,:count).by(0)
+        }.not_to change(TamuUser,:count)
+      end
+
+      it "does not delete the tamu_user if a master admin" do
+	@tamu_user.master_admin = true
+	@tamu_user.save
+        expect{
+          delete :destroy, id: @tamu_user        
+        }.not_to change(TamuUser,:count)
+      end
+
+      it "does not delete the tamu_user if not the one logged in" do
+	other = FactoryGirl.create(:tamu_users);
+        controller.log_out
+        expect{
+          delete :destroy, id: other
+        }.not_to change(TamuUser,:count)
       end
         
       it "redirects to tamu_user#index" do
