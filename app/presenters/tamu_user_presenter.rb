@@ -4,8 +4,8 @@ class TamuUserPresenter < PresenterBase
 
   delegate :admin?, :id, :name, :email, to: :tamu_user
 
-  def role
-    case tamu_user.role
+  def role(type = tamu_user.role)
+    case type
     when /unapproved_professor/i
       "Faculty (Unapproved)"
     when /professor/i
@@ -14,6 +14,16 @@ class TamuUserPresenter < PresenterBase
       "Student"
     end
   end
+
+  def role_select(opts = {})
+    roles = ["student", tamu_user.professor? ? "professor" : "unapproved_professor" ]
+    roles = roles.map{|k| [role(k), k] }
+
+    html_opts = {}
+    opts.reverse_merge!({required: true, class: 'form-control'})
+    select :tamu_user, :role, roles, html_opts, opts
+  end
+
 
   def profile(name = tamu_user.name, opts = {})
     link_to name, tamu_user_path(tamu_user.id, opts[:params]), opts[:style]
