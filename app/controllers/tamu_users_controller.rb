@@ -11,7 +11,7 @@ class TamuUsersController < ApplicationController
     skip_before_action :require_login, :only => [:new, :create]
     
     def tamu_user_params
-      params.require(:tamu_user).permit(:name, :email)
+      params.require(:tamu_user).permit(:name, :email, :role)
     end
     def create_tamu_user_params
       params.require(:tamu_user).permit(:name, :email, :role, :netid).merge(netid: session_netid)
@@ -105,7 +105,15 @@ class TamuUsersController < ApplicationController
     
     def update
         @tamu_user = TamuUser.find params[:id]
-        if @tamu_user.update_attributes(tamu_user_params)
+        new_params = tamu_user_params
+        if @tamu_user.professor?
+          new_params[:role] = "professor" if new_params[:role] == "unapproved_professor"
+        else
+          new_params[:role] = "unapproved_professor" if new_params[:role] == "professor"
+        end
+
+
+        if @tamu_user.update_attributes new_params
             flash[:success] = "# Profile was successfully updated."
             redirect_to tamu_user_path
         else

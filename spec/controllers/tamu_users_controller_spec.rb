@@ -365,8 +365,8 @@ RSpec.describe TamuUsersController, type: :controller do
             expect(assigns(:tamu_user)).to eq(@tamu_user)
           end
 
-          it "changes @tamu_user's attributes, but not role" do
-            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :updated)
+          it "changes @tamu_user's attributes" do
+            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :updated, role: "student")
             @tamu_user.reload
             expect(@tamu_user.name).to eq("Updated Smith")
             expect(@tamu_user.role).to eq("student")
@@ -376,6 +376,31 @@ RSpec.describe TamuUsersController, type: :controller do
           it "redirects to the updated tamu_user" do
             put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default)
             expect(response).to redirect_to @tamu_user
+          end
+
+          it "can't make students faculty" do
+            @tamu_user.role = "student"
+            @tamu_user.save
+            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, role: "professor")
+            expect(@tamu_user.reload).not_to be_professor
+          end
+          it "can't make unapproved faculty faculty" do
+            @tamu_user.role = "unapproved_professor"
+            @tamu_user.save
+            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, role: "professor")
+            expect(@tamu_user.reload).not_to be_professor
+          end
+          it "can make faculty back into students" do
+            @tamu_user.role = "professor"
+            @tamu_user.save
+            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, role: "student")
+            expect(@tamu_user.reload).to be_student
+          end
+          it "can't make faculty unapproved" do
+            @tamu_user.role = "professor"
+            @tamu_user.save
+            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, role: "unapproved_professor")
+            expect(@tamu_user.reload).to be_professor
           end
         end
         context "update fails" do
