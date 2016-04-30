@@ -4,15 +4,15 @@ class TamuUser < ActiveRecord::Base
     ["student","professor","unapproved_professor"]
   end
   
-  def is_student?
+  def student?
     role == "student"
   end
   
-  def is_professor?
+  def professor?
     role == "professor"
   end
 
-  def is_unapproved_professor?
+  def unapproved_professor?
     role == "unapproved_professor"
   end
   

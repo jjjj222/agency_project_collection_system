@@ -32,7 +32,7 @@ class AgenciesController < ApplicationController
     def update
         @agency = Agency.find params[:id]
         if @agency.update_attributes(agency_params)
-            flash[:notice] = "# Profile was successfully updated."
+            flash[:success] = "# Profile was successfully updated."
             redirect_to agency_path
         else
           model_failed_flash @agency
@@ -45,10 +45,10 @@ class AgenciesController < ApplicationController
         @agency.approved = true;
         @agency.save
         if Agency.where(approved: false).count > 0
-            flash[:notice] = "Agency '#{@agency.name}' approved."
+            flash[:success] = "Agency '#{@agency.name}' approved."
             redirect_to unapproved_agencies_index_path
         else
-            flash[:notice] = "Agency '#{@agency.name}' approved. All agencies have been approved."
+            flash[:success] = "Agency '#{@agency.name}' approved. All agencies have been approved."
             redirect_to agencies_path
         end
     end
@@ -57,7 +57,7 @@ class AgenciesController < ApplicationController
         @agency = Agency.find(params[:id])
         @agency.approved = false;
         @agency.save
-        flash[:notice] = "Agency '#{@agency.name}' unapproved."
+        flash[:success] = "Agency '#{@agency.name}' unapproved."
         redirect_to agencies_path
     end
     

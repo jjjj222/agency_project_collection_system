@@ -195,7 +195,6 @@ RSpec.describe TamuUsersController, type: :controller do
             post :approve_professor, id: @tamu_user
             expect(response).to redirect_to root_path
       end
-      
     end
     
     describe 'POST unapprove_professor' do
@@ -245,8 +244,80 @@ RSpec.describe TamuUsersController, type: :controller do
             post :unapprove_professor, id: @tamu_user
             expect(response).to redirect_to root_path
       end
-      
     end
+    
+    
+    describe 'POST block_user' do
+      before :each do
+        @tamu_user = FactoryGirl.create(:tamu_user, :default, :not_admin)
+        @admin = FactoryGirl.create(:tamu_user, :default, :admin)
+        controller.log_in(@admin)
+      end
+
+      it "located the requested @tamu_user if logged in as admin" do
+        post :block_user, id: @tamu_user
+        expect(assigns(:tamu_user)).to eq(@tamu_user)
+      end
+
+      it "changes @tamu_user's blocked field if logged in as admin" do
+        post :block_user, id: @tamu_user#, agency: FactoryGirl.attributes_for(:agency, :default, :approved)
+        @tamu_user.reload
+        expect(@tamu_user.blocked).to eq(true)
+      end
+      
+      it "does not changes @tamu_user's blocked field if logged in as admin and tamu_user is admin" do
+        @tamu_user.admin = true
+        @tamu_user.save
+        post :block_user, id: @tamu_user#, agency: FactoryGirl.attributes_for(:agency, :default, :approved)
+        expect(@tamu_user.reload).not_to be_blocked
+      end
+      
+      it "should not locate the requested @tamu_user if not logged in" do
+        controller.log_out
+        post :block_user, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default)
+        expect(assigns(:tamu_user)).to_not eq(@tamu_user)
+      end
+
+      it "does not changes @tamu_user's blocked field if not logged in" do
+        controller.log_out
+        post :block_user, id: @tamu_user#, agency: FactoryGirl.attributes_for(:agency, :default, :approved)
+        @tamu_user.reload
+        expect(@tamu_user.blocked).to eq(false)
+      end
+    end
+    
+    describe 'POST unblock_user' do
+      before :each do
+        @tamu_user = FactoryGirl.create(:tamu_user, :default, :blocked)
+        @admin = FactoryGirl.create(:tamu_user, :default, :admin)
+        controller.log_in(@admin)
+      end
+
+      it "located the requested @tamu_user if logged in as admin" do
+        post :unblock_user, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, :blocked)
+        expect(assigns(:tamu_user)).to eq(@tamu_user)
+      end
+
+      it "changes @tamu_user's blocked field if logged in as admin" do
+        post :unblock_user, id: @tamu_user#, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, :professor)
+        @tamu_user.reload
+        expect(@tamu_user.blocked).to eq(false)
+      end
+      
+      it "should not locate the requested @tamu_user if logged not in as admin" do
+        controller.log_out
+        post :unblock_user, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, :blocked)
+        expect(assigns(:tamu_user)).to_not eq(@tamu_user)
+      end
+
+      it "should not change @tamu_user's blocked field if not logged in as admin" do
+        controller.log_out
+        post :unblock_user, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, :blocked)
+        @tamu_user.reload
+        expect(@tamu_user.blocked).to eq(true)
+      end
+    end
+    
     
     describe "GET #edit" do
         it "assigns the requested tamu user to @tamu_user if logged in" do
@@ -294,8 +365,8 @@ RSpec.describe TamuUsersController, type: :controller do
             expect(assigns(:tamu_user)).to eq(@tamu_user)
           end
 
-          it "changes @tamu_user's attributes, but not role" do
-            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :updated)
+          it "changes @tamu_user's attributes" do
+            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :updated, role: "student")
             @tamu_user.reload
             expect(@tamu_user.name).to eq("Updated Smith")
             expect(@tamu_user.role).to eq("student")
@@ -305,6 +376,31 @@ RSpec.describe TamuUsersController, type: :controller do
           it "redirects to the updated tamu_user" do
             put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default)
             expect(response).to redirect_to @tamu_user
+          end
+
+          it "can't make students faculty" do
+            @tamu_user.role = "student"
+            @tamu_user.save
+            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, role: "professor")
+            expect(@tamu_user.reload).not_to be_professor
+          end
+          it "can't make unapproved faculty faculty" do
+            @tamu_user.role = "unapproved_professor"
+            @tamu_user.save
+            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, role: "professor")
+            expect(@tamu_user.reload).not_to be_professor
+          end
+          it "can make faculty back into students" do
+            @tamu_user.role = "professor"
+            @tamu_user.save
+            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, role: "student")
+            expect(@tamu_user.reload).to be_student
+          end
+          it "can't make faculty unapproved" do
+            @tamu_user.role = "professor"
+            @tamu_user.save
+            put :update, id: @tamu_user, tamu_user: FactoryGirl.attributes_for(:tamu_user, :default, role: "unapproved_professor")
+            expect(@tamu_user.reload).to be_professor
           end
         end
         context "update fails" do

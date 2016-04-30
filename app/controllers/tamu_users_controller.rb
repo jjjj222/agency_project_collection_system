@@ -11,7 +11,7 @@ class TamuUsersController < ApplicationController
     skip_before_action :require_login, :only => [:new, :create]
     
     def tamu_user_params
-      params.require(:tamu_user).permit(:name, :email)
+      params.require(:tamu_user).permit(:name, :email, :role)
     end
     def create_tamu_user_params
       params.require(:tamu_user).permit(:name, :email, :role, :netid).merge(netid: session_netid)
@@ -30,10 +30,10 @@ class TamuUsersController < ApplicationController
         @professor.role = "professor";
         @professor.save
         if TamuUser.where(role: "unapproved_professor").count > 0
-            flash[:notice] = "TamuUser '#{@professor.name}' approved as professor."
+            flash[:success] = "TamuUser '#{@professor.name}' approved as professor."
             redirect_to unapproved_professors_index_path
         else
-            flash[:notice] = "TamuUser '#{@professor.name}' approved as professor. All professors have been approved."
+            flash[:success] = "TamuUser '#{@professor.name}' approved as professor. All professors have been approved."
             redirect_to tamu_users_path
         end
     end
@@ -42,8 +42,31 @@ class TamuUsersController < ApplicationController
         @professor = TamuUser.find(params[:id])
         @professor.role = "unapproved_professor";
         @professor.save
-        flash[:notice] = "Tamu User '#{@professor.name}' unapproved as professor."
+        flash[:success] = "Tamu User '#{@professor.name}' unapproved as professor."
         redirect_to tamu_users_path
+    end
+    
+    def block_user
+        @tamu_user = TamuUser.find(params[:id])
+        if !@tamu_user.admin?
+            @tamu_user.blocked = true;
+            @tamu_user.save
+        end
+        redirect_to tamu_user_path(@tamu_user)
+        # if TamuUser.where(role: "unapproved_professor").count > 0
+        #     flash[:success] = "TamuUser '#{@professor.name}' approved as professor."
+        #     redirect_to unapproved_professors_index_path
+        # else
+        #     flash[:success] = "TamuUser '#{@professor.name}' approved as professor. All professors have been approved."
+        #     redirect_to tamu_users_path
+        # end
+    end
+    
+    def unblock_user
+        @tamu_user = TamuUser.find(params[:id])
+        @tamu_user.blocked = false;
+        @tamu_user.save
+        redirect_to tamu_user_path(@tamu_user)
     end
     
     def show
@@ -82,7 +105,15 @@ class TamuUsersController < ApplicationController
     
     def update
         @tamu_user = TamuUser.find params[:id]
-        if @tamu_user.update_attributes(tamu_user_params)
+        new_params = tamu_user_params
+        if @tamu_user.professor?
+          new_params[:role] = "professor" if new_params[:role] == "unapproved_professor"
+        else
+          new_params[:role] = "unapproved_professor" if new_params[:role] == "professor"
+        end
+
+
+        if @tamu_user.update_attributes new_params
             flash[:success] = "# Profile was successfully updated."
             redirect_to tamu_user_path
         else

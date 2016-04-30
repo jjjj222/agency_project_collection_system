@@ -16,7 +16,10 @@ module SessionsHelper
     end
   end
 
-
+  def session_netid
+    fix_cas_session
+    session[:cas][:user] #TODO: could also ask :extra_attributes['tamuEduPersonNetID']
+  end
 
   def log_in(user, type = user.class.name)
     session[:user_id] = user.id
@@ -26,6 +29,7 @@ module SessionsHelper
   def log_out
     session.delete(:user_id)
     session.delete(:user_type)
+    session.delete(:cas)
     @current_user = nil
   end
 

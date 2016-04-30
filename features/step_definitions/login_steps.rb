@@ -35,7 +35,8 @@ Given /^I am logged in as (?:a|an) (.+)$/i do |user_type|
 
     visit root_path
     click_link "Login"
-    click_link "Sign in with Google"
+    #click_link "Sign in with Google"
+    click_link "google_login"
   }
 
   case underscore_words(user_type.downcase)

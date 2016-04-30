@@ -8,17 +8,11 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
-  #resource :mypage
-  get       'mypage'    => 'mypage#index'
-
   # get 'tamu_users/index'
 
   get 'welcome/index'
   #get 'welcome/login'
   #get 'welcome/signup'
-
-  # get 'tamu_users/my_page'
-  #get 'tamu_users/my_page/projects'
 
   match '/unapproved_projects/' => 'projects#unapproved_index', :as => :unapproved_projects_index, via: [:get]
   match '/projects/:id/approve' => 'projects#approve', :as => :approve_project, via: [:post]
@@ -32,6 +26,8 @@ Rails.application.routes.draw do
   match '/unapproved_professors/' => 'tamu_users#unapproved_professor_index', :as => :unapproved_professors_index, via: [:get]
   match '/tamu_users/:id/approve_professor' => 'tamu_users#approve_professor', :as => :approve_professor, via: [:post]
   match '/tamu_users/:id/unapprove_professor' => 'tamu_users#unapprove_professor', :as => :unapprove_professor, via: [:post]
+  match '/tamu_users/:id/block_user' => 'tamu_users#block_user', :as => :block_user, via: [:post]
+  match '/tamu_users/:id/unblock_user' => 'tamu_users#unblock_user', :as => :unblock_user, via: [:post]
   resources :tamu_users
   # See how all your routes lay out with "rake routes".
 

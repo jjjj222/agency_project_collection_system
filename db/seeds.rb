@@ -31,6 +31,7 @@ example_agencies = [
 
 # Fake admin. Netids must be 3-20 characters, so even if somehow added to production, should not be usable
 fake_admin  = { name: "Admin", email: "admin@fake.org", netid: "ad", role: "professor", admin: true }
+fake_master_admin  = { name: "Master Admin", email: "admin@fake.org", netid: "ma", role: "professor", admin: true, master_admin: true }
 
 
 example_projects.each do |proj|
@@ -48,4 +49,5 @@ end
 case Rails.env
 when "development"
   TamuUser.create!(fake_admin)
+  TamuUser.create!(fake_master_admin)
 end

@@ -15,21 +15,20 @@
       %a{"data-toggle" => "tab", :href => "#my_projects"} My Projects
     %li
       %a{"data-toggle" => "tab", :href => "#my_profile"} My Profiles
-    %li
-      %a{"data-toggle" => "tab", :href => "#more"} More
+    / %li
+    /   %a{"data-toggle" => "tab", :href => "#more"} More
 
   .tab-content
     #my_projects.tab-pane.fade.in.active
-      - if @current_user == @agency && @current_user.approved?
-        = link_to 'Create Project', new_project_path(@agency)
+      
     
       %table{:border => 1, :width => "70%"}
-        %tr{:height => "10px"}
-          %th{:align=> "left"} Project Name
-          %th{:align=> "left"} Description
-          %th{:align=> "left"} Status
-          %th{:align=> "left"} Tags
-          %th{:align=> "left"} Date
+        %tr
+          %th Project Name
+          %th Description
+          %th Status
+          %th Tags
+          %th Date
 
         - @agency.projects.each do |project|
           %tr{:height => "10px"}
@@ -38,7 +37,9 @@
             %td= project.status
             %td= project.tags.join ", "
             %td= project.created_at.to_date
-        
+      - if @current_user == @agency && @current_user.approved?
+        %p
+          = button_to 'Create Project', new_project_path, class: "btn btn-primary", method: :get
     #my_profile.tab-pane.fade
       %h3 My Profile
 
