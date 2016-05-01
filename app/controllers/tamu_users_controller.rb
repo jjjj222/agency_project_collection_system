@@ -94,6 +94,7 @@ class TamuUsersController < ApplicationController
     
     def destroy
         @tamu_user = TamuUser.find params[:id]
+	redirect_to tamu_users_path, notice: "You can't delete master admins" and return if @tamu_user.master_admin?
         @tamu_user.destroy
         flash[:success] = "TAMU User '#{@tamu_user.name}' deleted."
         redirect_to tamu_users_path
