@@ -159,7 +159,8 @@ class ProjectsController < ApplicationController
     end
 
     def list_projects(projects)
-        sort_projects(projects, params[:sort], params[:reverse]).page(params[:page]).per(2)
+      sorted = sort_projects(projects, params[:sort], params[:reverse])
+      Kaminari.paginate_array(sorted).page(params[:page])
     end
 end
 
