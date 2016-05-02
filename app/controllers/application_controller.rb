@@ -22,8 +22,14 @@ class ApplicationController < ActionController::Base
     netid = session_netid
     user = TamuUser.find_by(netid: netid)
     if not user.nil?
-      log_in(user)
-      redirect_to profile_for(user)
+      if user.blocked?
+        flash[:notice] = "You have been blocked, please contact system administrator"
+        log_out
+        redirect_to root_path
+      else
+        log_in(user)
+        redirect_to profile_for(user)
+      end
     else
       redirect_to new_tamu_user_path
     end

@@ -15,8 +15,6 @@ class ProjectsController < ApplicationController
     def index
         @projects = Project.where(approved: true)
 
-        #session[:search] = nil
-        #@search = ""
         if params[:search]
             session[:search] = params[:search]
         end
@@ -25,15 +23,16 @@ class ProjectsController < ApplicationController
             @search_value = session[:search]['value']
             @search_type = session[:search]['type']
 
+            search_regex = Regexp.new(Regexp.escape(@search_value), "i")
+
             @projects = @projects.select do |project|
                 if @search_type == "tags"
-                    project.tags.include? @search_value
+                    project.tags.grep(search_regex).any?
                 else
-                    project.send(@search_type) =~ /#{@search_value}/i
+                    project.send(@search_type) =~ search_regex
                 end
             end
         end
-        #byebug
 
         @projects = sort_projects(@projects, params[:sort], params[:reverse])
     end

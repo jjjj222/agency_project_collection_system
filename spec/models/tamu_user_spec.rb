@@ -34,7 +34,7 @@ RSpec.describe TamuUser, type: :model do
 
   it "should be either a student, professor, or unapproved professor" do
     user = FactoryGirl.build(:tamu_user, :default)
-    expect([:is_student?,:is_professor?,:is_unapproved_professor?].map{|m| user.send(m)}).to contain_exactly(true, false, false)
+    expect([:student?,:professor?,:unapproved_professor?].map{|m| user.send(m)}).to contain_exactly(true, false, false)
   end
   
   it "should fail to validate a bad role" do
@@ -43,27 +43,27 @@ RSpec.describe TamuUser, type: :model do
   
   it "Ensure creating as a student is a student" do
     user = FactoryGirl.build(:tamu_user, :default, :student)
-    expect(user).to be_is_student
+    expect(user).to be_student
   end
   
   it "Ensure creating as a prof is a prof" do
     user = FactoryGirl.build(:tamu_user, :default, :professor)
-    expect(user).to be_is_professor
+    expect(user).to be_professor
   end
 
   it "Ensure creating as a unapproved prof is a unapproved prof" do
     user = FactoryGirl.build(:tamu_user, :default, :unapproved_professor)
-    expect(user).to be_is_unapproved_professor
+    expect(user).to be_unapproved_professor
   end
   
-  it 'Test is_professor? method' do
+  it 'Test professor? method' do
     user = FactoryGirl.build(:tamu_user, :default, :student)
-    expect(user).to_not be_is_professor
+    expect(user).to_not be_professor
   end
   
-  it 'Test is_student? method' do
+  it 'Test student? method' do
     user = FactoryGirl.build(:tamu_user, :default, :professor)
-    expect(user).to_not be_is_student
+    expect(user).to_not be_student
   end
 
   it "should fail to validate nil admin" do

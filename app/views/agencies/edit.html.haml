@@ -4,5 +4,9 @@
 
   = label :agency, :name, 'Name'
   = text_field :agency, 'name'
+  = label :agency, :email, 'Email'
+  = text_field :agency, 'email'
+  = label :agency, :phone_number, 'Phone Number'
+  = text_field :agency, 'phone_number'
   %p
   = submit_tag 'Save Changes', id: 'submit_agency_form', :class=>"btn btn-primary"

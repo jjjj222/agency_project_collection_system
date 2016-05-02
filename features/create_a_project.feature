@@ -6,7 +6,8 @@ Feature: Adding a project
 
 Background: Logged in as an approved agency
     Given I am logged in as an agency
-    And   I go to the new project page
+    And I click on "My Page"
+    And I press "Create Project"
 
 Scenario: Fail to make a nameless project
   When I fill in the "Name" field with ""

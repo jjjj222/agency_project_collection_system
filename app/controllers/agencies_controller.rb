@@ -7,7 +7,7 @@ class AgenciesController < ApplicationController
     before_action :owner_only, :only=>[:edit, :update, :destroy]
 
     def agency_params
-      params.require(:agency).permit(:name)
+      params.require(:agency).permit(:name, :email, :phone_number)
     end
     
     def index
@@ -60,27 +60,6 @@ class AgenciesController < ApplicationController
         flash[:success] = "Agency '#{@agency.name}' unapproved."
         redirect_to agencies_path
     end
-    
-    # def new
-    #     @agency = Agency.new
-    # end
-    
-    # def create
-    #     @agency = Agency.new params[:agency]
-    #     # This was in an example model controller from a tutorial
-    #     # Not sure if this is something we need yet?
-        
-    #     if @agency.save
-    #         redirect_to :action => 'show', :id => @agency.id
-    #     else
-    #         render :action => 'new'
-    #     end
-    # end
-    
-    # def destroy
-    #     @agency = Agency.find params[:id]
-    #     @agency.destroy
-    # end
     
     private
 
