@@ -9,7 +9,7 @@ RSpec.describe "projects/unapproved_index.html.haml", type: :view do
     
     @agency = FactoryGirl.build(:agency, :default, :approved, :id=>1)
     
-    assign(:projects,
+    assign_paginated(:projects,
         [
             FactoryGirl.build(:project, :default, :agency=>@agency, :id=>1),
             FactoryGirl.build(:project, :default,
@@ -36,7 +36,7 @@ RSpec.describe "projects/unapproved_index.html.haml", type: :view do
     @current_user = FactoryGirl.build(:tamu_user, :default, :admin, :id=>1)
     
     @agency = FactoryGirl.build(:agency, :default, :approved, :id=>1)
-    assign(:projects,
+    assign_paginated(:projects,
         [
             FactoryGirl.build(:project, :default, :unapproved, :agency => @agency, :id=>1)
         ])

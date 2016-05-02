@@ -16,4 +16,5 @@
                 %tr{:height => "10px"}
                     %td= link_to agency.name, agency_path(agency.id)
                     %td= button_to 'Approve', approve_agency_path(agency)
+        %p=paginate @agencies
         #footer
