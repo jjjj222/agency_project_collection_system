@@ -12,7 +12,7 @@
 %h1 Completed Projects
 
 %table{:border => 1, :width => "70%"}
-    %tr{:height => "10px"}
+    %tr{:height => "40px"}
         %th{:align=> "left"} Project Name
         %th{:align=> "left"} Description
         %th{:align=> "left"} Tags
@@ -20,7 +20,7 @@
         %th{:align=> "left"} Date
   
     - @projects.each do |project|
-        %tr{:height => "10px"}
+        %tr{:height => "40px"}
             %td= link_to project.name, project_path(project)
             %td= project.description
             %td= project.tags.join ", "
