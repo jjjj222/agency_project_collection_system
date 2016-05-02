@@ -47,12 +47,12 @@ html, body {
 #main {
   /*margin: 0;
   padding: 0 20px 20px;*/
-  //height: 100%;
+  height: 100%;
   /*padding-bottom: 50px;*/
   width: 100%;
   min-width: 1200px;
   background: #C5C5C5;
-  min-height: 1000px;
+  min-height: 800px;
 }
 
 #layoutcenter{
@@ -62,8 +62,8 @@ html, body {
   margin-right: auto;
   background-color: #F2F2F2;
   padding: 30px;
-  //height: 100%;
-  min-height: 1000px;
+  height: 100%;
+  min-height: 800px;
 }
 
 
@@ -81,7 +81,7 @@ html, body {
   color: white;
   width:100%;
   height: 50px;
-  min-width: 800px;
+  min-width: 1200px;
 }
 
 a {
@@ -285,30 +285,30 @@ li.sidebar a:hover:not(.active) {
 
 
 //botton
-.btn {
-  background: #000000;
-  background-image: -webkit-linear-gradient(top, #000000, #949494);
-  background-image: -moz-linear-gradient(top, #000000, #949494);
-  background-image: -ms-linear-gradient(top, #000000, #949494);
-  background-image: -o-linear-gradient(top, #000000, #949494);
-  background-image: linear-gradient(to bottom, #000000, #949494);
-  -webkit-border-radius: 8;
-  -moz-border-radius: 8;
-  border-radius: 8px;
-  font-family: Courier New;
-  color: #ffffff;
-  font-size: 20px;
-  padding: 10px 20px 10px 20px;
-  border: solid #787878 2px;
-  text-decoration: none;
-}
+// .btn {
+//   background: #000000;
+//   background-image: -webkit-linear-gradient(top, #000000, #949494);
+//   background-image: -moz-linear-gradient(top, #000000, #949494);
+//   background-image: -ms-linear-gradient(top, #000000, #949494);
+//   background-image: -o-linear-gradient(top, #000000, #949494);
+//   background-image: linear-gradient(to bottom, #000000, #949494);
+//   -webkit-border-radius: 8;
+//   -moz-border-radius: 8;
+//   border-radius: 8px;
+//   font-family: Courier New;
+//   color: #ffffff;
+//   font-size: 20px;
+//   padding: 10px 20px 10px 20px;
+//   border: solid #787878 2px;
+//   text-decoration: none;
+// }
 
-.btn:hover {
-  background: #d6d6d6;
-  background-image: -webkit-linear-gradient(top, #d6d6d6, #878787);
-  background-image: -moz-linear-gradient(top, #d6d6d6, #878787);
-  background-image: -ms-linear-gradient(top, #d6d6d6, #878787);
-  background-image: -o-linear-gradient(top, #d6d6d6, #878787);
-  background-image: linear-gradient(to bottom, #d6d6d6, #878787);
-  text-decoration: none;
-}
+// .btn:hover {
+//   background: #d6d6d6;
+//   background-image: -webkit-linear-gradient(top, #d6d6d6, #878787);
+//   background-image: -moz-linear-gradient(top, #d6d6d6, #878787);
+//   background-image: -ms-linear-gradient(top, #d6d6d6, #878787);
+//   background-image: -o-linear-gradient(top, #d6d6d6, #878787);
+//   background-image: linear-gradient(to bottom, #d6d6d6, #878787);
+//   text-decoration: none;
+// }
