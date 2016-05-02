@@ -1,15 +1,16 @@
 - project = ProjectPresenter.new @project
-%h2#name Details about #{project.name}
+#headtitle
+    #name Details about #{project.name}
 
 %h3 Description:
 %p#description= project.description
-
+#black-line
 %h3 Tags:
 %p#tags= project.tags
-
+#black-line
 %h3 Status:
 %p#status= project.status
-
+#black-line
 %h3 Agency:
 %p#agency= project.agency_profile        
 - if not @project.tamu_users.empty?
@@ -32,7 +33,8 @@
 - if not project.completed? and @current_user.is_a?(TamuUser)
     - if @current_user.projects.include?(@project)
         #drop-project
-        = button_to 'Drop Project', drop_project_path(@project)
+        %br
+        = button_to 'Drop Project', drop_project_path(@project),:class=>"btn btn-primary"
     - else
         #join-project
         = button_to 'Join Project', join_project_path(@project),:class=>"btn btn-primary"
@@ -42,7 +44,7 @@
         = button_to 'Approve Project', approve_project_path(@project),:class=>"btn btn-warning"
     - else
         = button_to 'Unapprove Project', unapprove_project_path(@project),:class=>"btn btn-warning"
-
+#black-line
 %br
 - if @current_user.is_a?(TamuUser)
     = button_to 'Back to project list', projects_path,:class=>"btn btn-info"

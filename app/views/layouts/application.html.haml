@@ -7,8 +7,9 @@
 
   %body
     #maroon_top
-
-      %h1.title TAMU Projects Collection System
+      #title_padding
+        /%h2.title Texas A&M Projects Collection System
+        =link_to image_tag('logo.png', :height => "12%"), root_path
       .top-header
         #a-maroon
           = link_to '<i class="fa fa-home" aria-hidden="true"></i> Home'.html_safe, root_path
@@ -37,7 +38,6 @@
               = link_to '<i class="fa fa-user" aria-hidden="true"></i> My Page'.html_safe, agency_path(@current_user.id)
             #logout
               = link_to '<i class="fa fa-sign-out" aria-hidden="true"></i>Log out'.html_safe, current_user.is_a?(TamuUser) ? '/logout' : my_logout_path
-      / .top-header
       #login-as
         - if logged_in?
           Logged in as #{current_user.name}
@@ -54,4 +54,4 @@
     #maroon_footer
       <i class="fa fa-copyright" aria-hidden="true"></i> 2016 Texas A&M University 
       %br
-      Developed By:
+      Developed By:  Daniel Latypov, Brennen Taylor, Evan Feiereisel, Jeremy Tso, Jerry Yiu, Bill Cheng
