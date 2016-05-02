@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "tamu_users/index.html.haml", type: :view do
     
     it 'displays all users correctly' do
-    assign(:tamu_users,
+    assign_paginated(:tamu_users,
         [
             FactoryGirl.build(:tamu_user, :default, :id=>1),
             FactoryGirl.build(:tamu_user, :default, :name => "Name Two", :email=> "email2@tamu.edu",
@@ -33,13 +33,13 @@ RSpec.describe "tamu_users/index.html.haml", type: :view do
     end
 
     it "should show a make admin button if there is a nonadmin" do
-      assign(:tamu_users, [@admin, @other])
+      assign_paginated(:tamu_users, [@admin, @other])
       render
       expect(rendered).to include("Make Admin")
       expect(rendered).not_to include("Remove Admin")
     end
     it "should not show a make admin button if there is no nonadmin" do
-      assign(:tamu_users, [@admin])
+      assign_paginated(:tamu_users, [@admin])
       render
       expect(rendered).not_to include("Make Admin")
       expect(rendered).to include("Admin")
@@ -58,13 +58,13 @@ RSpec.describe "tamu_users/index.html.haml", type: :view do
     end
 
     it "should show a make admin button if there is a nonadmin" do
-      assign(:tamu_users, [@other])
+      assign_paginated(:tamu_users, [@other])
       render
       expect(rendered).to include("Make Admin")
       expect(rendered).not_to include("Remove Admin")
     end
     it "should show a remove admin button if there is a admin" do
-      assign(:tamu_users, [@admin, @master_admin])
+      assign_paginated(:tamu_users, [@admin, @master_admin])
       render
       expect(rendered).not_to include("Make Admin")
       expect(rendered).to include("Remove Admin")

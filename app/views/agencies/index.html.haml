@@ -14,5 +14,6 @@
                         %td= link_to agency.name, agency_path(agency.id)
                         - if @current_user.is_a?(TamuUser) and @current_user.admin?
                             %td= button_to 'Unapprove Agency', unapprove_agency_path(agency)
+        %p=paginate @agencies
         #footer
 

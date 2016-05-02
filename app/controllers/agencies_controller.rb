@@ -11,11 +11,11 @@ class AgenciesController < ApplicationController
     end
     
     def index
-        @agencies = Agency.where(approved: true)
+        @agencies = list_agencies Agency.where(approved: true)
     end
     
     def unapproved_index
-        @agencies = Agency.where(approved: false)
+        @agencies = list_agencies Agency.where(approved: false)
     end
     
     def show
@@ -58,6 +58,12 @@ class AgenciesController < ApplicationController
         @agency.approved = false;
         @agency.save
         flash[:success] = "Agency '#{@agency.name}' unapproved."
+
+        @agency.projects.each do |project|
+          project.approved = false;
+          project.save
+        end
+
         redirect_to agencies_path
     end
     
@@ -75,6 +81,10 @@ class AgenciesController < ApplicationController
         unless current_user.is_a?(TamuUser) or agency == current_user
             redirect_to root_path, :alert => "Access denied."
         end
+    end
+
+    def list_agencies(list)
+      list.page(params[:page])
     end
     
 end

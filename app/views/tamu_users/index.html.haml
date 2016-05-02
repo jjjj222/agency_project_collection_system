@@ -12,4 +12,5 @@
                     %td= tamu_user.profile
                     - if @current_user.is_a?(TamuUser) and @current_user.admin?
                         %td= toggle_admin_button @current_user, tamu_user
+        %p= paginate @tamu_users
         #footer
