@@ -1,3 +1,4 @@
+- tamu_user = TamuUserPresenter.new @tamu_user
 %h1 Edit Profile
 
 = form_tag tamu_user_path(@tamu_user), id: 'edit_user_form', :method => :put do
@@ -7,6 +8,9 @@
 
   = label :tamu_user, :email, 'Email'
   = text_field :tamu_user, 'email', required: true, type: 'email'
+
+  = label :tamu_user, :role, 'Role'
+  = tamu_user.role_select
   %br
   %br
   = submit_tag 'Save Changes', id: 'submit_user_form', :class=>"btn btn-primary"

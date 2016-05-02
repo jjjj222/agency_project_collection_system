@@ -61,6 +61,165 @@ RSpec.describe ProjectsController, type: :controller do
           end
         end
 
+        context "filter results" do
+          context "search by project name" do
+            before :each do
+              @project_1 = FactoryGirl.create(:project, :default, :approved, name: "full name" )
+              @project_2 = FactoryGirl.create(:project, :default, :approved, name: "other name")
+              @type = "name"
+            end
+
+            it "can search full name" do
+              value = "full name"
+              get :index, search: {'value' => value, 'type' => @type}
+
+              expect(assigns(:projects).length).to be 1
+              expect(assigns(:projects)[0]).to eq @project_1
+            end
+
+            it "can search partial name" do
+              value = "other"
+              get :index, search: {'value' => value, 'type' => @type}
+
+              expect(assigns(:projects).length).to be 1
+              expect(assigns(:projects)[0]).to eq @project_2
+            end
+
+            it "is case insensitive" do
+              value = "NAME"
+              get :index, search: {'value' => value, 'type' => @type}
+
+              expect(assigns(:projects).length).to be 2
+            end
+          end
+
+          context "search by agency name" do
+            before :each do
+              @agency_1 = FactoryGirl.create(:agency, :default, :approved, name: "first last")
+              @agency_2 = FactoryGirl.create(:agency, :default, :approved, name: "middle last")
+              FactoryGirl.create(:project, :default, :approved, agency: @agency_1)
+              FactoryGirl.create(:project, :default, :approved, agency: @agency_2)
+              @type = "agency_name"
+            end
+
+            it "can search full name" do
+              value = "first last"
+              get :index, search: {'value' => value, 'type' => @type}
+
+              expect(assigns(:projects).length).to be 1
+              expect(assigns(:projects)[0].agency).to eq @agency_1
+            end
+
+            it "can search partial name" do
+              value = "middle"
+              get :index, search: {'value' => value, 'type' => @type}
+
+              expect(assigns(:projects).length).to be 1
+              expect(assigns(:projects)[0].agency).to eq @agency_2
+            end
+
+            it "is case insensitive" do
+              value = "LasT"
+              get :index, search: {'value' => value, 'type' => @type}
+
+              expect(assigns(:projects).length).to be 2
+            end
+          end
+
+          context "search by description" do
+            before :each do
+              @project_1 = FactoryGirl.create(:project, :default, :approved, description: "some description" )
+              @project_2 = FactoryGirl.create(:project, :default, :approved, description: "other description")
+              @type = "description"
+            end
+
+            it "can search full descrioption" do
+              value = "some description"
+              get :index, search: {'value' => value, 'type' => @type}
+
+              expect(assigns(:projects).length).to be 1
+              expect(assigns(:projects)[0]).to eq @project_1
+            end
+
+            it "can search partial description" do
+              value = "other"
+              get :index, search: {'value' => value, 'type' => @type}
+
+              expect(assigns(:projects).length).to be 1
+              expect(assigns(:projects)[0]).to eq @project_2
+            end
+
+            it "is case insensitive" do
+              value = "DesCrip"
+              get :index, search: {'value' => value, 'type' => @type}
+
+              expect(assigns(:projects).length).to be 2
+            end
+          end
+
+          context "search by status" do
+            before :each do
+              @project_1 = FactoryGirl.create(:project, :default, :approved, status: "completed" )
+              @project_2 = FactoryGirl.create(:project, :default, :approved, status: "open")
+              @type = "status"
+            end
+
+            it "can search full status" do
+              value = "completed"
+              get :index, search: {'value' => value, 'type' => @type}
+
+              expect(assigns(:projects).length).to be 1
+              expect(assigns(:projects)[0]).to eq @project_1
+            end
+
+            it "can search partial status" do
+              value = "op"
+              get :index, search: {'value' => value, 'type' => @type}
+
+              expect(assigns(:projects).length).to be 1
+              expect(assigns(:projects)[0]).to eq @project_2
+            end
+
+            it "is case insensitive" do
+              value = "COMPLETED"
+              get :index, search: {'value' => value, 'type' => @type}
+
+              expect(assigns(:projects).length).to be 1
+              expect(assigns(:projects)[0]).to eq @project_1
+            end
+          end
+
+          context "search by tags" do
+            before :each do
+              @project_1 = FactoryGirl.create(:project, :default, :approved, tags: ['abc', 'def'])
+              @project_2 = FactoryGirl.create(:project, :default, :approved, tags: ['ABC'])
+              @type = "tags"
+            end
+
+            it "can search full tag" do
+              value = "def"
+              get :index, search: {'value' => value, 'type' => @type}
+
+              expect(assigns(:projects)).to eq([@project_1])
+            end
+
+            it "can search partial tag" do
+              value = "ab"
+              get :index, search: {'value' => value, 'type' => @type}
+
+              expect(assigns(:projects).length).to be 2
+            end
+
+            it "is case insensitive" do
+              value = "ABC"
+              get :index, search: {'value' => value, 'type' => @type}
+
+              expect(assigns(:projects).length).to be 2
+            end
+          end
+
+        end
+
         
         it "renders the :index view if logged in as tamu user" do
             tamu_user = FactoryGirl.create(:tamu_user, :default)

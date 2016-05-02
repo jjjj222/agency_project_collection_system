@@ -50,6 +50,22 @@ RSpec.describe SessionsController, type: :controller do
       end
     end
 
+    context "logging in as existing user" do
+
+      it "should find the user if not blocked" do
+        @user = FactoryGirl.create(:tamu_user, :default)
+        cas_log_in @user
+        post :tamu_new
+        expect(response).to redirect_to tamu_user_path(@user)
+      end
+      
+      it "should not login if the user is blocked" do
+        @user = FactoryGirl.create(:tamu_user, :default, :blocked)
+        cas_log_in @user
+        post :tamu_new
+        expect(response).to redirect_to root_path
+      end
+    end
 
 
     #TODO: more

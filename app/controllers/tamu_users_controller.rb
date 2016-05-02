@@ -11,7 +11,7 @@ class TamuUsersController < ApplicationController
     skip_before_action :require_login, :only => [:new, :create]
     
     def tamu_user_params
-      params.require(:tamu_user).permit(:name, :email)
+      params.require(:tamu_user).permit(:name, :email, :role)
     end
     def create_tamu_user_params
       params.require(:tamu_user).permit(:name, :email, :role, :netid).merge(netid: session_netid)
@@ -46,6 +46,22 @@ class TamuUsersController < ApplicationController
         redirect_to tamu_users_path
     end
     
+    def block_user
+        @tamu_user = TamuUser.find(params[:id])
+        if !@tamu_user.admin?
+            @tamu_user.blocked = true;
+            @tamu_user.save
+        end
+        redirect_to tamu_user_path(@tamu_user)
+    end
+    
+    def unblock_user
+        @tamu_user = TamuUser.find(params[:id])
+        @tamu_user.blocked = false;
+        @tamu_user.save
+        redirect_to tamu_user_path(@tamu_user)
+    end
+    
     def show
         @tamu_user = TamuUser.find params[:id]
         @projects = @tamu_user.projects
@@ -71,6 +87,7 @@ class TamuUsersController < ApplicationController
     
     def destroy
         @tamu_user = TamuUser.find params[:id]
+	redirect_to tamu_users_path, notice: "You can't delete master admins" and return if @tamu_user.master_admin?
         @tamu_user.destroy
         flash[:success] = "TAMU User '#{@tamu_user.name}' deleted."
         redirect_to tamu_users_path
@@ -82,7 +99,15 @@ class TamuUsersController < ApplicationController
     
     def update
         @tamu_user = TamuUser.find params[:id]
-        if @tamu_user.update_attributes(tamu_user_params)
+        new_params = tamu_user_params
+        if @tamu_user.professor?
+          new_params[:role] = "professor" if new_params[:role] == "unapproved_professor"
+        else
+          new_params[:role] = "unapproved_professor" if new_params[:role] == "professor"
+        end
+
+
+        if @tamu_user.update_attributes new_params
             flash[:success] = "# Profile was successfully updated."
             redirect_to tamu_user_path
         else
