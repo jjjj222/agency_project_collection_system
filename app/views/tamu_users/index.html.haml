@@ -1,15 +1,15 @@
-%h1 All TAMU Users
+#headtitle All TAMU Users
 %body
     #content
         %table{:border => 1, :width => "70%"}
-            %tr{:height => "10px"}
+            %tr{:height => "40px"}
                 %th{:align=> "left"} Name
                 - if @current_user.is_a?(TamuUser) and @current_user.admin?
                     %th{:align=> "left"} Admin Status
                 %th User since
         
             - TamuUserPresenter.all(@tamu_users) do |tamu_user|
-                %tr{:height => "10px"}
+                %tr{:height => "40px"}
                     %td= tamu_user.profile
                     - if @current_user.is_a?(TamuUser) and @current_user.admin?
                         %td= toggle_admin_button @current_user, tamu_user
