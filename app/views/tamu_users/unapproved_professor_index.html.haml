@@ -11,4 +11,5 @@
                 %tr{:height => "10px"}
                     %td= tamu_user.name
                     %td= button_to "Approve as Faculty", approve_professor_path(tamu_user.id), confirm: "Are you sure?"
+        %p= paginate @tamu_users
         #footer
