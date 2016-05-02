@@ -12,6 +12,14 @@ class ProjectPresenter < PresenterBase
       type.capitalize
     end
   end
+  
+  def status_select(opts = {})
+    statuses = (Project.all_statuses - ["completed"]).map{|k| [status(k), k] }
+
+    html_opts = {}
+    opts.reverse_merge!({class: 'form-control'})
+    select :project, :status, statuses, html_opts, opts
+  end
 
   def tags
     project.tags.join ","
