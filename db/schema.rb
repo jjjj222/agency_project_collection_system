@@ -53,4 +53,5 @@ ActiveRecord::Schema.define(version: 20160429201121) do
     t.boolean  "master_admin", default: false
     t.boolean  "blocked",      default: false
   end
+
 end
