@@ -25,11 +25,13 @@ class ProjectsController < ApplicationController
             @search_value = session[:search]['value']
             @search_type = session[:search]['type']
 
+            search_regex = Regexp.new(Regexp.escape(@search_value), "i")
+
             @projects = @projects.select do |project|
                 if @search_type == "tags"
-                    project.tags.include? @search_value
+                    not project.tags.grep(search_regex).none?
                 else
-                    project.send(@search_type) =~ /#{@search_value}/i
+                    project.send(@search_type) =~ search_regex
                 end
             end
         end

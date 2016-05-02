@@ -197,26 +197,25 @@ RSpec.describe ProjectsController, type: :controller do
             end
 
             it "can search full tag" do
-              value = "abc"
+              value = "def"
               get :index, search: {'value' => value, 'type' => @type}
 
               expect(assigns(:projects).length).to be 1
               expect(assigns(:projects)[0]).to eq @project_1
             end
 
-            it "can't search partial tag" do
+            it "can search partial tag" do
               value = "ab"
               get :index, search: {'value' => value, 'type' => @type}
 
-              expect(assigns(:projects).length).to be 0
+              expect(assigns(:projects).length).to be 2
             end
 
-            it "is case sensitive" do
+            it "is case insensitive" do
               value = "ABC"
               get :index, search: {'value' => value, 'type' => @type}
 
-              expect(assigns(:projects).length).to be 1
-              expect(assigns(:projects)[0]).to eq @project_2
+              expect(assigns(:projects).length).to be 2
             end
           end
 
