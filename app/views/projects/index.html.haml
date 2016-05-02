@@ -6,7 +6,7 @@
     #left{:float => "left", :width => "30%"}
         = form_tag projects_path, :method => :get do
             = text_field :search, "value", value: @search_value
-            %select{ :name => "search[type]", id: 'search_type' }
+            %select{ :name => "search[type]", id: 'search_type', :class=>'styled-select' }
                 %option{:value => "name", selected: @search_type == "name" }= "Name"
                 %option{:value => "description", selected: @search_type == "description" }= "Description"
                 %option{:value => "status", selected: @search_type == "status" }= "Status"

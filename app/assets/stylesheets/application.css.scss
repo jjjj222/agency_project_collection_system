@@ -274,7 +274,7 @@ li.sidebar a:hover:not(.active) {
 #login-as{
   position:absolute;
   top:0;
-  right:100px;
+  right:70px;
   padding-right: 10px
 }
 
@@ -312,3 +312,23 @@ li.sidebar a:hover:not(.active) {
 //   background-image: linear-gradient(to bottom, #d6d6d6, #878787);
 //   text-decoration: none;
 // }
+
+.styled-select select {
+   background: transparent;
+   width: 268px;
+   padding: 5px;
+   font-size: 20px;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 34px;
+   -webkit-appearance: none;
+   }
+
+.styled-select {
+   width: 150px;
+   height: 34px;
+   overflow: hidden;
+   background: url(new_arrow.png) no-repeat right white;
+   border: 1px solid #ccc;
+   }
