@@ -53,13 +53,6 @@ class TamuUsersController < ApplicationController
             @tamu_user.save
         end
         redirect_to tamu_user_path(@tamu_user)
-        # if TamuUser.where(role: "unapproved_professor").count > 0
-        #     flash[:success] = "TamuUser '#{@professor.name}' approved as professor."
-        #     redirect_to unapproved_professors_index_path
-        # else
-        #     flash[:success] = "TamuUser '#{@professor.name}' approved as professor. All professors have been approved."
-        #     redirect_to tamu_users_path
-        # end
     end
     
     def unblock_user

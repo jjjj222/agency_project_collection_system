@@ -15,8 +15,6 @@ class ProjectsController < ApplicationController
     def index
         @projects = Project.where(approved: true)
 
-        #session[:search] = nil
-        #@search = ""
         if params[:search]
             session[:search] = params[:search]
         end
@@ -35,7 +33,6 @@ class ProjectsController < ApplicationController
                 end
             end
         end
-        #byebug
 
         @projects = sort_projects(@projects, params[:sort], params[:reverse])
     end

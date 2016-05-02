@@ -200,8 +200,7 @@ RSpec.describe ProjectsController, type: :controller do
               value = "def"
               get :index, search: {'value' => value, 'type' => @type}
 
-              expect(assigns(:projects).length).to be 1
-              expect(assigns(:projects)[0]).to eq @project_1
+              expect(assigns(:projects)).to eq([@project_1])
             end
 
             it "can search partial tag" do

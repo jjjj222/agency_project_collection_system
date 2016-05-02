@@ -61,27 +61,6 @@ class AgenciesController < ApplicationController
         redirect_to agencies_path
     end
     
-    # def new
-    #     @agency = Agency.new
-    # end
-    
-    # def create
-    #     @agency = Agency.new params[:agency]
-    #     # This was in an example model controller from a tutorial
-    #     # Not sure if this is something we need yet?
-        
-    #     if @agency.save
-    #         redirect_to :action => 'show', :id => @agency.id
-    #     else
-    #         render :action => 'new'
-    #     end
-    # end
-    
-    # def destroy
-    #     @agency = Agency.find params[:id]
-    #     @agency.destroy
-    # end
-    
     private
 
     def owner_only

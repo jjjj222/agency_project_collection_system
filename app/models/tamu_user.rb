@@ -22,7 +22,6 @@ class TamuUser < ActiveRecord::Base
   validates :netid, presence: true
   validates :email, email_format: { message: "doesn't look like an email address" }, presence: true
   validates :role, :inclusion => { :in => TamuUser.all_roles }, presence: true
-  #validates :admin, :inclusion => {:in => [true, false]}, presence: true
   validates :admin, :inclusion => {:in => [true, false]}
   validates :master_admin, inclusion: [true, false]
   validates :master_admin, exclusion: [true], if: 'not admin?'
