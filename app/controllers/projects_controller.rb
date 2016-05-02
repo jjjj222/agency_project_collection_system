@@ -27,7 +27,7 @@ class ProjectsController < ApplicationController
 
             @projects = @projects.select do |project|
                 if @search_type == "tags"
-                    not project.tags.grep(search_regex).none?
+                    project.tags.grep(search_regex).any?
                 else
                     project.send(@search_type) =~ search_regex
                 end
