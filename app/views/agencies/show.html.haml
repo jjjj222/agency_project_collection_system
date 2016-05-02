@@ -5,7 +5,8 @@
 
 .container
   .profile-header
-    %h2#name= @agency.name
+    #headtitle
+      #name= @agency.name
     #profile-edit
       -if @current_user == @agency
         <i class="fa fa-pencil" aria-hidden="true"></i>
