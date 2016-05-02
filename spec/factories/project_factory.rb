@@ -42,7 +42,9 @@ FactoryGirl.define do
     trait(:date) {created_at Time.now}
     trait(:old) { created_at 2.days.ago }
     trait(:approved) {approved true}
-    trait(:unapproved) {approved false}  
+    trait(:unapproved) {approved false}
+    trait(:unapproved_completed) {status "unapproved_completed"}
+    trait(:completed) {status "completed"}
     trait(:nil_approved) {approved nil}
 
     factory(:projects) do

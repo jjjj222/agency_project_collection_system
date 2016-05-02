@@ -3,7 +3,23 @@ class ProjectPresenter < PresenterBase
   present_obj :project
 
   delegate :name, :description, :completed?, :id, to: :project
-  present_with :capitalize, :status
+  
+  def status(type = project.status)
+    case type
+    when 'unapproved_completed'
+      "Completed (Pending approval)"
+    else
+      type.capitalize
+    end
+  end
+  
+  def status_select(opts = {})
+    statuses = (Project.all_statuses - ["completed"]).map{|k| [status(k), k] }
+
+    html_opts = {}
+    opts.reverse_merge!({class: 'form-control'})
+    select :project, :status, statuses, html_opts, opts
+  end
 
   def tags
     project.tags.join ","
