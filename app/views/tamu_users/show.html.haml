@@ -54,7 +54,7 @@
       - if @current_user.is_a?(TamuUser) and @current_user.admin?
         - if @tamu_user.unapproved_professor?
           = button_to 'Approve as Faculty', approve_professor_path(@tamu_user), :class=>"btn btn-success"
-        - else
+        - elsif @tamu_user.professor?
           = button_to 'Unapprove as Faculty', unapprove_professor_path(@tamu_user), :class=>"btn btn-danger"
         - if @tamu_user.blocked?
           = button_to 'Unblock User', unblock_user_path(@tamu_user), :class=>"btn btn-danger"
