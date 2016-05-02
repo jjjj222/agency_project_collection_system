@@ -2,7 +2,7 @@ class ProjectPresenter < PresenterBase
 
   present_obj :project
 
-  delegate :name, :description, :completed?, to: :project
+  delegate :name, :description, :completed?, :id, to: :project
   
   def status(type = project.status)
     case type

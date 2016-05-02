@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
     include ProjectsHelper
     
-    before_action :admin_only, :only=>[:unapproved_index, :unapprove, :approve]
+    before_action :admin_only, :only=>[:unapproved_index, :unapprove, :approve, :unapproved_completed_index, :unapprove_completed, :approve_completed]
     before_action :agency_only, :only=>[:new, :create, :edit, :update, :destroy]
     before_action :owner_only, :only=>[:edit, :update, :destroy]
     before_action :tamu_user_or_owner_only, :only => [:show]
@@ -82,8 +82,14 @@ class ProjectsController < ApplicationController
         if project_params.status == "completed"
           project_params.status = "unapproved_completed"
         end
+        was_completed = @project.completed?
+        
         if @project.update_attributes(project_params)
-            flash[:success] = "#{@project.name} was successfully updated."
+            if was_completed
+              flash[:success] = "#{@project.name} was successfully updated and will need reapproval for completition."
+            else
+              flash[:success] = "#{@project.name} was successfully updated."
+            end
             redirect_to project_path
         else
             model_failed_flash @project
