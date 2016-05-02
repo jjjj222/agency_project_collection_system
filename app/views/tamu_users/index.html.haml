@@ -6,11 +6,13 @@
                 %th{:align=> "left"} Name
                 - if @current_user.is_a?(TamuUser) and @current_user.admin?
                     %th{:align=> "left"} Admin Status
+                %th User since
         
             - TamuUserPresenter.all(@tamu_users) do |tamu_user|
                 %tr{:height => "10px"}
                     %td= tamu_user.profile
                     - if @current_user.is_a?(TamuUser) and @current_user.admin?
                         %td= toggle_admin_button @current_user, tamu_user
+                    %td= tamu_user.date
         %p= paginate @tamu_users
         #footer

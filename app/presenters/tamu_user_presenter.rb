@@ -33,4 +33,8 @@ class TamuUserPresenter < PresenterBase
     link_to name, edit_tamu_user_path(tamu_user.id), opts
   end
 
+  def date
+    tamu_user.created_at.to_date
+  end
+
 end

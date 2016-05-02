@@ -159,6 +159,6 @@ class TamuUsersController < ApplicationController
     end
 
     def list_users(list)
-      list.page(params[:page])
+      list.order(:name).page(params[:page])
     end
 end

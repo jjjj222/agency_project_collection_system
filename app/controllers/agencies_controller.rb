@@ -84,7 +84,7 @@ class AgenciesController < ApplicationController
     end
 
     def list_agencies(list)
-      list.page(params[:page])
+      list.order(:name).page(params[:page])
     end
     
 end
