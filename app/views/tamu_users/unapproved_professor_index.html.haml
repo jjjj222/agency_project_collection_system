@@ -10,6 +10,5 @@
             - @tamu_users.each do |tamu_user|
                 %tr{:height => "10px"}
                     %td= tamu_user.name
-                    // %td= button_to 'Approve as Faculty', approve_professor_path(tamu_user.id)
                     %td= button_to "Approve as Faculty", approve_professor_path(tamu_user.id), confirm: "Are you sure?"
         #footer

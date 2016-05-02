@@ -1,14 +1,9 @@
 #headtitle= link_to "All Projects", projects_path(search: {'value' => ""})
 
 !!!
--#%head
--#    %h1 TAMU Non-Profit Projects Collect System
--#%body
+
 #content
     #left{:float => "left", :width => "30%"}
-        -#%p
-        -#%input{:size => "15", :maxlength => "100", :name => "search_index", :type => "text", :value => ""}/
-        -#%button{:type => "button",:class=>"btn btn-primary"} Search
         = form_tag projects_path, :method => :get do
             = text_field :search, "value", value: @search_value
             %select{ :name => "search[type]", id: 'search_type' }
@@ -17,26 +12,8 @@
                 %option{:value => "status", selected: @search_type == "status" }= "Status"
                 %option{:value => "tags", selected: @search_type == "tags" }= "Tags"
                 %option{:value => "agency_name", selected: @search_type == "agency_name" }= "Agency"
-            -#= text_field :search, "type"
-            -#= text_field "search['type']"
-            -#Include:
-            -#- @all_ratings.each do |rating|
-            -#  = rating
-            -#  - if @selected_ratings.include? rating and @not_checked == false
-            -#    = check_box_tag "ratings[#{rating}]", 1, :checked
-            -#  - else
-            -#    = check_box_tag "ratings[#{rating}]"
+
             = submit_tag 'Search',:class=>'btn btn-primary'
-        -#%p
-        -#= link_to "Create Project", new_project_path
-        -#%br
-        -#%a{:href => "url"} Advanced Search
-        -#%p
-        -#= link_to "Create Project", new_project_path
-        -#%br
-        -#%p
-        -#= link_to "My page", tamu_user_path(1)
-        -#%br
         %br
         %br
     #right
@@ -65,29 +42,3 @@
                     - if @current_user.is_a?(TamuUser) and @current_user.admin?
                         %td= button_to 'Unapprove Project', unapprove_project_path(project)
     #footer
-
-/ #left{:float => "left", :width => "30%"}
-/     %br
-/     %input{:size => "15", :maxlength => "100", :name => "search_index", :type => "text", :value => ""}/
-/     %button{:type => "button",:class=>"btn btn-primary"} Search
-/     %br
-/     %br
-/ #right
-/     %table{:border => 1, :width => "70%"}
-/         %tr{:height => "10px"}
-/             %th{:class=>'span7 text-center'} Project Name
-/             %th{:class=>'span7 text-center'} Description
-/             %th{:class=>'span7 text-center'} Status
-/             %th{:class=>'span7 text-center'} Tags
-/             %th{:class=>'span7 text-center'} Agency
-/             %th{:class=>'span7 text-center'} Unapprove Project
-    
-/         - @projects.each do |project|
-/             %tr{:height => "40px"}
-/                 %td= link_to project.name, project_path(project)
-/                 %td= project.description
-/                 %td= project.status
-/                 %td= project.tags.join ", "
-/                 %td= project.agency.try(:name) #TODO change to name when creation is figured out
-/                 %td{:class=>'span7 text-center'}= button_to 'Unapprove', unapprove_project_path(project),:class=>"btn btn-danger"
-/ #footer
