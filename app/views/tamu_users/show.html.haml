@@ -1,58 +1,57 @@
 - tamu_user = TamuUserPresenter.new @tamu_user
 
-.container
-  #headtitle
-    #name= @tamu_user.name
-  %ul.nav.nav-tabs
-    %li.active
-      %a{"data-toggle" => "tab", :href => "#my_projects"} My Projects
-    %li
-      %a{"data-toggle" => "tab", :href => "#my_profile"} My Profiles
+#headtitle
+  #name= @tamu_user.name
+%ul.nav.nav-tabs
+  %li.active
+    %a{"data-toggle" => "tab", :href => "#my_projects"} My Projects
+  %li
+    %a{"data-toggle" => "tab", :href => "#my_profile"} My Profiles
 
-  .tab-content
-    #my_projects.tab-pane.fade.in.active
-      %table{:border => 1, :width => "70%", :class=>"view_tables"}
+.tab-content
+  #my_projects.tab-pane.fade.in.active
+    %table{:border => 1, :width => "70%", :class=>"view_tables"}
+      %tr{:height => "10px"}
+        %th{:align=> "left"}
+          = tamu_user.profile "Project Name", params: sort_params(params, :name)
+        %th{:align=> "left"} Description
+        %th{:align=> "left"} Status
+        %th{:align=> "left"} Tags
+        %th{:align=> "left"}
+          = tamu_user.profile "Date", params: sort_params(params, :date)
+        %th{:align=> "left"}
+          = tamu_user.profile "Agency", params: sort_params(params, :agency)
+
+      - ProjectPresenter.all(@projects) do |project|
         %tr{:height => "10px"}
-          %th{:align=> "left"}
-            = tamu_user.profile "Project Name", params: sort_params(params, :name)
-          %th{:align=> "left"} Description
-          %th{:align=> "left"} Status
-          %th{:align=> "left"} Tags
-          %th{:align=> "left"}
-            = tamu_user.profile "Date", params: sort_params(params, :date)
-          %th{:align=> "left"}
-            = tamu_user.profile "Agency", params: sort_params(params, :agency)
+          %td= project.profile
+          %td= project.description
+          %td= project.status
+          %td= project.tags
+          %td= project.date
+          %td= project.agency_profile
+  
+  #my_profile.tab-pane.fade
+    %h3 My Profile
+    %h3 <i class="fa fa-child" aria-hidden="true"></i> Role:
+    %p#role= tamu_user.role
 
-        - ProjectPresenter.all(@projects) do |project|
-          %tr{:height => "10px"}
-            %td= project.profile
-            %td= project.description
-            %td= project.status
-            %td= project.tags
-            %td= project.date
-            %td= project.agency_profile
+    %h3 <i class="fa fa-envelope" aria-hidden="true"></i> Email:
+    %p#email= tamu_user.email
     
-    #my_profile.tab-pane.fade
-      %h3 My Profile
-      %h3 <i class="fa fa-child" aria-hidden="true"></i> Role:
-      %p#role= tamu_user.role
-
-      %h3 <i class="fa fa-envelope" aria-hidden="true"></i> Email:
-      %p#email= tamu_user.email
+    -if @current_user.is_a?(TamuUser) and @current_user.admin?
+      %h3 Admin Status:
+      %p#admin= toggle_admin_button(@current_user, tamu_user)
+    
+    - if @current_user == @tamu_user
+      = tamu_user.edit_link
       
-      -if @current_user.is_a?(TamuUser) and @current_user.admin?
-        %h3 Admin Status:
-        %p#admin= toggle_admin_button(@current_user, tamu_user)
-      
-      - if @current_user == @tamu_user
-        = tamu_user.edit_link
-        
-      - if @current_user.is_a?(TamuUser) and @current_user.admin?
-        - if @tamu_user.unapproved_professor?
-          = button_to 'Approve as Faculty', approve_professor_path(@tamu_user), :class=>"btn btn-success"
-        - elsif @tamu_user.professor?
-          = button_to 'Unapprove as Faculty', unapprove_professor_path(@tamu_user), :class=>"btn btn-danger"
-        - if @tamu_user.blocked?
-          = button_to 'Unblock User', unblock_user_path(@tamu_user), :class=>"btn btn-danger"
-        - else
-          = button_to 'Block User', block_user_path(@tamu_user), :class=>"btn btn-danger"
+    - if @current_user.is_a?(TamuUser) and @current_user.admin?
+      - if @tamu_user.unapproved_professor?
+        = button_to 'Approve as Faculty', approve_professor_path(@tamu_user), :class=>"btn btn-success"
+      - elsif @tamu_user.professor?
+        = button_to 'Unapprove as Faculty', unapprove_professor_path(@tamu_user), :class=>"btn btn-danger"
+      - if @tamu_user.blocked?
+        = button_to 'Unblock User', unblock_user_path(@tamu_user), :class=>"btn btn-danger"
+      - else
+        = button_to 'Block User', block_user_path(@tamu_user), :class=>"btn btn-danger"
