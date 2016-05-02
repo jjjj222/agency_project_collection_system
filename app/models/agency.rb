@@ -14,7 +14,7 @@ class Agency < ActiveRecord::Base
     assign_if_not_nil(parameters, :email, auth['info']['email'])
     assign_if_not_nil(parameters, :name, auth['info']['name'])
     #assign_if_not_nil(parameters, :location, auth['info']['location'])
-    #assign_if_not_nil(parameters, :image_url, auth['info']['image'])
+    assign_if_not_nil(parameters, :image_url, auth['info']['image'])
     #assign_if_not_nil(parameters, :url, auth['info']['urls']['Google'])
 
     Agency.create!(parameters)

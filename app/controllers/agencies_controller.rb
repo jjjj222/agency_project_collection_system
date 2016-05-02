@@ -7,7 +7,7 @@ class AgenciesController < ApplicationController
     before_action :owner_only, :only=>[:edit, :update, :destroy]
 
     def agency_params
-      params.require(:agency).permit(:name)
+      params.require(:agency).permit(:name, :email, :phone_number)
     end
     
     def index
@@ -58,6 +58,12 @@ class AgenciesController < ApplicationController
         @agency.approved = false;
         @agency.save
         flash[:success] = "Agency '#{@agency.name}' unapproved."
+
+        @agency.projects.each do |project|
+          project.approved = false;
+          project.save
+        end
+
         redirect_to agencies_path
     end
     
