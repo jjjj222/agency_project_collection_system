@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
     include ProjectsHelper
     
-    before_action :admin_only, :only=>[:unapproved_index, :unapprove, :approve]
+    before_action :admin_only, :only=>[:unapproved_index, :unapprove, :approve, :unapproved_completed_index, :unapprove_completed, :approve_completed]
     before_action :agency_only, :only=>[:new, :create, :edit, :update, :destroy]
     before_action :owner_only, :only=>[:edit, :update, :destroy]
     before_action :tamu_user_or_owner_only, :only => [:show]
@@ -40,6 +40,11 @@ class ProjectsController < ApplicationController
     def unapproved_index
         @projects = list_projects Project.where(approved: false)
     end
+    
+    def unapproved_completed_index
+      @projects = Project.where(status: "unapproved_completed")
+      @projects = sort_projects(@projects, params[:sort])
+    end
    
     def show
       @project = Project.find(params[:id])
@@ -70,9 +75,18 @@ class ProjectsController < ApplicationController
    
     def update
         @project = Project.find(params[:id])
+        new_params = project_params
+        if new_params[:status] == "completed"
+            new_params[:status] = "unapproved_completed"
+        end
+        was_completed = @project.completed?
         
-        if @project.update_attributes(project_params)
-            flash[:success] = "#{@project.name} was successfully updated."
+        if @project.update_attributes(new_params)
+            if was_completed
+              flash[:success] = "#{@project.name} was successfully updated and will need reapproval for completition."
+            else
+              flash[:success] = "#{@project.name} was successfully updated."
+            end
             redirect_to project_path
         else
             model_failed_flash @project
@@ -105,6 +119,30 @@ class ProjectsController < ApplicationController
         @project.approved = false;
         @project.save
         flash[:success] = "Project '#{@project.name}' unapproved."
+        redirect_to projects_path
+    end
+    
+    def approve_completed
+        @project = Project.find(params[:id])
+        @project.status = "completed";
+        @project.save
+        
+        if Project.where(status: "unapproved_completed").count > 0
+            flash[:success] = "Project '#{@project.name}' completion approved."
+            redirect_to unapproved_completed_projects_index_path
+        else
+            flash[:success] = "Project '#{@project.name}' approved. All projects have been approved."
+            redirect_to projects_path
+        end
+    end
+    
+    def unapprove_completed
+        @project = Project.find(params[:id])
+        #@project.status = "open"
+        @project.status = "unapproved_completed"
+        if @project.save
+          flash[:success] = "Project '#{@project.name}' completion unapproved."
+        end
         redirect_to projects_path
     end
 

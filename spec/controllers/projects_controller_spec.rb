@@ -159,13 +159,13 @@ RSpec.describe ProjectsController, type: :controller do
 
           context "search by status" do
             before :each do
-              @project_1 = FactoryGirl.create(:project, :default, :approved, status: "completed" )
+              @project_1 = FactoryGirl.create(:project, :default, :approved, status: "unapproved_completed" )
               @project_2 = FactoryGirl.create(:project, :default, :approved, status: "open")
               @type = "status"
             end
 
             it "can search full status" do
-              value = "completed"
+              value = "unapproved_completed"
               get :index, search: {'value' => value, 'type' => @type}
 
               expect(assigns(:projects).length).to be 1
@@ -181,7 +181,7 @@ RSpec.describe ProjectsController, type: :controller do
             end
 
             it "is case insensitive" do
-              value = "COMPLETED"
+              value = "unapproved_completed"
               get :index, search: {'value' => value, 'type' => @type}
 
               expect(assigns(:projects).length).to be 1
@@ -291,7 +291,41 @@ RSpec.describe ProjectsController, type: :controller do
             get :unapproved_index
             expect(response).to redirect_to root_path
         end
+    end
+    
+    describe "GET #unapproved completed projects index" do
+        it "populates an array of unapproved completed projects if logged in as admin" do
+            admin = FactoryGirl.create(:tamu_user, :default, :admin)
+            controller.log_in(admin)
+            project = FactoryGirl.create(:project, :default, :unapproved_completed)
+            get :unapproved_completed_index
+            expect(assigns(:projects)).to eq([project])
+        end
         
+        it "does not populate an array of tamu_users if not logged in as admin" do
+            project = FactoryGirl.create(:project, :default, :unapproved_completed)
+            get :unapproved_completed_index
+            expect(assigns(:projects)).to_not eq([project])
+        end
+        
+        it "renders the unapproved index view if logged in as admin" do
+            admin = FactoryGirl.create(:tamu_user, :default, :admin)
+            controller.log_in(admin)
+            get :unapproved_completed_index
+            expect(response).to render_template :unapproved_completed_index
+        end
+        
+        it "does not render the index view if not logged in as admin" do
+            get :unapproved_completed_index
+            expect(response).to_not render_template :unapproved_completed_index
+        end
+        
+        it "redirects to root path if not admin" do
+            not_an_admin = FactoryGirl.create(:tamu_user, :default, :not_admin)
+            controller.log_in(not_an_admin)
+            get :unapproved_completed_index
+            expect(response).to redirect_to root_path
+        end
     end
     
     describe "GET #show" do
@@ -492,7 +526,7 @@ RSpec.describe ProjectsController, type: :controller do
             @project.reload
             expect(@project.name).to eq("Test Project updated")
             expect(@project.description).to eq("This is the test project description updated")
-            expect(@project.status).to eq("completed")
+            expect(@project.status).to eq("unapproved_completed")
             expect(@project.tags).to eq(["updated"])
           end
 
@@ -518,9 +552,7 @@ RSpec.describe ProjectsController, type: :controller do
             put :update, id: @project, project: FactoryGirl.attributes_for(:project, :invalid)
             expect(response).to render_template :edit
           end
-
         end
-
       end
   
       context "invalid attributes" do
@@ -558,7 +590,7 @@ RSpec.describe ProjectsController, type: :controller do
             @project.reload
             expect(@project.name).to_not eq("Test Project updated")
             expect(@project.description).to_not eq("This is the test project description updated")
-            expect(@project.status).to_not eq("completed")
+            expect(@project.status).to_not eq("unapproved_completed")
             expect(@project.tags).to_not eq(["updated"])
           end
 
@@ -567,6 +599,18 @@ RSpec.describe ProjectsController, type: :controller do
             put :update, id: @project, project: FactoryGirl.attributes_for(:project, :default)
             expect(response).to_not redirect_to @project
           end
+        end
+      end
+      
+      context "project had already been approved" do
+        it "changes @project's attributes" do
+          @project = FactoryGirl.create(:project, :default, :completed, :agency => @agency)
+          put :update, id: @project, project: FactoryGirl.attributes_for(:project, :default, :completed, :name => "New Name")
+          @project.reload
+          expect(@project.name).to eq("New Name")
+          expect(@project.description).to eq("This is the test project description")
+          expect(@project.status).to eq("unapproved_completed")
+          expect(@project.tags).to eq([""])
         end
       end
     end
@@ -681,7 +725,118 @@ RSpec.describe ProjectsController, type: :controller do
             post :unapprove, id: @project
             expect(response).to redirect_to root_path
       end
+    end
+
+    describe 'POST approve_completed_project' do
+      before :each do
+        @project = FactoryGirl.create(:project, :default, :unapproved_completed)
+        @admin = FactoryGirl.create(:tamu_user, :default, :admin)
+        controller.log_in(@admin)
+      end
+
+      it "located the requested @project if logged in as admin" do
+        post :approve_completed, id: @project
+        expect(assigns(:project)).to eq(@project)
+      end
+
+      it "changes @project's status field if logged in as admin" do
+        post :approve_completed, id: @project#, agency: FactoryGirl.attributes_for(:agency, :default, :approved)
+        @project.reload
+        expect(@project.status).to eq("completed")
+      end
+
+      it "redirects to the projects if there is no unapproved completed projects left if logged in as admin" do
+        post :approve_completed, id: @project#, agency: FactoryGirl.attributes_for(:agency, :default)
+        expect(response).to redirect_to projects_path
+      end
       
+      it "redirects to the unapproved completed projects index if there are unapproved completed projects left if logged in as admin" do
+        FactoryGirl.create(:project, :default, :unapproved_completed)
+        post :approve_completed, id: @project#, agency: FactoryGirl.attributes_for(:agency, :default)
+        expect(response).to redirect_to unapproved_completed_projects_index_path
+      end
+      
+      
+      it "should not locate the requested @project if not logged in" do
+        controller.log_out
+        post :approve_completed, id: @project, project: FactoryGirl.attributes_for(:project, :default, :unapproved_completed)
+        expect(assigns(:project)).to_not eq(@project)
+      end
+
+      it "does not changes @project's status field if not logged in" do
+        controller.log_out
+        post :approve_completed, id: @project#, agency: FactoryGirl.attributes_for(:agency, :default, :approved)
+        @project.reload
+        expect(@project.status).to eq("unapproved_completed")
+      end
+
+      it "does not redirects to the approved completed projects if there is no unapproved completed projects left if not logged in" do
+        controller.log_out
+        post :approve_completed, id: @project#, agency: FactoryGirl.attributes_for(:agency, :default)
+        expect(response).to_not redirect_to projects_path
+      end
+      
+      it "does not redirects to the unapproved completed projects if there are unapproved completed projects left if not logged in" do
+        controller.log_out
+        FactoryGirl.create(:project, :default, :unapproved_completed)
+        post :approve_completed, id: @project#, agency: FactoryGirl.attributes_for(:agency, :default)
+        expect(response).to_not redirect_to unapproved_completed_projects_index_path
+      end
+      
+      it "redirects to root path if not admin" do
+            controller.current_user.admin = false
+            post :approve_completed, id: @project
+            expect(response).to redirect_to root_path
+      end
+    end
+    
+    describe 'POST unapprove completed projects' do
+      before :each do
+        @project = FactoryGirl.create(:project, :default, :completed)
+        @admin = FactoryGirl.create(:tamu_user, :default, :admin)
+        controller.log_in(@admin)
+      end
+
+      it "located the requested @project if logged in as admin" do
+        post :unapprove_completed, id: @project, project: FactoryGirl.attributes_for(:project, :default, :completed)
+        expect(assigns(:project)).to eq(@project)
+      end
+
+      it "changes @project's status field if logged in as admin" do
+        post :unapprove_completed, id: @project
+        @project.reload
+        expect(@project.status).to eq("unapproved_completed")
+      end
+
+      it "redirects to the projects_path if logged in as admin" do
+        post :unapprove_completed, id: @project, project: FactoryGirl.attributes_for(:project, :default, :completed)
+        expect(response).to redirect_to projects_path
+      end
+      
+      it "should not locate the requested @project if logged not in as admin" do
+        controller.log_out
+        post :unapprove_completed, id: @project, project: FactoryGirl.attributes_for(:project, :default, :completed)
+        expect(assigns(:project)).to_not eq(@project)
+      end
+
+      it "should not change @project's status field if not logged in as admin" do
+        controller.log_out
+        post :unapprove_completed, id: @project, project: FactoryGirl.attributes_for(:project, :default, :completed)
+        @project.reload
+        expect(@project.status).to eq("completed")
+      end
+
+      it "should not redirect to the projects if not logged in as admin" do
+        controller.log_out
+        post :unapprove_completed, id: @project, project: FactoryGirl.attributes_for(:project, :default)
+        expect(response).to_not redirect_to projects_path
+      end
+      
+      it "redirects to root path if not admin" do
+            controller.current_user.admin = false
+            post :unapprove_completed, id: @project
+            expect(response).to redirect_to root_path
+      end
     end
     
     describe 'DELETE #destroy' do
@@ -788,8 +943,8 @@ RSpec.describe ProjectsController, type: :controller do
           expect(response).to redirect_to projects_path
         end
 
-        it "should redirect to the project path if completed" do
-          @project.status = "completed"
+        it "should redirect to the project path if unapproved_completed" do
+          @project.status = "unapproved_completed"
           @project.save
           post :join, id: @project.id
           expect(response).to redirect_to project_path(@project)
@@ -848,8 +1003,8 @@ RSpec.describe ProjectsController, type: :controller do
           expect(response).to redirect_to projects_path
         end
 
-        it "should redirect to the project path if completed" do
-          @project.status = "completed"
+        it "should redirect to the project path if unapproved_completed" do
+          @project.status = "unapproved_completed"
           @project.save
           post :drop, id: @project.id
           expect(response).to redirect_to project_path(@project)

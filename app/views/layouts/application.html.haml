@@ -33,6 +33,8 @@
                 = link_to '<i class="fa fa-exclamation" aria-hidden="true"></i> Unapproved Projects'.html_safe, unapproved_projects_index_path
                 
                 = link_to '<i class="fa fa-exclamation" aria-hidden="true"></i> Unapproved Faculty'.html_safe, unapproved_professors_index_path
+                
+                = link_to '<i class="fa fa-exclamation" aria-hidden="true"></i> Completed Projects'.html_safe, unapproved_completed_projects_index_path
             - else
               
               = link_to '<i class="fa fa-user" aria-hidden="true"></i> My Page'.html_safe, agency_path(@current_user.id)

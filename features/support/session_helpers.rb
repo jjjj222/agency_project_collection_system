@@ -11,6 +11,14 @@ module SessionHelpers
   def current_project
     @project ||= Project.create!(name: "Test Project", status: "open", description: "some desc", agency: current_agency, approved: true)
   end
+  
+  def completed_project
+    @project ||= Project.create!(name: "Test Project", status: "completed", description: "some desc", agency: current_agency, approved: true)
+  end
+
+  def uncompleted_project
+    @project ||= Project.create!(name: "Test Project", status: "unapproved_completed", description: "some desc", agency: current_agency, approved: true)
+  end
 
   def unapproved_project
     @unapproved_project ||= Project.create!(name: "Test Project", status: "open", description: "some desc", agency: current_agency, approved: false)

@@ -46,6 +46,12 @@
         = button_to 'Approve Project', approve_project_path(@project),:class=>"btn btn-warning"
     - else
         = button_to 'Unapprove Project', unapprove_project_path(@project),:class=>"btn btn-warning"
+- if @current_user.is_a?(TamuUser) and @current_user.admin?
+    - if @project.status == "completed"
+        = button_to 'Unapprove Project Completion', unapprove_completed_project_path(@project),:class=>"btn btn-warning"
+    - elsif @project.status == "unapproved_completed"
+        = button_to 'Approve Project Completion', approve_completed_project_path(@project),:class=>"btn btn-warning"
+        
 #black-line
 %br
 - if @current_user.is_a?(TamuUser)

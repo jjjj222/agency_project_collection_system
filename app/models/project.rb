@@ -1,7 +1,7 @@
 class Project < ActiveRecord::Base
 
   def self.all_statuses
-    ["completed","in progress","cancelled","open"]
+    ["completed","cancelled","open", "unapproved_completed"]
   end
 
   def agency_name

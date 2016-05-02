@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   #get 'welcome/login'
   #get 'welcome/signup'
 
+  match '/unapproved_completed_projects/' => 'projects#unapproved_completed_index', :as => :unapproved_completed_projects_index, via: [:get]
+  match '/projects/:id/approve_completed' => 'projects#approve_completed', :as => :approve_completed_project, via: [:post]
+  match '/projects/:id/unapprove_completed' => 'projects#unapprove_completed', :as => :unapprove_completed_project, via: [:post]
   match '/unapproved_projects/' => 'projects#unapproved_index', :as => :unapproved_projects_index, via: [:get]
   match '/projects/:id/approve' => 'projects#approve', :as => :approve_project, via: [:post]
   match '/projects/:id/unapprove' => 'projects#unapprove', :as => :unapprove_project, via: [:post]
