@@ -3,13 +3,13 @@
 
 %h3 Description:
 %p#description= project.description
-
+#black-line
 %h3 Tags:
 %p#tags= project.tags
-
+#black-line
 %h3 Status:
 %p#status= project.status
-
+#black-line
 %h3 Agency:
 %p#agency= project.agency_profile        
 - if not @project.tamu_users.empty?
@@ -42,7 +42,7 @@
         = button_to 'Approve Project', approve_project_path(@project),:class=>"btn btn-warning"
     - else
         = button_to 'Unapprove Project', unapprove_project_path(@project),:class=>"btn btn-warning"
-
+#black-line
 %br
 - if @current_user.is_a?(TamuUser)
     = button_to 'Back to project list', projects_path,:class=>"btn btn-info"

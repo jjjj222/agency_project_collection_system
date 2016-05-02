@@ -20,11 +20,11 @@ module TamuUsersHelper
   end
 
   def make_admin_button(id)
-    button_to "Make Admin", make_user_admin_path(id), confirm: "Are you sure?"
+    button_to "Make Admin", make_user_admin_path(id), confirm: "Are you sure?", class: "btn btn-warning"
   end
 
   def demote_admin_button(id)
-    button_to "Remove Admin", demote_admin_path(id), confirm: "Are you sure?"
+    button_to "Remove Admin", demote_admin_path(id), confirm: "Are you sure?", class: "btn btn-danger"
   end
 
 end

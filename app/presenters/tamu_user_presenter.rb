@@ -16,6 +16,10 @@ class TamuUserPresenter < PresenterBase
   end
 
   def profile(name = tamu_user.name, opts = {})
+    opts[:style] ||= {}
+    if tamu_user.admin? and name == tamu_user.name
+      opts[:style][:class] = "#{opts[:style][:class]} admin-name" #{class: "admin-name"}.merge(opts[:style])
+    end
     link_to name, tamu_user_path(tamu_user.id, opts[:params]), opts[:style]
   end
 

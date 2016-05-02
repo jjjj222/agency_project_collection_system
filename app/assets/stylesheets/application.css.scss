@@ -264,7 +264,14 @@ li.sidebar a:hover:not(.active) {
     display:inline-block;
 }
 #login-as{
-  float: right;
+  position:absolute;
+  top:0;
+  right:100px;
   padding-right: 10px
+}
+
+#black-line {
+  border-top: 1px solid #D3D3D3;
+  width:70%;
 }
 
