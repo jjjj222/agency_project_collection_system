@@ -553,9 +553,7 @@ RSpec.describe ProjectsController, type: :controller do
             put :update, id: @project, project: FactoryGirl.attributes_for(:project, :invalid)
             expect(response).to render_template :edit
           end
-
         end
-
       end
   
       context "invalid attributes" do
@@ -602,6 +600,18 @@ RSpec.describe ProjectsController, type: :controller do
             put :update, id: @project, project: FactoryGirl.attributes_for(:project, :default)
             expect(response).to_not redirect_to @project
           end
+        end
+      end
+      
+      context "project had already been approved" do
+        it "changes @project's attributes" do
+          @project = FactoryGirl.create(:project, :default, :completed, :agency => @agency)
+          put :update, id: @project, project: FactoryGirl.attributes_for(:project, :default, :completed, :name => "New Name")
+          @project.reload
+          expect(@project.name).to eq("New Name")
+          expect(@project.description).to eq("This is the test project description")
+          expect(@project.status).to eq("unapproved_completed")
+          expect(@project.tags).to eq([""])
         end
       end
     end
