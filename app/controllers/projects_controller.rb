@@ -79,8 +79,8 @@ class ProjectsController < ApplicationController
    
     def update
         @project = Project.find(params[:id])
-        if project_params.status == "completed"
-          project_params.status = "unapproved_completed"
+        if project_params[:status] == "completed"
+            project_params[:status] = "unapproved_completed"
         end
         if @project.update_attributes(project_params)
             flash[:success] = "#{@project.name} was successfully updated."

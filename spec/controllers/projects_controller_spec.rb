@@ -159,13 +159,13 @@ RSpec.describe ProjectsController, type: :controller do
 
           context "search by status" do
             before :each do
-              @project_1 = FactoryGirl.create(:project, :default, :approved, status: "completed" )
+              @project_1 = FactoryGirl.create(:project, :default, :approved, status: "unapproved_completed" )
               @project_2 = FactoryGirl.create(:project, :default, :approved, status: "open")
               @type = "status"
             end
 
             it "can search full status" do
-              value = "completed"
+              value = "unapproved_completed"
               get :index, search: {'value' => value, 'type' => @type}
 
               expect(assigns(:projects).length).to be 1
@@ -181,7 +181,7 @@ RSpec.describe ProjectsController, type: :controller do
             end
 
             it "is case insensitive" do
-              value = "COMPLETED"
+              value = "unapproved_completed"
               get :index, search: {'value' => value, 'type' => @type}
 
               expect(assigns(:projects).length).to be 1
@@ -493,7 +493,7 @@ RSpec.describe ProjectsController, type: :controller do
             @project.reload
             expect(@project.name).to eq("Test Project updated")
             expect(@project.description).to eq("This is the test project description updated")
-            expect(@project.status).to eq("completed")
+            expect(@project.status).to eq("unapproved_completed")
             expect(@project.tags).to eq(["updated"])
           end
 
@@ -559,7 +559,7 @@ RSpec.describe ProjectsController, type: :controller do
             @project.reload
             expect(@project.name).to_not eq("Test Project updated")
             expect(@project.description).to_not eq("This is the test project description updated")
-            expect(@project.status).to_not eq("completed")
+            expect(@project.status).to_not eq("unapproved_completed")
             expect(@project.tags).to_not eq(["updated"])
           end
 
@@ -789,8 +789,8 @@ RSpec.describe ProjectsController, type: :controller do
           expect(response).to redirect_to projects_path
         end
 
-        it "should redirect to the project path if completed" do
-          @project.status = "completed"
+        it "should redirect to the project path if unapproved_completed" do
+          @project.status = "unapproved_completed"
           @project.save
           post :join, id: @project.id
           expect(response).to redirect_to project_path(@project)
@@ -849,8 +849,8 @@ RSpec.describe ProjectsController, type: :controller do
           expect(response).to redirect_to projects_path
         end
 
-        it "should redirect to the project path if completed" do
-          @project.status = "completed"
+        it "should redirect to the project path if unapproved_completed" do
+          @project.status = "unapproved_completed"
           @project.save
           post :drop, id: @project.id
           expect(response).to redirect_to project_path(@project)
