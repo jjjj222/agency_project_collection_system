@@ -2,7 +2,7 @@
 
 
 %h2 Agency
-= link_to image_tag('btn_google_signin_light_normal_web.png', :onmouseover=> "this.src=\'/assets/btn_google_signin_light_focus_web.png\'", :onmouseout=> "this.src=\'/assets/btn_google_signin_light_normal_web.png\'"), '/auth/google_oauth2', id: "google_login"
+= link_to image_tag('btn_google_signin_light_normal_web.png', :onmouseover=> raw("this.src='/assets/btn_google_signin_light_focus_web.png'"), :onmouseout=> raw("this.src='/assets/btn_google_signin_light_normal_web.png'")), '/auth/google_oauth2', id: "google_login"
 
 %h2 TAMU User
 = link_to "Sign in with CAS", tamu_login_path
