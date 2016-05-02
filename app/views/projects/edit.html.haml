@@ -8,7 +8,7 @@
   = text_field :project, 'name', required: true
 
   = label :project, :description, 'Description'
-  = text_field :project, 'description', placeholder: "Enter project description"
+  = text_area :project, 'description', :rows => 7, :cols=>70, placeholder: "Enter project description"
 
   = label :project, :tags, 'Tags'
   = text_field :project, 'tags'
