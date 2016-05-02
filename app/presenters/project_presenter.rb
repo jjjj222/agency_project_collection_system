@@ -3,7 +3,15 @@ class ProjectPresenter < PresenterBase
   present_obj :project
 
   delegate :name, :description, :completed?, to: :project
-  present_with :capitalize, :status
+  
+  def status(type = project.status)
+    case type
+    when 'unapproved_completed'
+      "Completed (Pending approval)"
+    else
+      type.capitalize
+    end
+  end
 
   def tags
     project.tags.join ","

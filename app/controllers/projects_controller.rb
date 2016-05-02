@@ -45,8 +45,8 @@ class ProjectsController < ApplicationController
         @projects = sort_projects(@projects, params[:sort])
     end
     
-    def unapproved_completed_projects_index
-      @projects = Project.where(status: "completed (pending approval)")
+    def unapproved_completed_index
+      @projects = Project.where(status: "unapproved_completed")
       @projects = sort_projects(@projects, params[:sort])
     end
    
@@ -80,7 +80,7 @@ class ProjectsController < ApplicationController
     def update
         @project = Project.find(params[:id])
         if project_params.status == "completed"
-          project_params.status == "comppleted (pending approval)"
+          project_params.status = "unapproved_completed"
         end
         if @project.update_attributes(project_params)
             flash[:success] = "#{@project.name} was successfully updated."
@@ -124,7 +124,7 @@ class ProjectsController < ApplicationController
         @project.status = "completed";
         @project.save
         
-        if Project.where(status: "completed (pending approval)").count > 0
+        if Project.where(status: "unapproved_completed").count > 0
             flash[:success] = "Project '#{@project.name}' completion approved."
             redirect_to unapproved_completed_projects_index_path
         else
@@ -136,7 +136,7 @@ class ProjectsController < ApplicationController
     def unapprove_completed
         @project = Project.find(params[:id])
         #@project.status = "open"
-        @project.status = "completed (pending approval)"
+        @project.status = "unapproved_completed"
         if @project.save
           flash[:success] = "Project '#{@project.name}' completion unapproved."
         end
