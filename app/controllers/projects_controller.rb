@@ -34,12 +34,11 @@ class ProjectsController < ApplicationController
             end
         end
 
-        @projects = sort_projects(@projects, params[:sort], params[:reverse])
+        @projects = list_projects(@projects)
     end
 
     def unapproved_index
-        @projects = Project.where(approved: false)
-        @projects = sort_projects(@projects, params[:sort])
+        @projects = list_projects Project.where(approved: false)
     end
    
     def show
@@ -157,6 +156,10 @@ class ProjectsController < ApplicationController
       unless current_user.is_a?(TamuUser) or project.agency == current_user
         redirect_to root_path, :alert => "Access denied."
       end
+    end
+
+    def list_projects(projects)
+        sort_projects(projects, params[:sort], params[:reverse]).page(params[:page]).per(2)
     end
 end
 

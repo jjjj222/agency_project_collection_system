@@ -18,11 +18,11 @@ class TamuUsersController < ApplicationController
     end
 
     def index
-        @tamu_users = TamuUser.all
+        @tamu_users = list_users TamuUser.all
     end
     
     def unapproved_professor_index
-        @tamu_users = TamuUser.where(role: "unapproved_professor")
+        @tamu_users = list_users TamuUser.where(role: "unapproved_professor")
     end
     
     def approve_professor
@@ -156,5 +156,9 @@ class TamuUsersController < ApplicationController
       if logged_in? or (not cas_logged_in?)
           return redirect_to root_path, :alert => "Access denied."
       end
+    end
+
+    def list_users(list)
+      list.page(params[:page]).per(2)
     end
 end
