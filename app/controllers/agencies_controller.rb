@@ -58,6 +58,12 @@ class AgenciesController < ApplicationController
         @agency.approved = false;
         @agency.save
         flash[:success] = "Agency '#{@agency.name}' unapproved."
+
+        @agency.projects.each do |project|
+          project.approved = false;
+          project.save
+        end
+
         redirect_to agencies_path
     end
     
