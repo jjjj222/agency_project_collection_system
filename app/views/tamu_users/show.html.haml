@@ -10,8 +10,6 @@
       %a{"data-toggle" => "tab", :href => "#my_projects"} My Projects
     %li
       %a{"data-toggle" => "tab", :href => "#my_profile"} My Profiles
-    %li
-      %a{"data-toggle" => "tab", :href => "#more"} More
 
   .tab-content
     #my_projects.tab-pane.fade.in.active
@@ -56,7 +54,3 @@
           = button_to 'Approve as Faculty', approve_professor_path(@tamu_user), :class=>"btn btn-success"
         - else
           = button_to 'Unapprove as Faculty', unapprove_professor_path(@tamu_user), :class=>"btn btn-danger"
-
-    #more.tab-pane.fade
-      %h3 More
-      %p Something more

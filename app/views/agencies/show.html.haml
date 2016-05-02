@@ -15,8 +15,6 @@
       %a{"data-toggle" => "tab", :href => "#my_projects"} My Projects
     %li
       %a{"data-toggle" => "tab", :href => "#my_profile"} My Profiles
-    / %li
-    /   %a{"data-toggle" => "tab", :href => "#more"} More
 
   .tab-content
     #my_projects.tab-pane.fade.in.active
@@ -56,10 +54,6 @@
           = button_to 'Approve Agency', approve_agency_path(@agency),:class=>"btn btn-primary"
         - else
           = button_to 'Unapprove Agency', unapprove_agency_path(@agency),:class=>"btn btn-warning"
-
-    #more.tab-pane.fade
-      %h3 More
-      %p Something more
 
 
 
