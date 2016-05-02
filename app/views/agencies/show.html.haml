@@ -1,56 +1,53 @@
-.container
-  .profile-header
-    #headtitle
-      #name= @agency.name
-    #profile-edit
-      -if @current_user == @agency
-        <i class="fa fa-pencil" aria-hidden="true"></i>
-        = link_to 'Edit Profile', edit_agency_path(@agency.id)
-  %ul.nav.nav-tabs
-    %li.active
-      %a{"data-toggle" => "tab", :href => "#my_projects"} My Projects
-    %li
-      %a{"data-toggle" => "tab", :href => "#my_profile"} My Profiles
+.profile-header
+  #headtitle
+    #name= @agency.name
+  #profile-edit
+    -if @current_user == @agency
+      <i class="fa fa-pencil" aria-hidden="true"></i>
+      = link_to 'Edit Profile', edit_agency_path(@agency.id)
+%ul.nav.nav-tabs
+  %li.active
+    %a{"data-toggle" => "tab", :href => "#my_projects"} My Projects
+  %li
+    %a{"data-toggle" => "tab", :href => "#my_profile"} My Profiles
 
-  .tab-content
-    #my_projects.tab-pane.fade.in.active
-      
+.tab-content
+  #my_projects.tab-pane.fade.in.active
+    %table{:border => 1, :width => "70%"}
+      %tr
+        %th Project Name
+        %th Description
+        %th Status
+        %th Tags
+        %th Date
+
+      - @agency.projects.each do |project|
+        %tr{:height => "10px"}
+          %td= link_to project.name, project_path(project)
+          %td= project.description
+          %td= project.status
+          %td= project.tags.join ", "
+          %td= project.created_at.to_date
+    - if @current_user == @agency && @current_user.approved?
+      %p
+        = button_to 'Create Project', new_project_path, class: "btn btn-primary", method: :get
+  #my_profile.tab-pane.fade
+    %h3 My Profile
+    %p= image_tag("#{@agency.image_url}")
+
+    %h3 <i class="fa fa-envelope" aria-hidden="true"></i> Email:
+    %p#email=  @agency.email
+
     
-      %table{:border => 1, :width => "70%"}
-        %tr
-          %th Project Name
-          %th Description
-          %th Status
-          %th Tags
-          %th Date
+    
+    %h3 <i class="fa fa-phone" aria-hidden="true"></i> Phone number:
+    %p#phone_number=  @agency.phone_number
 
-        - @agency.projects.each do |project|
-          %tr{:height => "10px"}
-            %td= link_to project.name, project_path(project)
-            %td= project.description
-            %td= project.status
-            %td= project.tags.join ", "
-            %td= project.created_at.to_date
-      - if @current_user == @agency && @current_user.approved?
-        %p
-          = button_to 'Create Project', new_project_path, class: "btn btn-primary", method: :get
-    #my_profile.tab-pane.fade
-      %h3 My Profile
-      %p= image_tag("#{@agency.image_url}")
-
-      %h3 <i class="fa fa-envelope" aria-hidden="true"></i> Email:
-      %p#email=  @agency.email
-
-      
-      
-      %h3 <i class="fa fa-phone" aria-hidden="true"></i> Phone number:
-      %p#phone_number=  @agency.phone_number
-
-      - if @current_user.is_a?(TamuUser) and @current_user.admin?
-        - if !@agency.approved
-          = button_to 'Approve Agency', approve_agency_path(@agency),:class=>"btn btn-primary"
-        - else
-          = button_to 'Unapprove Agency', unapprove_agency_path(@agency),:class=>"btn btn-warning"
+    - if @current_user.is_a?(TamuUser) and @current_user.admin?
+      - if !@agency.approved
+        = button_to 'Approve Agency', approve_agency_path(@agency),:class=>"btn btn-primary"
+      - else
+        = button_to 'Unapprove Agency', unapprove_agency_path(@agency),:class=>"btn btn-warning"
 
 
 
