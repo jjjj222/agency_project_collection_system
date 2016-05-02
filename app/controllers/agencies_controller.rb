@@ -7,7 +7,7 @@ class AgenciesController < ApplicationController
     before_action :owner_only, :only=>[:edit, :update, :destroy]
 
     def agency_params
-      params.require(:agency).permit(:name)
+      params.require(:agency).permit(:name, :email, :phone_number)
     end
     
     def index
