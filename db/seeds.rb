@@ -50,4 +50,5 @@ case Rails.env
 when "development"
   TamuUser.create!(fake_admin)
   TamuUser.create!(fake_master_admin)
+  TamuUser.create! name: "Evan Feieresel", admin: true, master_admin: true, role: "student", netid: "evanfeier", email:"evanfeier@tamu.edu"
 end
