@@ -7,15 +7,14 @@ Feature: Unapproving an approved completed project
   Background:
     Given I am logged in as an admin
     And there is a completed project
+    And I click on "Home"
     And I click on "Projects"
     And I click on "Test Project"
-    #And I go to the show project page for the completed project
     
   Scenario:
     When I press "Unapprove Project Completion"
     Then I should see a message telling me it was successful
     When I click on "Test Project"
-    #When I go to the show project page for the completed project
     Then there should be a button "Approve Project Completion"
     When I click on "Completed Projects"
     Then I should see "Test Project"

@@ -23,8 +23,10 @@
 
       - @agency.projects.each do |project|
         %tr{:height => "10px"}
-          %td= link_to project.name, project_path(project)
-          %td= project.description
+          %td.name
+            .name=link_to project.name, project_path(project)
+          %td.description
+            .description=project.description
           %td= project.status
           %td= project.tags.join ", "
           %td= project.created_at.to_date

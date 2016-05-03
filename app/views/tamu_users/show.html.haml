@@ -4,9 +4,9 @@
     #name= @tamu_user.name
 %ul.nav.nav-tabs
   %li.active
-    %a{"data-toggle" => "tab", :href => "#my_projects"} My Projects
+    %a{"data-toggle" => "tab", :href => "#my_projects"} Projects
   %li
-    %a{"data-toggle" => "tab", :href => "#my_profile"} My Profiles
+    %a{"data-toggle" => "tab", :href => "#my_profile"} Profiles
 
 .tab-content
   #my_projects.tab-pane.fade.in.active
@@ -32,12 +32,15 @@
           %td= project.agency_profile
   
   #my_profile.tab-pane.fade
-    %h3 My Profile
+    %h3 Profile
     %h3 <i class="fa fa-child" aria-hidden="true"></i> Role:
     %p#role= tamu_user.role
 
     %h3 <i class="fa fa-envelope" aria-hidden="true"></i> Email:
     %p#email= tamu_user.email
+
+    %h3 <i class='fa fa-commenting' aria-hidden='true'></i> About Me:
+    %p#description=  tamu_user.description
     
     -if @current_user.is_a?(TamuUser) and @current_user.admin?
       %h3 Admin Status:
