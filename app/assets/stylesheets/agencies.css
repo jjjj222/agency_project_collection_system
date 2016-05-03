@@ -2,13 +2,19 @@
     display:inline-block;
 }
 .profile-header h2{
-    /*float:left;*/
+    float:left;
     display:inline;
 }
+#headtitle {
+    float:left;
+    display:inline;
+}
+
 #profile-edit{
-    float:right;
+    float:left;
     display:inline;
     margin: 8px 10px;
+    padding:15px;
 }
 
 
