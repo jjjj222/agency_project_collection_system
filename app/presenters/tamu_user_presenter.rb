@@ -2,7 +2,7 @@ class TamuUserPresenter < PresenterBase
 
   present_obj :tamu_user
 
-  delegate :admin?, :id, :name, :email, to: :tamu_user
+  delegate :admin?, :id, :name, :email, :description, to: :tamu_user
 
   def role(type = tamu_user.role)
     case type
@@ -20,7 +20,7 @@ class TamuUserPresenter < PresenterBase
     roles = roles.map{|k| [role(k), k] }
 
     html_opts = {}
-    opts.reverse_merge!({required: true, class: 'form-control'})
+    opts.reverse_merge!({class: 'role-select'})
     select :tamu_user, :role, roles, html_opts, opts
   end
 

@@ -334,6 +334,11 @@ li.sidebar a:hover:not(.active) {
    height: 34px;
    -webkit-appearance: none;
    }
+select.role-select {
+   padding: 5px;
+   -webkit-appearance: none;
+   width: default !important;
+}
 
 .styled-select {
    width: 150px;

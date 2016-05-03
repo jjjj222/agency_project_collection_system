@@ -38,6 +38,9 @@
 
     %h3 <i class="fa fa-envelope" aria-hidden="true"></i> Email:
     %p#email= tamu_user.email
+
+    %h3 <i class='fa fa-commenting' aria-hidden='true'></i> About Me:
+    %p#description=  tamu_user.description
     
     -if @current_user.is_a?(TamuUser) and @current_user.admin?
       %h3 Admin Status:

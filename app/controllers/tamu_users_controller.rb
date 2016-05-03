@@ -11,7 +11,7 @@ class TamuUsersController < ApplicationController
     skip_before_action :require_login, :only => [:new, :create]
     
     def tamu_user_params
-      params.require(:tamu_user).permit(:name, :email, :role)
+      params.require(:tamu_user).permit(:name, :email, :role, :description)
     end
     def create_tamu_user_params
       params.require(:tamu_user).permit(:name, :email, :role, :netid).merge(netid: session_netid)
