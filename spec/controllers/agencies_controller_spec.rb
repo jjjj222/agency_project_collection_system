@@ -192,6 +192,7 @@ RSpec.describe AgenciesController, type: :controller do
       before :each do
         @agency = FactoryGirl.create(:agency, :default, :approved)
         @admin = FactoryGirl.create(:tamu_user, :default, :admin)
+        @project = FactoryGirl.create(:project, :default, :approved, agency: @agency)
         controller.log_in(@admin)
       end
 
@@ -204,6 +205,13 @@ RSpec.describe AgenciesController, type: :controller do
         post :unapprove, id: @agency#, agency: FactoryGirl.attributes_for(:agency, :default, :approved)
         @agency.reload
         expect(@agency.approved).to eq(false)
+      end
+
+      it "unapprove the projects of the agency as well" do
+        post :unapprove, id: @agency
+        @agency.reload
+        @project.reload
+        expect(@project.approved).to eq(false)
       end
 
       it "redirects to the approved agencies if logged in as admin" do

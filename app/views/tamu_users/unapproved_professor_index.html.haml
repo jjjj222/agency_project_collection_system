@@ -1,4 +1,4 @@
-%h1 All Unapproved Faculty
+#headtitle All Unapproved Faculty
 %body
     #content
         %table{:border => 1, :width => "70%"}
@@ -6,10 +6,12 @@
                 %th{:align=> "left"} Name
                 - if @current_user.is_a?(TamuUser) and @current_user.admin?
                     %th{:align=> "left"} Professor Status
+                    %th User since
         
-            - @tamu_users.each do |tamu_user|
+            - TamuUserPresenter.all(@tamu_users) do |tamu_user|
                 %tr{:height => "10px"}
                     %td= tamu_user.name
-                    // %td= button_to 'Approve as Faculty', approve_professor_path(tamu_user.id)
                     %td= button_to "Approve as Faculty", approve_professor_path(tamu_user.id), confirm: "Are you sure?"
+                    %td= tamu_user.date
+        %p= paginate @tamu_users
         #footer

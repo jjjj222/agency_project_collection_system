@@ -13,7 +13,7 @@ example_projects = [
   { name: "Open Project 6", description: "BCD", status: "open", approved: true, agency_id: "2"},
   { name: "ZZZ Project 3", description: "BCD", status: "open", approved: false, agency_id: "2"},
   { name: "Test Project 3", description: "BCD", status: "open", approved: false, agency_id: "2"},
-  { name: "Test Project 4", description: "BCD", status: "in progress", approved: false, agency_id: "3"}
+  { name: "Test Project 4", description: "BCD", status: "open", approved: false, agency_id: "3"}
 ]
 
 example_users = [

@@ -18,11 +18,11 @@ class TamuUsersController < ApplicationController
     end
 
     def index
-        @tamu_users = TamuUser.all
+        @tamu_users = list_users TamuUser.all
     end
     
     def unapproved_professor_index
-        @tamu_users = TamuUser.where(role: "unapproved_professor")
+        @tamu_users = list_users TamuUser.where(role: "unapproved_professor")
     end
     
     def approve_professor
@@ -53,13 +53,6 @@ class TamuUsersController < ApplicationController
             @tamu_user.save
         end
         redirect_to tamu_user_path(@tamu_user)
-        # if TamuUser.where(role: "unapproved_professor").count > 0
-        #     flash[:success] = "TamuUser '#{@professor.name}' approved as professor."
-        #     redirect_to unapproved_professors_index_path
-        # else
-        #     flash[:success] = "TamuUser '#{@professor.name}' approved as professor. All professors have been approved."
-        #     redirect_to tamu_users_path
-        # end
     end
     
     def unblock_user
@@ -94,6 +87,7 @@ class TamuUsersController < ApplicationController
     
     def destroy
         @tamu_user = TamuUser.find params[:id]
+	redirect_to tamu_users_path, notice: "You can't delete master admins" and return if @tamu_user.master_admin?
         @tamu_user.destroy
         flash[:success] = "TAMU User '#{@tamu_user.name}' deleted."
         redirect_to tamu_users_path
@@ -162,5 +156,9 @@ class TamuUsersController < ApplicationController
       if logged_in? or (not cas_logged_in?)
           return redirect_to root_path, :alert => "Access denied."
       end
+    end
+
+    def list_users(list)
+      list.order(:name).page(params[:page])
     end
 end

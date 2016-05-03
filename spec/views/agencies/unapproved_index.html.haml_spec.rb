@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "agencies/unapproved_index.html.haml", type: :view do
     
     it 'displays all unapproved agencies correctly' do
-    assign(:agencies,
+    assign_paginated(:agencies,
         [
             FactoryGirl.build(:agency, :default, :unapproved, :id=>1),
             FactoryGirl.build(:agency, :default, :unapproved,
@@ -25,7 +25,7 @@ RSpec.describe "agencies/unapproved_index.html.haml", type: :view do
   end
   
   it 'displays approve button for agencies' do
-    assign(:agencies,
+    assign_paginated(:agencies,
         [
             FactoryGirl.build(:agency, :default, :unapproved, :id=>1)
         ])

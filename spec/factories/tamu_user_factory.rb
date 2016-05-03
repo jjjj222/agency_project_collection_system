@@ -21,6 +21,7 @@ FactoryGirl.define do
       email "not_an_email"
     }
     trait(:master_admin) { master_admin true; admin true }
+    created_at Time.now
 
     factory :tamu_users do
       sequence(:name) { |n| "John Smith the #{n.ordinalize}" }

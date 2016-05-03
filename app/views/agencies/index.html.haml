@@ -1,11 +1,7 @@
-%h1 All Agencies
+#headtitle All Agencies
 %body
     #content
         #left{:float => "left", :width => "30%"}
-            -#%p
-            -#= link_to "My page", agency_path(1)
-            -#%br
-            -#%br
         #right
             %table{:border => 1, :width => "70%"}
                 %tr{:height => "10px"}
@@ -18,5 +14,6 @@
                         %td= link_to agency.name, agency_path(agency.id)
                         - if @current_user.is_a?(TamuUser) and @current_user.admin?
                             %td= button_to 'Unapprove Agency', unapprove_agency_path(agency)
+        %p=paginate @agencies
         #footer
 
