@@ -5,7 +5,7 @@
     float:left;
     display:inline;
 }
-#headtitle {
+.profile-header #headtitle {
     float:left;
     display:inline;
 }
