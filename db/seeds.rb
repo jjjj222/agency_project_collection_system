@@ -17,10 +17,12 @@ example_projects = [
 ]
 
 example_users = [
-  { name: "Admin", email: "admin@tamu.edu", netid: "jjjj222", role: "student", admin: true, master_admin: false},
-  { name: "John Tamu", email: "john@tamu.edu", netid: "johnsnetid", role: "student", admin: false},
-  { name: "Hank Tamu", email: "hank@tamu.edu", netid: "hanksnetid", role: "professor", admin: false},
-  { name: "Malini Malini", email: "malini@tamu.edu", netid: "malinisnetid", role: "professor", admin: true, master_admin: true}
+  { name: "Evan Feiereisel", email: "evanfeier@tamu.edu", netid: "evanfeier", role: "student", admin: true, master_admin: true},
+  { name: "Bill Cheng", email: "john@tamu.edu", netid: "johnsnetid", role: "student", admin: false},
+  { name: "Daniel Latypov", email: "mynetidfornow@tamu.edu ", netid: "mynetidfornow", role: "professor", admin: false},
+  { name: "Brennen Taylor", email: "malini@tamu.edu", netid: "malinisnetid", role: "professor", admin: true, master_admin: false},
+  { name: "Jerry Yiu", email: "j816y@tamu.edu", netid: "j816y", role: "professor", admin: true, master_admin: fasle},
+  { name: "Jeremey Tso", email: "malini@tamu.edu", netid: "malinisnetid", role: "professor", admin: true, master_admin: false}
 ]
 
 example_agencies = [
