@@ -19,7 +19,7 @@
  /*css layout*/
 @import "font-awesome-sprockets";
 @import "font-awesome";
- 
+
 html, body {
 /*  margin: 0;
   padding: 0;*/
@@ -342,3 +342,9 @@ li.sidebar a:hover:not(.active) {
    background: url(new_arrow.png) no-repeat right white;
    border: 1px solid #ccc;
    }
+
+td .description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
