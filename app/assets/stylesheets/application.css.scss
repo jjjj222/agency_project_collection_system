@@ -219,6 +219,20 @@ td{
   margin: 0 0 16px;
 }
 
+#project_table {
+  table-layout: fixed;
+}
+
+#project_table th {
+  width : 20%;
+}
+
+#project_table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
 td a{
   color:#500000 !important;
 }
