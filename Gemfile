@@ -24,6 +24,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc, require: false
 # HAML
 gem 'haml'
 
+# Kaminari, for pagination
+gem 'kaminari'
+
 # CAS gem used in other project
 gem 'rack-cas', require: false
 

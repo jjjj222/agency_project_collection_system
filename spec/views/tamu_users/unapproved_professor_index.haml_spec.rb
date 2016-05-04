@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "tamu_users/unapproved_professor_index.html.haml", type: :view do
     
     it 'displays all unapproved professors correctly' do
-    assign(:tamu_users,
+    assign_paginated(:tamu_users,
         [
             FactoryGirl.build(:tamu_user, :default, :unapproved_professor, :id=>1),
             FactoryGirl.build(:tamu_user, :default, :unapproved_professor,
@@ -24,7 +24,7 @@ RSpec.describe "tamu_users/unapproved_professor_index.html.haml", type: :view do
   end
   
   it 'displays approve button for unapproved faculty' do
-    assign(:tamu_users,
+    assign_paginated(:tamu_users,
         [
             FactoryGirl.build(:tamu_user, :default, :unapproved_professor, :id=>1)
         ])

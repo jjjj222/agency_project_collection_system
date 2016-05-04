@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
     include ProjectsHelper
     
-    before_action :admin_only, :only=>[:unapproved_index, :unapprove, :approve]
+    before_action :admin_only, :only=>[:unapproved_index, :unapprove, :approve, :unapproved_completed_index, :unapprove_completed, :approve_completed]
     before_action :agency_only, :only=>[:new, :create, :edit, :update, :destroy]
     before_action :owner_only, :only=>[:edit, :update, :destroy]
     before_action :tamu_user_or_owner_only, :only => [:show]
@@ -15,8 +15,6 @@ class ProjectsController < ApplicationController
     def index
         @projects = Project.where(approved: true)
 
-        #session[:search] = nil
-        #@search = ""
         if params[:search]
             session[:search] = params[:search]
         end
@@ -25,22 +23,27 @@ class ProjectsController < ApplicationController
             @search_value = session[:search]['value']
             @search_type = session[:search]['type']
 
+            search_regex = Regexp.new(Regexp.escape(@search_value), "i")
+
             @projects = @projects.select do |project|
                 if @search_type == "tags"
-                    project.tags.include? @search_value
+                    project.tags.grep(search_regex).any?
                 else
-                    project.send(@search_type) =~ /#{@search_value}/i
+                    project.send(@search_type) =~ search_regex
                 end
             end
         end
-        #byebug
 
-        @projects = sort_projects(@projects, params[:sort], params[:reverse])
+        @projects = list_projects(@projects)
     end
 
     def unapproved_index
-        @projects = Project.where(approved: false)
-        @projects = sort_projects(@projects, params[:sort])
+        @projects = list_projects Project.where(approved: false)
+    end
+    
+    def unapproved_completed_index
+      @projects = Project.where(status: "unapproved_completed")
+      @projects = sort_projects(@projects, params[:sort])
     end
    
     def show
@@ -72,9 +75,18 @@ class ProjectsController < ApplicationController
    
     def update
         @project = Project.find(params[:id])
+        new_params = project_params
+        if new_params[:status] == "completed"
+            new_params[:status] = "unapproved_completed"
+        end
+        was_completed = @project.completed?
         
-        if @project.update_attributes(project_params)
-            flash[:success] = "#{@project.name} was successfully updated."
+        if @project.update_attributes(new_params)
+            if was_completed
+              flash[:success] = "#{@project.name} was successfully updated and will need reapproval for completition."
+            else
+              flash[:success] = "#{@project.name} was successfully updated."
+            end
             redirect_to project_path
         else
             model_failed_flash @project
@@ -107,6 +119,30 @@ class ProjectsController < ApplicationController
         @project.approved = false;
         @project.save
         flash[:success] = "Project '#{@project.name}' unapproved."
+        redirect_to projects_path
+    end
+    
+    def approve_completed
+        @project = Project.find(params[:id])
+        @project.status = "completed";
+        @project.save
+        
+        if Project.where(status: "unapproved_completed").count > 0
+            flash[:success] = "Project '#{@project.name}' completion approved."
+            redirect_to unapproved_completed_projects_index_path
+        else
+            flash[:success] = "Project '#{@project.name}' approved. All projects have been approved."
+            redirect_to projects_path
+        end
+    end
+    
+    def unapprove_completed
+        @project = Project.find(params[:id])
+        #@project.status = "open"
+        @project.status = "unapproved_completed"
+        if @project.save
+          flash[:success] = "Project '#{@project.name}' completion unapproved."
+        end
         redirect_to projects_path
     end
 
@@ -158,6 +194,11 @@ class ProjectsController < ApplicationController
       unless current_user.is_a?(TamuUser) or project.agency == current_user
         redirect_to root_path, :alert => "Access denied."
       end
+    end
+
+    def list_projects(projects)
+      sorted = sort_projects(projects, params[:sort], params[:reverse])
+      Kaminari.paginate_array(sorted).page(params[:page])
     end
 end
 

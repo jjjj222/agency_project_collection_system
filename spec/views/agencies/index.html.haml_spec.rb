@@ -4,7 +4,7 @@ RSpec.describe "agencies/index.html.haml", type: :view do
     
     it 'displays all agencies correctly' do
     
-    assign(:agencies,
+    assign_paginated(:agencies,
         [
             FactoryGirl.build(:agency, :default, :id=>1),
             FactoryGirl.build(:agency, :default,
@@ -29,7 +29,7 @@ RSpec.describe "agencies/index.html.haml", type: :view do
     
     @current_user = FactoryGirl.build(:tamu_user, :default, :admin, :id=>1)
      
-    assign(:agencies,
+    assign_paginated(:agencies,
         [
             FactoryGirl.build(:agency, :default, :approved, :id=>1)
         ])

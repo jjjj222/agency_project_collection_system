@@ -7,15 +7,15 @@ class AgenciesController < ApplicationController
     before_action :owner_only, :only=>[:edit, :update, :destroy]
 
     def agency_params
-      params.require(:agency).permit(:name)
+      params.require(:agency).permit(:name, :email, :phone_number)
     end
     
     def index
-        @agencies = Agency.where(approved: true)
+        @agencies = list_agencies Agency.where(approved: true)
     end
     
     def unapproved_index
-        @agencies = Agency.where(approved: false)
+        @agencies = list_agencies Agency.where(approved: false)
     end
     
     def show
@@ -58,29 +58,14 @@ class AgenciesController < ApplicationController
         @agency.approved = false;
         @agency.save
         flash[:success] = "Agency '#{@agency.name}' unapproved."
+
+        @agency.projects.each do |project|
+          project.approved = false;
+          project.save
+        end
+
         redirect_to agencies_path
     end
-    
-    # def new
-    #     @agency = Agency.new
-    # end
-    
-    # def create
-    #     @agency = Agency.new params[:agency]
-    #     # This was in an example model controller from a tutorial
-    #     # Not sure if this is something we need yet?
-        
-    #     if @agency.save
-    #         redirect_to :action => 'show', :id => @agency.id
-    #     else
-    #         render :action => 'new'
-    #     end
-    # end
-    
-    # def destroy
-    #     @agency = Agency.find params[:id]
-    #     @agency.destroy
-    # end
     
     private
 
@@ -96,6 +81,10 @@ class AgenciesController < ApplicationController
         unless current_user.is_a?(TamuUser) or agency == current_user
             redirect_to root_path, :alert => "Access denied."
         end
+    end
+
+    def list_agencies(list)
+      list.order(:name).page(params[:page])
     end
     
 end

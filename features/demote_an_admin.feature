@@ -8,9 +8,9 @@ Scenario:
     And there is another current admin
     And I am on the homepage
     When I click "TAMU Users"
-    When I press the 1st "Remove Admin"
-    Then I should see a notice saying "You can't demote yourself"
     When I press the 2nd "Remove Admin"
+    Then I should see a notice saying "You can't demote yourself"
+    When I press the 1st "Remove Admin"
     Then I should see a message telling me it was successful
 
 Scenario:

@@ -9,6 +9,9 @@
   = label :tamu_user, :email, 'Email'
   = text_field :tamu_user, 'email', required: true, type: 'email'
 
+  = label :tamu_user, :description, 'Description'
+  = text_area :tamu_user, 'description', required: true
+
   = label :tamu_user, :role, 'Role'
   = tamu_user.role_select
   %br

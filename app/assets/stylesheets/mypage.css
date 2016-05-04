@@ -1,0 +1,19 @@
+#mypage-index{
+    padding-left:300px
+}
+
+.admin-name::after {
+    content: "\f06e";
+    font-family: FontAwesome;
+    color: DarkSlateGrey;
+    font-size: 13;
+    padding:2px;
+}
+
+h2.admin-name::after{
+    content: "\f06e";
+    font-family: FontAwesome;
+    color: DarkSlateGrey;
+    font-size: 20;
+    padding:10px;
+}

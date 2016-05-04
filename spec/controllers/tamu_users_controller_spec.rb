@@ -464,14 +464,14 @@ RSpec.describe TamuUsersController, type: :controller do
       
       it "deletes the tamu_user" do
         expect{
-          delete :destroy, id: @tamu_user        
+          delete :destroy, id: @tamu_user
         }.to change(TamuUser,:count).by(-1)
       end
       
       it "does not delete the tamu_user if not logged in" do
         controller.log_out
         expect{
-          delete :destroy, id: @tamu_user        
+          delete :destroy, id: @tamu_user
         }.not_to change(TamuUser,:count)
       end
 
@@ -479,7 +479,7 @@ RSpec.describe TamuUsersController, type: :controller do
 	@tamu_user.master_admin = true
 	@tamu_user.save
         expect{
-          delete :destroy, id: @tamu_user        
+          delete :destroy, id: @tamu_user
         }.not_to change(TamuUser,:count)
       end
 

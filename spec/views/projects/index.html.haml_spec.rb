@@ -4,7 +4,7 @@ RSpec.describe "projects/index.html.haml", type: :view do
     
     it 'displays all users correctly' do
     @agency = FactoryGirl.build(:agency, :default, :id=>1)
-    assign(:projects,
+    assign_paginated(:projects,
         [
             FactoryGirl.build(:project, :default, :agency=>@agency, :id=>1),
             FactoryGirl.build(:project, :default,
@@ -29,7 +29,7 @@ RSpec.describe "projects/index.html.haml", type: :view do
     it 'displays unapprove button for projects' do
       @current_user = FactoryGirl.build(:tamu_user, :default, :admin, :id=>1)
       @agency = FactoryGirl.build(:agency, :default, :id=>1)
-      assign(:projects,
+      assign_paginated(:projects,
           [
               FactoryGirl.build(:project, :default, :agency=>@agency, :id=>1)
           ])
@@ -43,7 +43,7 @@ RSpec.describe "projects/index.html.haml", type: :view do
       before :each do
         @current_user = FactoryGirl.build(:tamu_user, :default, :admin, :id=>1)
         @agency = FactoryGirl.build(:agency, :default, :id=>1)
-        assign(:projects,
+        assign_paginated(:projects,
             [
                 FactoryGirl.build(:project, :default, :agency=>@agency, :id=>1)
             ])
