@@ -21,7 +21,7 @@
         // -#%br
         // %br
     #right
-        %table{:border => 1, :width => "70%"}
+        %table{:border => 1, :width => "70%", :class => "project_table"}
             %tr{:height => "10px"}
                 %th{:align=> "left"}
                     = link_to "Project Name", unapproved_completed_projects_index_path(sort_params params, :name)

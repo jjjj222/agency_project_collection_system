@@ -17,7 +17,7 @@
         %br
         %br
     #right
-        %table{:border => 1, :width => "100%"}
+        %table{:border => 1, :width => "100%", :class => "project_table"}
             %tr{:height => "10px"}
                 %th{:align=> "left"}
                     = link_to "Project Name", projects_path(sort_params params, :name)
@@ -40,5 +40,5 @@
                     %td= project.agency_profile
                     %td= project.date
                     - if @current_user.is_a?(TamuUser) and @current_user.admin?
-                        %td= button_to 'Unapprove Project', unapprove_project_path(project.id)
+                        %td= button_to 'Unapprove', unapprove_project_path(project.id)
     #footer
