@@ -28,7 +28,8 @@
                     %td=tamu_user.profile
                     %td=tamu_user.role
                     %td=tamu_user.date
-        
+#black-line    
+%p
 - if @current_user == @project.agency
     #edit-delete
     = project.edit_button class: "btn btn-primary"
@@ -41,7 +42,6 @@
     - else
         #join-project
         = button_to 'Join Project', join_project_path(@project),:class=>"btn btn-primary"
-
 - if @current_user.is_a?(TamuUser) and @current_user.admin?
     - if !@project.approved
         = button_to 'Approve Project', approve_project_path(@project),:class=>"btn btn-warning"
@@ -53,7 +53,7 @@
     - elsif @project.status == "unapproved_completed"
         = button_to 'Approve Project Completion', approve_completed_project_path(@project),:class=>"btn btn-warning"
         
-#black-line
+
 %br
 - if @current_user.is_a?(TamuUser)
     = button_to 'Back to project list', projects_path,:class=>"btn btn-info"
