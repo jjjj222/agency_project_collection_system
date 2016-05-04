@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 20160503214437) do
     t.boolean  "admin",        default: false
     t.string   "netid"
     t.boolean  "master_admin", default: false
-    t.boolean  "blocked",      default: false
+    t.boolean  "blocked"
     t.text     "description"
   end
 

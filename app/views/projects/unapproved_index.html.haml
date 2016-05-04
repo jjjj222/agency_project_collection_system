@@ -26,4 +26,5 @@
                     %td= project.agency_profile
                     %td= project.date
                     %td= button_to 'Approve', approve_project_path(project.id), class: "approve_proj"
+    %p= paginate @projects
     #footer

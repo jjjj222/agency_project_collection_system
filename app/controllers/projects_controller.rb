@@ -43,7 +43,7 @@ class ProjectsController < ApplicationController
     
     def unapproved_completed_index
       @projects = Project.where(status: "unapproved_completed")
-      @projects = sort_projects(@projects, params[:sort])
+      @projects = list_projects @projects
     end
    
     def show
@@ -198,7 +198,7 @@ class ProjectsController < ApplicationController
 
     def list_projects(projects)
       sorted = sort_projects(projects, params[:sort], params[:reverse])
-      Kaminari.paginate_array(sorted).page(params[:page])
+      Kaminari.paginate_array(sorted).page(params[:page]).per(5)
     end
 end
 

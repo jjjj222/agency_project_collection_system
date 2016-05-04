@@ -41,4 +41,5 @@
                     %td= project.date
                     - if @current_user.is_a?(TamuUser) and @current_user.admin?
                         %td= button_to 'Unapprove', unapprove_project_path(project.id)
+    %p= paginate @projects
     #footer
