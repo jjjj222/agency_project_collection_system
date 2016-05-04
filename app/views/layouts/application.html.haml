@@ -39,7 +39,7 @@
               
               = link_to '<i class="fa fa-user" aria-hidden="true"></i> My Page'.html_safe, agency_path(@current_user.id)
             #logout
-              = link_to '<i class="fa fa-sign-out" aria-hidden="true"></i>Log out'.html_safe, current_user.is_a?(TamuUser) ? '/logout' : my_logout_path
+              = link_to '<i class="fa fa-sign-out" aria-hidden="true"></i>Log out'.html_safe, current_user.is_a?(TamuUser) ? '/logout' : my_logout_path, :onclick=>'logout()'
       #login-as
         - if logged_in?
           Logged in as #{current_user.name}
