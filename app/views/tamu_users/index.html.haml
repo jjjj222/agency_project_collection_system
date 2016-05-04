@@ -12,7 +12,7 @@
                 %tr{:height => "40px"}
                     %td= tamu_user.profile
                     - if @current_user.is_a?(TamuUser) and @current_user.admin?
-                        %td= toggle_admin_button @current_user, tamu_user
+                        %td= toggle_admin_button @current_user, tamu_user, :class => "btn"
                     %td= tamu_user.date
         %p= paginate @tamu_users
         #footer
