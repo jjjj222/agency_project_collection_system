@@ -248,7 +248,7 @@ def example_agencies2
   ]
 end
 
-example_agencies2.take(52).each {|a| Agency.create!(a) }
+example_agencies2.take(10).each {|a| Agency.create!(a) }
 
 def example_projs2
   projs = [
