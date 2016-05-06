@@ -20,7 +20,8 @@ example_users = [
   { name: "Admin", email: "admin@tamu.edu", netid: "jjjj222", role: "student", admin: true, master_admin: false},
   { name: "John Tamu", email: "john@tamu.edu", netid: "johnsnetid", role: "student", admin: false},
   { name: "Hank Tamu", email: "hank@tamu.edu", netid: "hanksnetid", role: "professor", admin: false},
-  { name: "Malini Malini", email: "malini@tamu.edu", netid: "malinisnetid", role: "professor", admin: true, master_admin: true}
+  { name: "Bill Tamu", email: "bill@tamu.edu", netid: "billsnetid", role: "unapproved_professor", admin: false},
+  { name: "Malini Natarajarathinam", email: "malini@tamu.edu", netid: "malinisnetid", role: "professor", admin: true, master_admin: true}
 ]
 
 example_agencies = [
