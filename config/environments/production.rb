@@ -76,4 +76,12 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Use the fake cas in production mode
+  config.rack_cas.fake = true
+  config.rack_cas.fake_attributes = {
+    'ma' => { 'tamuEduPersonNetID' => 'ma', 'tamuEduPersonUIN' => '222002333', 'uid'=>'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'},
+    'ad' => { 'tamuEduPersonNetID' => 'ad', 'tamuEduPersonUIN' => '111002333', 'uid'=>'ffffffffffffffffffffffffffffffff'},
+    'testNetid'  => { 'tamuEduPersonNetID' => 'testNetid',  'tamuEduPersonUIN' => '111002444', 'uid'=>'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'}
+  }
 end
