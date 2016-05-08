@@ -35,18 +35,6 @@ fake_admin  = { name: "Admin", email: "admin@fake.org", netid: "ad", role: "prof
 fake_master_admin  = { name: "Master Admin", email: "admin@fake.org", netid: "ma", role: "professor", admin: true, master_admin: true }
 
 
-example_projects.each do |proj|
-  Project.create!(proj)
-end
-
-example_users.each do |user|
-  TamuUser.create!(user)
-end
-
-example_agencies.each do |agency|
-  Agency.create!(agency)
-end
-
 case Rails.env
 when "development"
   TamuUser.create!(fake_admin)
@@ -249,7 +237,20 @@ def example_agencies2
   ]
 end
 
+example_agencies.each do |agency|
+  Agency.create!(agency)
+end
+
 example_agencies2.take(10).each {|a| Agency.create!(a) }
+
+example_projects.each do |proj|
+  Project.create!(proj)
+end
+
+example_users.each do |user|
+  TamuUser.create!(user)
+end
+
 
 def example_projs2
   projs = [
